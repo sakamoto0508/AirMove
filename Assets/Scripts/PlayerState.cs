@@ -7,7 +7,6 @@ public class PlayerState : MonoBehaviour
     {
         walking,
         sprinting,
-        isAir,
         crouching,
         sliding,
     }

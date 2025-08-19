@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,18 +9,21 @@ public class PlayerController : MonoBehaviour
     private PlayerData _playerData;
     private PlayerState _playerState;
     private PlayerMove _playerMove;
+    private PlayerJump _playerJump;
     private GroundCheck _groundCheck;
     public bool _isGrounded { get; private set; }
     private void RegisterInputAction()
     {
         _inputBuffer.MoveAction.performed += OnInputMove;
         _inputBuffer.MoveAction.canceled += OnInputMove;
+        _inputBuffer.JumpAction.started += OnInputJump;
     }
 
     private void OnDestroy()
     {
         _inputBuffer.MoveAction.performed -= OnInputMove;
         _inputBuffer.MoveAction.canceled -= OnInputMove;
+        _inputBuffer.JumpAction.started -= OnInputJump;
     }
 
     private void Awake()
@@ -28,6 +32,7 @@ public class PlayerController : MonoBehaviour
         _playerData = GetComponent<PlayerData>();
         _playerState = GetComponent<PlayerState>();
         _playerMove = GetComponent<PlayerMove>();
+        _playerJump = GetComponent<PlayerJump>();
         _groundCheck = GetComponent<GroundCheck>();
     }
 
@@ -42,6 +47,11 @@ public class PlayerController : MonoBehaviour
         {
             _playerMove?.Stop();
         }
+    }
+
+    private void OnInputJump(InputAction.CallbackContext context)
+    {
+        _playerJump?.Jump(_playerData, _isGrounded);
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created

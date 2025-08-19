@@ -9,6 +9,7 @@ public class PlayerMove : MonoBehaviour
     private Transform _playerCamera;
     private bool _isGrounded;
     private float _groundDrag;
+    private float _airMultiplier;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -18,12 +19,36 @@ public class PlayerMove : MonoBehaviour
     private void FixedUpdate()
     {
         if (_playerCamera == null) return;
+        if (_isGrounded)
+        {
+            GroundMove();
+        }
+        else if (!_isGrounded)
+        {
+            AirMove();
+        }
+    }
+
+    private void GroundMove()
+    {
         Vector3 inputDir = _playerCamera.forward * _currentInput.y + _playerCamera.right * _currentInput.x;
         float yVel = _rb.linearVelocity.y;
         Vector3 moveXz = inputDir.normalized * _currentSpeed;
         _rb.linearVelocity = new Vector3(moveXz.x, yVel, moveXz.z);
+        GroundDamping();
+    }
 
-        if(_isGrounded)
+    private void AirMove()
+    {
+        Vector3 inputDir = _playerCamera.forward * _currentInput.y + _playerCamera.right * _currentInput.x;
+        float yVel = _rb.linearVelocity.y;
+        Vector3 moveXz = inputDir.normalized * _airMultiplier * _currentSpeed;
+        _rb.linearVelocity = new Vector3(moveXz.x, yVel, moveXz.z);
+    }
+
+    private void GroundDamping()
+    {
+        if (_isGrounded)
         {
             _rb.linearDamping = _groundDrag;
         }
@@ -33,13 +58,14 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-    public void Move(Vector2 input, PlayerData playerData ,bool isGround)
+    public void Move(Vector2 input, PlayerData playerData, bool isGround)
     {
         _currentInput = input;
         _currentSpeed = playerData.WalkSpeed;
         _playerCamera = playerData.MainCamera;
         _groundDrag = playerData.GroundDrag;
         _isGrounded = isGround;
+        _airMultiplier = playerData.AirMultiplier;
     }
 
     public void Stop()

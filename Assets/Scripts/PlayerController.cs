@@ -11,12 +11,15 @@ public class PlayerController : MonoBehaviour
     private PlayerMove _playerMove;
     private PlayerJump _playerJump;
     private GroundCheck _groundCheck;
+    private PlayerSprint _playerSprint;
     public bool _isGrounded { get; private set; }
+    private float _currentSpeed;
     private void RegisterInputAction()
     {
         _inputBuffer.MoveAction.performed += OnInputMove;
         _inputBuffer.MoveAction.canceled += OnInputMove;
         _inputBuffer.JumpAction.started += OnInputJump;
+        _inputBuffer.SprintAction.started += OnInputSprint;
     }
 
     private void OnDestroy()
@@ -24,6 +27,7 @@ public class PlayerController : MonoBehaviour
         _inputBuffer.MoveAction.performed -= OnInputMove;
         _inputBuffer.MoveAction.canceled -= OnInputMove;
         _inputBuffer.JumpAction.started -= OnInputJump;
+        _inputBuffer.SprintAction.started -= OnInputSprint;
     }
 
     private void Awake()
@@ -34,6 +38,7 @@ public class PlayerController : MonoBehaviour
         _playerMove = GetComponent<PlayerMove>();
         _playerJump = GetComponent<PlayerJump>();
         _groundCheck = GetComponent<GroundCheck>();
+        _playerSprint = GetComponent<PlayerSprint>();
     }
 
     private void OnInputMove(InputAction.CallbackContext context)
@@ -41,7 +46,7 @@ public class PlayerController : MonoBehaviour
         if (context.performed)
         {
             Vector2 input = context.ReadValue<Vector2>();
-            _playerMove?.Move(input, _playerData,_isGrounded);
+            _playerMove?.Move(input, _playerData, _isGrounded, _currentSpeed);
         }
         else if (context.canceled)
         {
@@ -54,6 +59,11 @@ public class PlayerController : MonoBehaviour
         _playerJump?.Jump(_playerData, _isGrounded);
     }
 
+    private void OnInputSprint(InputAction.CallbackContext context)
+    {
+        _playerSprint?.Sprint(_playerState, _isGrounded);
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -64,5 +74,6 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         _isGrounded = _groundCheck.IsGrounded(_playerData);
+        _playerMove?.UpdateSpeed(_playerState, _playerData);
     }
 }

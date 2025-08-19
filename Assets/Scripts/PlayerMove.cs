@@ -58,10 +58,10 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-    public void Move(Vector2 input, PlayerData playerData, bool isGround)
+    public void Move(Vector2 input, PlayerData playerData, bool isGround, float speed)
     {
         _currentInput = input;
-        _currentSpeed = playerData.WalkSpeed;
+        _currentSpeed = speed;
         _playerCamera = playerData.MainCamera;
         _groundDrag = playerData.GroundDrag;
         _isGrounded = isGround;
@@ -71,6 +71,27 @@ public class PlayerMove : MonoBehaviour
     public void Stop()
     {
         _currentInput = Vector2.zero;
+    }
+
+    public void UpdateSpeed(PlayerState playerState, PlayerData playerData)
+    {
+        if (playerState == null || playerData == null) return;
+
+        switch (playerState.CurrentState)
+        {
+            case PlayerState.State.walking:
+                _currentSpeed = playerData.WalkSpeed;
+                break;
+            case PlayerState.State.sprinting:
+                _currentSpeed = playerData.SprintSpeed;
+                break;
+            case PlayerState.State.crouching:
+                _currentSpeed = playerData.CrouchSpeed;
+                break;
+            default:
+                _currentSpeed = playerData.WalkSpeed;
+                break;
+        }
     }
 
 }

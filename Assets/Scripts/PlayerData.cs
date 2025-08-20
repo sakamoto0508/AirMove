@@ -4,7 +4,6 @@ public class PlayerData : MonoBehaviour
 {
     [Header("Reference")]
     [SerializeField] private Transform _mainCamera;
-    
 
     [Header("movement")]
     [SerializeField] private float _walkSpeed = 10f;
@@ -23,7 +22,9 @@ public class PlayerData : MonoBehaviour
 
     [Header("Crouching")]
     [SerializeField] private float _crouchHeight = 0.5f;
-    [SerializeField] private float _startYScale;
+
+    [Header("Slope Handling")]
+    [SerializeField] private float _maxSlopeAngle = 45f;
 
     //“Ç‚ÝŽæ‚èê—p
     public float WalkSpeed => _walkSpeed;
@@ -37,5 +38,5 @@ public class PlayerData : MonoBehaviour
     public float JumpCooldown => _jumpCooldown;
     public float AirMultiplier => _airMultiplier;
     public float CrouchHeight => _crouchHeight;
-    public float StartYScale => _startYScale;
+    public float MaxSlopeAngle => _maxSlopeAngle;
 }

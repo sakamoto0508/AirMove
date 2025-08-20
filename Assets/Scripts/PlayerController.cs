@@ -11,10 +11,11 @@ public class PlayerController : MonoBehaviour
     private PlayerMove _playerMove;
     private PlayerJump _playerJump;
     private GroundCheck _groundCheck;
+    private SlopeCheck _slopeCheck;
     private PlayerSprint _playerSprint;
     private PlayerCrouch _playerCrouch;
     public bool _isGrounded { get; private set; }
-    private float _currentSpeed;
+    public bool _isSlope { get; private set; }
     private void RegisterInputAction()
     {
         _inputBuffer.MoveAction.performed += OnInputMove;
@@ -41,6 +42,7 @@ public class PlayerController : MonoBehaviour
         _playerMove = GetComponent<PlayerMove>();
         _playerJump = GetComponent<PlayerJump>();
         _groundCheck = GetComponent<GroundCheck>();
+        _slopeCheck = GetComponent<SlopeCheck>();
         _playerSprint = GetComponent<PlayerSprint>();
         _playerCrouch = GetComponent<PlayerCrouch>();
     }
@@ -50,7 +52,7 @@ public class PlayerController : MonoBehaviour
         if (context.performed)
         {
             Vector2 input = context.ReadValue<Vector2>();
-            _playerMove?.Move(input, _playerData, _isGrounded, _currentSpeed);
+            _playerMove?.Move(input, _playerData, _isGrounded);
         }
         else if (context.canceled)
         {
@@ -83,6 +85,8 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         _isGrounded = _groundCheck.IsGrounded(_playerData);
+        _isSlope = _slopeCheck.OnSlope(_playerData);
         _playerMove?.UpdateSpeed(_playerState, _playerData);
+        _playerMove?.SetSlope(_isSlope);
     }
 }

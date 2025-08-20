@@ -4,12 +4,13 @@ public class PlayerData : MonoBehaviour
 {
     [Header("Reference")]
     [SerializeField] private Transform _mainCamera;
+    
 
     [Header("movement")]
     [SerializeField] private float _walkSpeed = 10f;
     [SerializeField] private float _sprintSpeed = 15f;
     [SerializeField] private float _crouchSpeed = 5f;
-    [SerializeField] private float _groundDrag= 0.5f;
+    [SerializeField] private float _groundDrag = 0.5f;
 
     [Header("GroundCheck")]
     [SerializeField] private float _playerHeight;
@@ -19,6 +20,10 @@ public class PlayerData : MonoBehaviour
     [SerializeField] private float _jumpForce = 5f;
     [SerializeField] private float _jumpCooldown = 0.25f;
     [SerializeField] private float _airMultiplier = 0.5f;
+
+    [Header("Crouching")]
+    [SerializeField] private float _crouchHeight = 0.5f;
+    [SerializeField] private float _startYScale;
 
     //“Ç‚ÝŽæ‚èê—p
     public float WalkSpeed => _walkSpeed;
@@ -31,4 +36,6 @@ public class PlayerData : MonoBehaviour
     public float JumpForce => _jumpForce;
     public float JumpCooldown => _jumpCooldown;
     public float AirMultiplier => _airMultiplier;
+    public float CrouchHeight => _crouchHeight;
+    public float StartYScale => _startYScale;
 }

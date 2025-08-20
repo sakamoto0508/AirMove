@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     private PlayerJump _playerJump;
     private GroundCheck _groundCheck;
     private PlayerSprint _playerSprint;
+    private PlayerCrouch _playerCrouch;
     public bool _isGrounded { get; private set; }
     private float _currentSpeed;
     private void RegisterInputAction()
@@ -20,6 +21,7 @@ public class PlayerController : MonoBehaviour
         _inputBuffer.MoveAction.canceled += OnInputMove;
         _inputBuffer.JumpAction.started += OnInputJump;
         _inputBuffer.SprintAction.started += OnInputSprint;
+        _inputBuffer.CrouchAction.started += OnInputCrouch;
     }
 
     private void OnDestroy()
@@ -28,6 +30,7 @@ public class PlayerController : MonoBehaviour
         _inputBuffer.MoveAction.canceled -= OnInputMove;
         _inputBuffer.JumpAction.started -= OnInputJump;
         _inputBuffer.SprintAction.started -= OnInputSprint;
+        _inputBuffer.CrouchAction.started -= OnInputCrouch;
     }
 
     private void Awake()
@@ -39,6 +42,7 @@ public class PlayerController : MonoBehaviour
         _playerJump = GetComponent<PlayerJump>();
         _groundCheck = GetComponent<GroundCheck>();
         _playerSprint = GetComponent<PlayerSprint>();
+        _playerCrouch = GetComponent<PlayerCrouch>();
     }
 
     private void OnInputMove(InputAction.CallbackContext context)
@@ -62,6 +66,11 @@ public class PlayerController : MonoBehaviour
     private void OnInputSprint(InputAction.CallbackContext context)
     {
         _playerSprint?.Sprint(_playerState, _isGrounded);
+    }
+
+    private void OnInputCrouch(InputAction.CallbackContext context)
+    {
+        _playerCrouch?.Crouch(_playerState, _playerData);
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created

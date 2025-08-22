@@ -11,12 +11,15 @@ public class PlayerJump : MonoBehaviour
     }
 
 
-    public void Jump(PlayerData playerData, bool isGrounded)
+    public void Jump(PlayerData playerData, bool isGrounded, bool isSlope)
     {
-        if (!isGrounded || !_canJump) return;
-        _rb.AddForce(Vector3.up * playerData.JumpForce, ForceMode.Impulse);
-        _canJump = false;
-        Invoke(nameof(ResetJump), playerData.JumpCooldown);
+        if ((isGrounded || isSlope) && _canJump)
+        {
+            _canJump = false;
+            _rb.linearVelocity=new Vector3 (_rb.linearVelocity.x, 0f, _rb.linearVelocity.z);
+            _rb.AddForce(Vector3.up * playerData.JumpForce, ForceMode.Impulse);
+            Invoke(nameof(ResetJump), playerData.JumpCooldown);
+        }
     }
 
     private void ResetJump()

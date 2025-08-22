@@ -3,7 +3,6 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerMove : MonoBehaviour
 {
-    private SlopeMoveDirection _slopeMoveDirection;
     private Rigidbody _rb;
     private Vector2 _currentInput;
     private float _currentSpeed;
@@ -13,12 +12,11 @@ public class PlayerMove : MonoBehaviour
     private float _groundDrag;
     private float _airMultiplier;
     private Vector3 _moveDirection;
-    private float _currentHeight;
+    private RaycastHit _slopeHit;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         _rb = GetComponent<Rigidbody>();
-        _slopeMoveDirection = GetComponent<SlopeMoveDirection>();
     }
 
     private void FixedUpdate()
@@ -28,7 +26,7 @@ public class PlayerMove : MonoBehaviour
         {
             OnSlopeMove();
         }
-        if (_isGrounded)
+        else if (_isGrounded)
         {
             GroundMove();
         }
@@ -41,11 +39,23 @@ public class PlayerMove : MonoBehaviour
 
     private void OnSlopeMove()
     {
-        //Todo
-        if (_rb.angularVelocity.y > 0)
+        if (_currentInput != Vector2.zero)
         {
-            _rb.AddForce(Vector3.down * 98f, ForceMode.Force);
+            Vector3 slopeForward = Vector3.ProjectOnPlane(_playerCamera.forward, _slopeHit.normal).normalized;
+            Vector3 slopeRight = Vector3.ProjectOnPlane(_playerCamera.right, _slopeHit.normal).normalized;
+            Vector3 inputOnSlope = (slopeForward * _currentInput.y + slopeRight * _currentInput.x).normalized;
+            Vector3 targetVelocity = inputOnSlope * _currentSpeed;
+            // åªç›ë¨ìxÇ∆ÇÃç∑ï™ÇAddForceÇ≈ï‚ê≥
+            Vector3 velocityChange = targetVelocity - _rb.linearVelocity;
+            velocityChange.y = 0f; 
+            _rb.AddForce(velocityChange, ForceMode.VelocityChange);
         }
+        else
+        {
+            _rb.linearVelocity = Vector3.zero;
+            _rb.useGravity = false;
+        }
+        _rb.AddForce(-_slopeHit.normal * 30f, ForceMode.Force);
     }
 
     private void GroundMove()
@@ -112,8 +122,9 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-    public void SetSlope(bool isSlope)
+    public void SetSlope(bool isSlope,RaycastHit slopeHit)
     {
         _isSlope = isSlope;
+        _slopeHit = slopeHit;
     }
 }

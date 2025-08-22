@@ -14,6 +14,8 @@ public class PlayerController : MonoBehaviour
     private SlopeCheck _slopeCheck;
     private PlayerSprint _playerSprint;
     private PlayerCrouch _playerCrouch;
+    private PlayerSliding _playerSliding;
+    private Vector2 _currentMoveInput = Vector2.zero;
     public bool _isGrounded { get; private set; } = false;
     public bool _isSlope { get; private set; } = false;
     private void RegisterInputAction()
@@ -23,6 +25,7 @@ public class PlayerController : MonoBehaviour
         _inputBuffer.JumpAction.started += OnInputJump;
         _inputBuffer.SprintAction.started += OnInputSprint;
         _inputBuffer.CrouchAction.started += OnInputCrouch;
+        _inputBuffer.SlidingAction.started += OnInputSliding;
     }
 
     private void OnDestroy()
@@ -32,6 +35,7 @@ public class PlayerController : MonoBehaviour
         _inputBuffer.JumpAction.started -= OnInputJump;
         _inputBuffer.SprintAction.started -= OnInputSprint;
         _inputBuffer.CrouchAction.started -= OnInputCrouch;
+        _inputBuffer.SlidingAction.started -= OnInputSliding;
     }
 
     private void Awake()
@@ -45,6 +49,7 @@ public class PlayerController : MonoBehaviour
         _slopeCheck = GetComponent<SlopeCheck>();
         _playerSprint = GetComponent<PlayerSprint>();
         _playerCrouch = GetComponent<PlayerCrouch>();
+        _playerSliding = GetComponent<PlayerSliding>();
     }
 
     private void OnInputMove(InputAction.CallbackContext context)
@@ -52,11 +57,19 @@ public class PlayerController : MonoBehaviour
         if (context.performed)
         {
             Vector2 input = context.ReadValue<Vector2>();
-            _playerMove?.Move(input, _playerData, _isGrounded);
+            _currentMoveInput = input;
+            if (!_playerSliding._isSliding)
+            {
+                _playerMove?.Move(input, _playerData, _isGrounded);
+            }
         }
         else if (context.canceled)
         {
-            _playerMove?.Stop();
+            _currentMoveInput = Vector2.zero;
+            if (!_playerSliding._isSliding)
+            {
+                _playerMove?.Stop();
+            }
         }
     }
 
@@ -74,7 +87,10 @@ public class PlayerController : MonoBehaviour
     {
         _playerCrouch?.Crouch(_playerState, _playerData);
     }
-
+    private void OnInputSliding(InputAction.CallbackContext context)
+    {
+        _playerSliding?.StartSliding(_playerState, _playerData, _isGrounded, _isSlope, _currentMoveInput);
+    }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -86,7 +102,12 @@ public class PlayerController : MonoBehaviour
     {
         _isGrounded = _groundCheck.IsGrounded(_playerData);
         _isSlope = _slopeCheck.OnSlope(_playerData);
-        _playerMove?.UpdateSpeed(_playerState, _playerData);
-        _playerMove?.SetSlope(_isSlope, _slopeCheck.GetSlopeHit());
+        _playerSliding?.UpdateSliding(_playerState, _playerData,_currentMoveInput);
+        // スライディング中は通常の移動更新をスキップ
+        if (!_playerSliding._isSliding)
+        {
+            _playerMove?.UpdateSpeed(_playerState, _playerData);
+            _playerMove?.SetSlope(_isSlope, _slopeCheck.GetSlopeHit());
+        }
     }
 }

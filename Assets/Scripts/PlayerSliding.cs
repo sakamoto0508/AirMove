@@ -32,6 +32,7 @@ public class PlayerSliding : MonoBehaviour
         playerState.CurrentState = PlayerState.State.sliding;
         _isSliding = true;
         _capsuleCollider.height = playerData.SlidingYScale;
+        _rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
         _slideTimer = playerData.MaxSlidingTime;
     }
 

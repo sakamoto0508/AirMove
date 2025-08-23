@@ -46,7 +46,7 @@ public class PlayerMove : MonoBehaviour
     private void SlidingMovement()
     {
         _moveDirection = _playerCamera.forward * _currentInput.y + _playerCamera.right * _currentInput.x;
-        _moveDirection.y = 0f;
+        //_moveDirection.y = 0f;
         _moveDirection = _moveDirection.normalized;
         if (_moveDirection.magnitude > 0.1f)
         {

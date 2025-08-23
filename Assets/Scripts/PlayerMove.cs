@@ -13,6 +13,8 @@ public class PlayerMove : MonoBehaviour
     private float _airMultiplier;
     private Vector3 _moveDirection;
     private RaycastHit _slopeHit;
+    private bool _isSliding = false;
+    private float _slidingForce;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -22,7 +24,11 @@ public class PlayerMove : MonoBehaviour
     private void FixedUpdate()
     {
         if (_playerCamera == null) return;
-        if (_isSlope)
+        if (_isSliding)
+        {
+            SlidingMovement();
+        }
+        else if (_isSlope)
         {
             OnSlopeMove();
         }
@@ -37,6 +43,17 @@ public class PlayerMove : MonoBehaviour
         _rb.useGravity = !_isSlope;
     }
 
+    private void SlidingMovement()
+    {
+        _moveDirection = _playerCamera.forward * _currentInput.y + _playerCamera.right * _currentInput.x;
+        _moveDirection.y = 0f;
+        _moveDirection = _moveDirection.normalized;
+        if (_moveDirection.magnitude > 0.1f)
+        {
+            _rb.AddForce(_moveDirection * _slidingForce, ForceMode.Force);
+        }
+    }
+
     private void OnSlopeMove()
     {
         if (_currentInput != Vector2.zero)
@@ -47,7 +64,7 @@ public class PlayerMove : MonoBehaviour
             Vector3 targetVelocity = inputOnSlope * _currentSpeed;
             // åªç›ë¨ìxÇ∆ÇÃç∑ï™ÇAddForceÇ≈ï‚ê≥
             Vector3 velocityChange = targetVelocity - _rb.linearVelocity;
-            velocityChange.y = 0f; 
+            velocityChange.y = 0f;
             _rb.AddForce(velocityChange, ForceMode.VelocityChange);
         }
         else
@@ -94,6 +111,7 @@ public class PlayerMove : MonoBehaviour
         _groundDrag = playerData.GroundDrag;
         _isGrounded = isGround;
         _airMultiplier = playerData.AirMultiplier;
+        _slidingForce = playerData.SlidingForce;
     }
 
     public void Stop()
@@ -122,9 +140,14 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-    public void SetSlope(bool isSlope,RaycastHit slopeHit)
+    public void SetSlope(bool isSlope, RaycastHit slopeHit)
     {
         _isSlope = isSlope;
         _slopeHit = slopeHit;
+    }
+
+    public void SetSliding(bool isSliding)
+    {
+        _isSliding = isSliding;
     }
 }

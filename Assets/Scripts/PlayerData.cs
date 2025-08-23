@@ -29,9 +29,7 @@ public class PlayerData : MonoBehaviour
     [Header("Sliding")]
     [SerializeField] private float _maxSlidingTime = 1.5f;
     [SerializeField] private float _slidingForce = 10f;
-    [SerializeField] private float _slideYScale = 0.5f;
-    [SerializeField] private float _slidingDeceleration = 8f;
-    [SerializeField] private float _slidingSideControl = 2f;
+    [SerializeField] private float _slidinYScale = 0.5f;
 
     //“Ç‚ÝŽæ‚èê—p
     public float WalkSpeed => _walkSpeed;
@@ -48,7 +46,6 @@ public class PlayerData : MonoBehaviour
     public float MaxSlopeAngle => _maxSlopeAngle;
     public float MaxSlidingTime => _maxSlidingTime;
     public float SlidingForce => _slidingForce;
-    public float SlideYScale => _slideYScale;
-    public float SlidingDeceleration => _slidingDeceleration;
-    public float SlidingSideControl => _slidingSideControl;
+    public float SlidingYScale => _slidinYScale;
+    
 }

@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 _currentMoveInput = Vector2.zero;
     public bool _isGrounded { get; private set; } = false;
     public bool _isSlope { get; private set; } = false;
+    public bool _isSliding { get; private set; } = false;
     private void RegisterInputAction()
     {
         _inputBuffer.MoveAction.performed += OnInputMove;
@@ -58,10 +59,8 @@ public class PlayerController : MonoBehaviour
         {
             Vector2 input = context.ReadValue<Vector2>();
             _currentMoveInput = input;
-            if (!_playerSliding._isSliding)
-            {
-                _playerMove?.Move(input, _playerData, _isGrounded);
-            }
+            _playerMove?.Move(input, _playerData, _isGrounded);
+
         }
         else if (context.canceled)
         {
@@ -76,20 +75,40 @@ public class PlayerController : MonoBehaviour
     private void OnInputJump(InputAction.CallbackContext context)
     {
         _playerJump?.Jump(_playerData, _isGrounded, _isSlope);
+        if (_playerSliding._isSliding)
+        {
+            _playerSliding.StopSliding(_playerState);
+        }
     }
 
     private void OnInputSprint(InputAction.CallbackContext context)
     {
-        _playerSprint?.Sprint(_playerState, _isGrounded);
+        if (!_playerSliding._isSliding)
+        {
+            _playerSprint?.Sprint(_playerState, _isGrounded);
+        }
     }
 
     private void OnInputCrouch(InputAction.CallbackContext context)
     {
-        _playerCrouch?.Crouch(_playerState, _playerData);
+        if (!_playerSliding._isSliding)
+        {
+            _playerCrouch?.Crouch(_playerState, _playerData);
+        }
     }
     private void OnInputSliding(InputAction.CallbackContext context)
     {
-        _playerSliding?.StartSliding(_playerState, _playerData, _isGrounded, _isSlope, _currentMoveInput);
+        if (_playerSliding._isSliding)
+        {
+            _playerSliding.StopSliding(_playerState);
+        }
+        else
+        {
+            if (_playerSliding.CanStartSliding(_playerState, _isGrounded, _isSlope, _currentMoveInput))
+            {
+                _playerSliding.StartSliding(_playerState, _playerData);
+            }
+        }
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -102,7 +121,7 @@ public class PlayerController : MonoBehaviour
     {
         _isGrounded = _groundCheck.IsGrounded(_playerData);
         _isSlope = _slopeCheck.OnSlope(_playerData);
-        _playerSliding?.UpdateSliding(_playerState, _playerData,_currentMoveInput);
+        _playerMove?.SetSliding(_playerSliding._isSliding);
         // スライディング中は通常の移動更新をスキップ
         if (!_playerSliding._isSliding)
         {

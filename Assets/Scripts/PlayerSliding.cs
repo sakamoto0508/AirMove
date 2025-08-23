@@ -7,6 +7,7 @@ public class PlayerSliding : MonoBehaviour
     private float _slideTimer = 0f;
     private PlayerState.State _previousState;
     private PlayerState _playerState;
+    private bool _isSlope = false;
     public bool _isSliding { get; private set; } = false;
 
     void Start()
@@ -56,7 +57,10 @@ public class PlayerSliding : MonoBehaviour
 
     private void UpdateSlidingTimer()
     {
-        _slideTimer -= Time.deltaTime;
+        if (!_isSlope || _rb.linearVelocity.y > -0.1f)
+        {
+            _slideTimer -= Time.deltaTime;
+        }
         if (_slideTimer <= 0f)
         {
             StopSliding();
@@ -71,5 +75,10 @@ public class PlayerSliding : MonoBehaviour
                isSlope) &&
                currentInput.magnitude > 0.1f &&
                !_isSliding;
+    }
+
+    public void SetIsSlope(bool isSlope)
+    {
+        _isSlope = isSlope;
     }
 }

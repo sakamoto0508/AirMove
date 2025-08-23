@@ -122,6 +122,7 @@ public class PlayerController : MonoBehaviour
         _isGrounded = _groundCheck.IsGrounded(_playerData);
         _isSlope = _slopeCheck.OnSlope(_playerData);
         _playerMove?.SetSliding(_playerSliding._isSliding);
+        _playerSliding?.SetIsSlope(_isSlope);
         // スライディング中は通常の移動更新をスキップ
         if (!_playerSliding._isSliding)
         {

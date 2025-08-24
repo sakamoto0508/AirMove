@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerMove : MonoBehaviour
@@ -24,6 +25,7 @@ public class PlayerMove : MonoBehaviour
     private void FixedUpdate()
     {
         if (_playerCamera == null) return;
+        _moveDirection = _playerCamera.forward * _currentInput.y + _playerCamera.right * _currentInput.x;
         if (_isSliding)
         {
             SlidingMovement();
@@ -40,13 +42,12 @@ public class PlayerMove : MonoBehaviour
         {
             AirMove();
         }
-        _rb.useGravity = !_isSlope;
+        SpeedControl();
     }
 
     private void SlidingMovement()
     {
         _moveDirection = _playerCamera.forward * _currentInput.y + _playerCamera.right * _currentInput.x;
-        //_moveDirection.y = 0f;
         _moveDirection = _moveDirection.normalized;
         if (_moveDirection.magnitude > 0.1f)
         {
@@ -56,40 +57,22 @@ public class PlayerMove : MonoBehaviour
 
     private void OnSlopeMove()
     {
-        if (_currentInput != Vector2.zero)
+        _rb.AddForce(GetSlopeMoveDirection(_moveDirection) * _currentSpeed * 20f, ForceMode.Force);
+        if (_rb.linearVelocity.y > 0)
         {
-            Vector3 slopeForward = Vector3.ProjectOnPlane(_playerCamera.forward, _slopeHit.normal).normalized;
-            Vector3 slopeRight = Vector3.ProjectOnPlane(_playerCamera.right, _slopeHit.normal).normalized;
-            Vector3 inputOnSlope = (slopeForward * _currentInput.y + slopeRight * _currentInput.x).normalized;
-            Vector3 targetVelocity = inputOnSlope * _currentSpeed;
-            // Œ»Ý‘¬“x‚Æ‚Ì·•ª‚ðAddForce‚Å•â³
-            Vector3 velocityChange = targetVelocity - _rb.linearVelocity;
-            velocityChange.y = 0f;
-            _rb.AddForce(velocityChange, ForceMode.VelocityChange);
+            _rb.AddForce(Vector3.down * 80f, ForceMode.Force);
         }
-        else
-        {
-            _rb.linearVelocity = Vector3.zero;
-            _rb.useGravity = false;
-        }
-        _rb.AddForce(-_slopeHit.normal * 30f, ForceMode.Force);
     }
 
     private void GroundMove()
     {
-        _moveDirection = _playerCamera.forward * _currentInput.y + _playerCamera.right * _currentInput.x;
-        float yVel = _rb.linearVelocity.y;
-        Vector3 moveXz = _moveDirection.normalized * _currentSpeed;
-        _rb.linearVelocity = new Vector3(moveXz.x, yVel, moveXz.z);
+        _rb.AddForce(_moveDirection.normalized * _currentSpeed * 10f, ForceMode.Force);
         GroundDamping();
     }
 
     private void AirMove()
     {
-        _moveDirection = _playerCamera.forward * _currentInput.y + _playerCamera.right * _currentInput.x;
-        float yVel = _rb.linearVelocity.y;
-        Vector3 moveXz = _moveDirection.normalized * _airMultiplier * _currentSpeed;
-        _rb.linearVelocity = new Vector3(moveXz.x, yVel, moveXz.z);
+        _rb.AddForce(_moveDirection.normalized * _currentSpeed * 10f * _airMultiplier, ForceMode.Force);
     }
 
     private void GroundDamping()
@@ -101,6 +84,26 @@ public class PlayerMove : MonoBehaviour
         else
         {
             _rb.linearDamping = 0f;
+        }
+    }
+
+    private void SpeedControl()
+    {
+        if (_isSlope)
+        {
+            if (_rb.linearVelocity.magnitude > _currentSpeed)
+            {
+                _rb.linearVelocity=_rb.linearVelocity.normalized * _currentSpeed;
+            }
+        }
+        else
+        {
+            Vector3 flatVel = new Vector3(_rb.linearVelocity.x, 0f, _rb.linearVelocity.z);
+            if (flatVel.magnitude > _currentSpeed)
+            {
+                Vector3 limitedVel = flatVel.normalized * _currentSpeed;
+                _rb.linearVelocity=new Vector3(limitedVel.x, _rb.linearVelocity.y, limitedVel.z);
+            }
         }
     }
 
@@ -117,6 +120,7 @@ public class PlayerMove : MonoBehaviour
     public void Stop()
     {
         _currentInput = Vector2.zero;
+        _rb.linearVelocity = Vector3.zero;
     }
 
     public void UpdateSpeed(PlayerState playerState, PlayerData playerData)
@@ -149,5 +153,10 @@ public class PlayerMove : MonoBehaviour
     public void SetSliding(bool isSliding)
     {
         _isSliding = isSliding;
+    }
+
+    private Vector3 GetSlopeMoveDirection(Vector3 direction)
+    {
+        return Vector3.ProjectOnPlane(direction, _slopeHit.normal).normalized;
     }
 }

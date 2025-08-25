@@ -17,6 +17,7 @@ public class PlayerData : MonoBehaviour
 
     [Header("Jump")]
     [SerializeField] private float _jumpForce = 5f;
+    [SerializeField] private float _jumpSlopeForce = 10f;
     [SerializeField] private float _jumpCooldown = 0.25f;
     [SerializeField] private float _airMultiplier = 0.5f;
 
@@ -40,6 +41,7 @@ public class PlayerData : MonoBehaviour
     public float PlayerHeight => _playerHeight;
     public LayerMask GroundLayer => _groundLayer;
     public float JumpForce => _jumpForce;
+    public float JumpSlopeForce => _jumpSlopeForce;
     public float JumpCooldown => _jumpCooldown;
     public float AirMultiplier => _airMultiplier;
     public float CrouchHeight => _crouchHeight;

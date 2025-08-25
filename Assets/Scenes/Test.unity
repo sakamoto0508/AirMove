@@ -469,6 +469,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   _jumpForce: 5
+  _jumpSlopeForce: 6
   _jumpCooldown: 0.25
   _airMultiplier: 0.5
   _crouchHeight: 0.5

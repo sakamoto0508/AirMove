@@ -1,3 +1,4 @@
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -17,6 +18,10 @@ public class PlayerMove : MonoBehaviour
     private RaycastHit _slopeHit;
     private bool _isSliding = false;
     private float _slidingForce;
+    //ˆÚ“®‘¬“x‚Ì’²®
+    private float _desireMoveSpeed;
+    //ÅIŠó–]ˆÚ“®‘¬“x
+    private float _lastDesiredMoveSpeed;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -54,13 +59,17 @@ public class PlayerMove : MonoBehaviour
 
     private void SlidingMovement()
     {
-        if (!_isSlope || _rb.angularVelocity.y > -0.1f)
-        {
-            _rb.AddForce(_moveDirection * _slidingForce, ForceMode.Force);
-        }
-        else
+        if (_isSlope)
         {
             _rb.AddForce(GetSlopeMoveDirection(_moveDirection) * _slidingForce, ForceMode.Force);
+            if (_rb.linearVelocity.y > 0)
+            {
+                _rb.AddForce(Vector3.down * 80f, ForceMode.Force);
+            }
+        }
+        else if (!_isSlope || _rb.angularVelocity.y > -0.1f)
+        {
+            _rb.AddForce(_moveDirection * _slidingForce, ForceMode.Force);
         }
     }
 
@@ -139,18 +148,53 @@ public class PlayerMove : MonoBehaviour
         switch (playerState.CurrentState)
         {
             case PlayerState.State.walking:
-                _currentSpeed = playerData.WalkSpeed;
+                _desireMoveSpeed = playerData.WalkSpeed;
                 break;
             case PlayerState.State.sprinting:
-                _currentSpeed = playerData.SprintSpeed;
+                _desireMoveSpeed = playerData.SprintSpeed;
                 break;
             case PlayerState.State.crouching:
-                _currentSpeed = playerData.CrouchSpeed;
+                _desireMoveSpeed = playerData.CrouchSpeed;
+                break;
+            case PlayerState.State.sliding:
+                if (_isSlope && _rb.angularVelocity.y < 0.1f)
+                {
+                    _desireMoveSpeed = playerData.SprintSpeed;
+                }
+                else
+                {
+                    _desireMoveSpeed = playerData.SprintSpeed;
+                }
                 break;
             default:
-                _currentSpeed = playerData.WalkSpeed;
+                _desireMoveSpeed = playerData.WalkSpeed;
                 break;
         }
+
+        if(Mathf.Abs(_desireMoveSpeed-_lastDesiredMoveSpeed)>4f&& _currentSpeed != 0)
+        {
+            StopAllCoroutines();
+            StartCoroutine(SmoothlyLerpMoveSpeed());
+        }
+        else
+        {
+            _currentSpeed = _desireMoveSpeed;
+        }
+        _lastDesiredMoveSpeed = _desireMoveSpeed;
+    }
+
+    private IEnumerator SmoothlyLerpMoveSpeed()
+    {
+        float time = 0f;
+        float difference = Mathf.Abs(_desireMoveSpeed - _currentSpeed);
+        float startValue = _currentSpeed;
+        while (time < difference)
+        {
+            _currentSpeed=Mathf.Lerp(startValue, _desireMoveSpeed, time / difference);
+            time += Time.deltaTime;
+            yield return null;
+        }
+        _currentSpeed = _desireMoveSpeed;
     }
 
     public void SetSlope(bool isSlope, RaycastHit slopeHit)

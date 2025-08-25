@@ -9,6 +9,7 @@ public class PlayerData : MonoBehaviour
     [SerializeField] private float _walkSpeed = 10f;
     [SerializeField] private float _sprintSpeed = 15f;
     [SerializeField] private float _crouchSpeed = 5f;
+    [SerializeField] private float _slidingSpeed = 20f;
     [SerializeField] private float _groundDrag = 0.5f;
 
     [Header("GroundCheck")]
@@ -30,12 +31,13 @@ public class PlayerData : MonoBehaviour
     [Header("Sliding")]
     [SerializeField] private float _maxSlidingTime = 1.5f;
     [SerializeField] private float _slidingForce = 10f;
-    [SerializeField] private float _slidinYScale = 0.5f;
+    [SerializeField] private float _slidingYScale = 0.5f;
 
     //“Ç‚ÝŽæ‚èê—p
     public float WalkSpeed => _walkSpeed;
     public float SprintSpeed => _sprintSpeed;
     public float CrouchSpeed => _crouchSpeed;
+    public float SlidingSpeed => _slidingSpeed;
     public float GroundDrag => _groundDrag;
     public Transform MainCamera => _mainCamera;
     public float PlayerHeight => _playerHeight;
@@ -48,6 +50,6 @@ public class PlayerData : MonoBehaviour
     public float MaxSlopeAngle => _maxSlopeAngle;
     public float MaxSlidingTime => _maxSlidingTime;
     public float SlidingForce => _slidingForce;
-    public float SlidingYScale => _slidinYScale;
+    public float SlidingYScale => _slidingYScale;
     
 }

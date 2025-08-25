@@ -10,7 +10,6 @@ public class PlayerJump : MonoBehaviour
         _rb = GetComponent<Rigidbody>();
     }
 
-
     public void Jump(PlayerData playerData, bool isGrounded, bool isSlope)
     {
         if (isGrounded && _canJump)
@@ -19,7 +18,8 @@ public class PlayerJump : MonoBehaviour
             _rb.linearVelocity=new Vector3 (_rb.linearVelocity.x, 0f, _rb.linearVelocity.z);
             _rb.AddForce(Vector3.up * playerData.JumpForce, ForceMode.Impulse);
             Invoke(nameof(ResetJump), playerData.JumpCooldown);
-        }else if (isSlope && _canJump)
+        }
+        else if (isSlope && _canJump)
         {
             _canJump = false;
             _rb.linearVelocity = new Vector3(_rb.linearVelocity.x, 0f, _rb.linearVelocity.z);

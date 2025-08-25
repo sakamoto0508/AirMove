@@ -27,8 +27,8 @@ public class PlayerMove : MonoBehaviour
     {
         if (_playerCamera == null) return;
         Vector3 inputDir = _playerCamera.forward * _currentInput.y + _playerCamera.right * _currentInput.x;
-        float yVel = _rb.linearVelocity.y;
-        _moveDirection = new Vector3(inputDir.x, yVel, inputDir.z);
+        inputDir.y = 0;
+        _moveDirection = inputDir;
         if (_isSliding)
         {
             SlidingMovement();
@@ -46,7 +46,10 @@ public class PlayerMove : MonoBehaviour
             AirMove();
         }
         _rb.useGravity = !_isSlope;
-        SpeedControl();
+        if (!_isSliding)
+        {
+            SpeedControl();
+        }
     }
 
     private void SlidingMovement()

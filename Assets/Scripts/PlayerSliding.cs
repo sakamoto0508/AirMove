@@ -26,6 +26,11 @@ public class PlayerSliding : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// スライディングの開始
+    /// </summary>
+    /// <param name="playerState"></param>
+    /// <param name="playerData"></param>
     public void StartSliding(PlayerState playerState, PlayerData playerData)
     {
         if (_isSliding) return;
@@ -37,6 +42,10 @@ public class PlayerSliding : MonoBehaviour
         _slideTimer = playerData.MaxSlidingTime;
     }
 
+    /// <summary>
+    /// スライディングの停止
+    /// </summary>
+    /// <param name="playerState"></param>
     public void StopSliding(PlayerState playerState = null)
     {
         _isSliding = false;
@@ -55,6 +64,9 @@ public class PlayerSliding : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// スライディングタイマーの更新
+    /// </summary>
     private void UpdateSlidingTimer()
     {
         if (!_isSlope || _rb.linearVelocity.y > -0.1f)
@@ -67,6 +79,14 @@ public class PlayerSliding : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// スライディングを開始できるかどうか
+    /// </summary>
+    /// <param name="playerState"></param>
+    /// <param name="isGround"></param>
+    /// <param name="isSlope"></param>
+    /// <param name="currentInput"></param>
+    /// <returns></returns>
     public bool CanStartSliding(PlayerState playerState, bool isGround, bool isSlope, Vector2 currentInput)
     {
         return (playerState.CurrentState == PlayerState.State.walking ||
@@ -77,6 +97,10 @@ public class PlayerSliding : MonoBehaviour
                !_isSliding;
     }
 
+    /// <summary>
+    /// 坂道かどうかの設定
+    /// </summary>
+    /// <param name="isSlope"></param>
     public void SetIsSlope(bool isSlope)
     {
         _isSlope = isSlope;

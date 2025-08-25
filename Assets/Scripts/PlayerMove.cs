@@ -57,6 +57,9 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// スライディングの動き
+    /// </summary>
     private void SlidingMovement()
     {
         if (_isSlope)
@@ -73,6 +76,9 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 坂道の動き
+    /// </summary>
     private void OnSlopeMove()
     {
         _rb.AddForce(GetSlopeMoveDirection(_moveDirection) * _currentSpeed * 20f, ForceMode.Force);
@@ -82,17 +88,26 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 地上の動き
+    /// </summary>
     private void GroundMove()
     {
         _rb.AddForce(_moveDirection.normalized * _currentSpeed * 10f, ForceMode.Force);
         GroundDamping();
     }
 
+    /// <summary>
+    /// 空中の動き
+    /// </summary>
     private void AirMove()
     {
         _rb.AddForce(_moveDirection.normalized * _currentSpeed * 10f * _airMultiplier, ForceMode.Force);
     }
 
+    /// <summary>
+    /// 地上にいるときの減衰
+    /// </summary>
     private void GroundDamping()
     {
         if (_isGrounded)
@@ -105,6 +120,9 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 速度制限
+    /// </summary>
     private void SpeedControl()
     {
         if (_isSlope)
@@ -125,6 +143,12 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 移動
+    /// </summary>
+    /// <param name="input"></param>
+    /// <param name="playerData"></param>
+    /// <param name="isGround"></param>
     public void Move(Vector2 input, PlayerData playerData, bool isGround)
     {
         _currentInput = input;
@@ -135,12 +159,20 @@ public class PlayerMove : MonoBehaviour
         _slidingForce = playerData.SlidingForce;
     }
 
+    /// <summary>
+    /// 停止
+    /// </summary>
     public void Stop()
     {
         _currentInput = Vector2.zero;
         _rb.linearVelocity = Vector3.zero;
     }
 
+    /// <summary>
+    /// 速度更新
+    /// </summary>
+    /// <param name="playerState"></param>
+    /// <param name="playerData"></param>
     public void UpdateSpeed(PlayerState playerState, PlayerData playerData)
     {
         if (playerState == null || playerData == null) return;
@@ -170,7 +202,6 @@ public class PlayerMove : MonoBehaviour
                 _desireMoveSpeed = playerData.WalkSpeed;
                 break;
         }
-
         if(Mathf.Abs(_desireMoveSpeed-_lastDesiredMoveSpeed)>4f&& _currentSpeed != 0)
         {
             StopAllCoroutines();
@@ -183,6 +214,10 @@ public class PlayerMove : MonoBehaviour
         _lastDesiredMoveSpeed = _desireMoveSpeed;
     }
 
+    /// <summary>
+    /// 速度を滑らかに変化させる
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator SmoothlyLerpMoveSpeed()
     {
         float time = 0f;
@@ -197,17 +232,31 @@ public class PlayerMove : MonoBehaviour
         _currentSpeed = _desireMoveSpeed;
     }
 
+    /// <summary>
+    /// 坂道の設定
+    /// </summary>
+    /// <param name="isSlope"></param>
+    /// <param name="slopeHit"></param>
     public void SetSlope(bool isSlope, RaycastHit slopeHit)
     {
         _isSlope = isSlope;
         _slopeHit = slopeHit;
     }
 
+    /// <summary>
+    /// スライディングの設定
+    /// </summary>
+    /// <param name="isSliding"></param>
     public void SetSliding(bool isSliding)
     {
         _isSliding = isSliding;
     }
 
+    /// <summary>
+    /// 坂道の移動方向を取得
+    /// </summary>
+    /// <param name="direction"></param>
+    /// <returns></returns>
     private Vector3 GetSlopeMoveDirection(Vector3 direction)
     {
         return Vector3.ProjectOnPlane(direction, _slopeHit.normal).normalized;

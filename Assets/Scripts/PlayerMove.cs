@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -25,7 +26,9 @@ public class PlayerMove : MonoBehaviour
     private void FixedUpdate()
     {
         if (_playerCamera == null) return;
-        _moveDirection = _playerCamera.forward * _currentInput.y + _playerCamera.right * _currentInput.x;
+        Vector3 inputDir = _playerCamera.forward * _currentInput.y + _playerCamera.right * _currentInput.x;
+        float yVel = _rb.linearVelocity.y;
+        _moveDirection = new Vector3(inputDir.x, yVel, inputDir.z);
         if (_isSliding)
         {
             SlidingMovement();
@@ -42,16 +45,19 @@ public class PlayerMove : MonoBehaviour
         {
             AirMove();
         }
+        _rb.useGravity = !_isSlope;
         SpeedControl();
     }
 
     private void SlidingMovement()
     {
-        _moveDirection = _playerCamera.forward * _currentInput.y + _playerCamera.right * _currentInput.x;
-        _moveDirection = _moveDirection.normalized;
-        if (_moveDirection.magnitude > 0.1f)
+        if (!_isSlope || _rb.angularVelocity.y > -0.1f)
         {
             _rb.AddForce(_moveDirection * _slidingForce, ForceMode.Force);
+        }
+        else
+        {
+            _rb.AddForce(GetSlopeMoveDirection(_moveDirection) * _slidingForce, ForceMode.Force);
         }
     }
 
@@ -93,7 +99,7 @@ public class PlayerMove : MonoBehaviour
         {
             if (_rb.linearVelocity.magnitude > _currentSpeed)
             {
-                _rb.linearVelocity=_rb.linearVelocity.normalized * _currentSpeed;
+                _rb.linearVelocity = _rb.linearVelocity.normalized * _currentSpeed;
             }
         }
         else
@@ -102,7 +108,7 @@ public class PlayerMove : MonoBehaviour
             if (flatVel.magnitude > _currentSpeed)
             {
                 Vector3 limitedVel = flatVel.normalized * _currentSpeed;
-                _rb.linearVelocity=new Vector3(limitedVel.x, _rb.linearVelocity.y, limitedVel.z);
+                _rb.linearVelocity = new Vector3(limitedVel.x, _rb.linearVelocity.y, limitedVel.z);
             }
         }
     }

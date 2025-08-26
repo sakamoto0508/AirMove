@@ -95,6 +95,7 @@ public class PlayerController : MonoBehaviour
         {
             _playerSprint?.Sprint(_playerState, _isGrounded);
         }
+        _isSprint = _playerSprint.IsSprinting();
     }
 
     private void OnInputCrouch(InputAction.CallbackContext context)
@@ -103,6 +104,7 @@ public class PlayerController : MonoBehaviour
         {
             _playerCrouch?.Crouch(_playerState, _playerData);
         }
+        _isCrouching = _playerCrouch.IsCrouching();
     }
     private void OnInputSliding(InputAction.CallbackContext context)
     {
@@ -130,10 +132,11 @@ public class PlayerController : MonoBehaviour
         _playerState?.StateMachine(_isWallRunning, _isSliding,_isCrouching, _isGrounded, _isSlope, _isSprint);
         _isGrounded = _groundCheck.IsGrounded(_playerData);
         _isSlope = _slopeCheck.OnSlope(_playerData);
+        _isSliding = _playerSliding.IsSliding();
         _playerMove?.SetSliding(_playerSliding._isSliding);
         _playerSliding?.SetIsSlope(_isSlope);
-        _rightWall = _checkWall.CheckForRightWall(_playerData);
-        _leftWall = _checkWall.CheckForLeftWall(_playerData);
+        //_rightWall = _checkWall.CheckForRightWall(_playerData);
+        //_leftWall = _checkWall.CheckForLeftWall(_playerData);
         // スライディング中は通常の移動更新をスキップ
         if (!_playerSliding._isSliding)
         {

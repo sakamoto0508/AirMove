@@ -35,7 +35,7 @@ public class PlayerSliding : MonoBehaviour
     {
         if (_isSliding) return;
         _previousState = playerState.CurrentState;
-        playerState.CurrentState = PlayerState.State.sliding;
+        //playerState.CurrentState = PlayerState.State.sliding;
         _isSliding = true;
         _capsuleCollider.height = playerData.SlidingYScale;
         _rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
@@ -104,5 +104,10 @@ public class PlayerSliding : MonoBehaviour
     public void SetIsSlope(bool isSlope)
     {
         _isSlope = isSlope;
+    }
+
+    public bool IsSliding()
+    {
+        return _isSliding;
     }
 }

@@ -460,10 +460,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _mainCamera: {fileID: 330585546}
-  _walkSpeed: 10
-  _sprintSpeed: 15
+  _walkSpeed: 7
+  _sprintSpeed: 10
   _crouchSpeed: 5
-  _groundDrag: 0.5
+  _slidingSpeed: 30
+  _wallRunningSpeed: 15
+  _groundDrag: 1
   _playerHeight: 2
   _groundLayer:
     serializedVersion: 2
@@ -471,12 +473,19 @@ MonoBehaviour:
   _jumpForce: 5
   _jumpSlopeForce: 6
   _jumpCooldown: 0.25
-  _airMultiplier: 0.5
+  _airMultiplier: 0.3
   _crouchHeight: 0.5
   _maxSlopeAngle: 45
-  _maxSlidingTime: 1
-  _slidingForce: 20
-  _slidinYScale: 0.5
+  _maxSlidingTime: 0.75
+  _slidingForce: 30
+  _slidingYScale: 0.5
+  _wallLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  _wallRunForce: 10
+  _maxWallRunTime: 0
+  _wallCheckDistance: 0
+  _minJumpHeight: 0
 --- !u!114 &155358672
 MonoBehaviour:
   m_ObjectHideFlags: 0

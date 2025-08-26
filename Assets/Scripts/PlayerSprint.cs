@@ -1,6 +1,7 @@
 using UnityEngine;
 public class PlayerSprint : MonoBehaviour
 {
+    private bool _isSprinting;
     public void Sprint(PlayerState playerState, bool grounded)
     {
         if (playerState.CurrentState == PlayerState.State.crouching ||
@@ -8,11 +9,16 @@ public class PlayerSprint : MonoBehaviour
             return;
         if (playerState.CurrentState == PlayerState.State.walking)
         {
-            playerState.CurrentState = PlayerState.State.sprinting;
+            _isSprinting = true;
         }
         else if (playerState.CurrentState == PlayerState.State.sprinting)
         {
-            playerState.CurrentState = PlayerState.State.walking;
+            _isSprinting= false;
         }
+    }
+
+    public bool IsSprinting()
+    {
+        return _isSprinting;
     }
 }

@@ -91,8 +91,7 @@ public class PlayerSliding : MonoBehaviour
     {
         return (playerState.CurrentState == PlayerState.State.walking ||
                playerState.CurrentState == PlayerState.State.sprinting) &&
-               (isGround ||
-               isSlope) &&
+               (isGround || isSlope) &&
                currentInput.magnitude > 0.1f &&
                !_isSliding;
     }

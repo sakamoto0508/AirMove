@@ -26,7 +26,8 @@ public class PlayerController : MonoBehaviour
     public bool _rightWall { get; private set; } = false;
     public bool _leftWall { get; private set; } = false;
     public bool _isWallRunning { get; private set; } = false;
-    
+    public bool _isAboveGround { get; private set; } = false;
+
     private void RegisterInputAction()
     {
         _inputBuffer.MoveAction.performed += OnInputMove;
@@ -140,6 +141,8 @@ public class PlayerController : MonoBehaviour
         _playerSliding?.SetIsSlope(_isSlope);
         _rightWall = _wallCheck.CheckForRightWall(_playerData);
         _leftWall = _wallCheck.CheckForLeftWall(_playerData);
+        _isAboveGround = _wallCheck.AboveGround(_playerData);
+        _playerWallRunning.SetAboveGround(_isAboveGround);
         // スライディング中は通常の移動更新をスキップ
         if (!_playerSliding._isSliding)
         {

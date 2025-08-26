@@ -22,6 +22,9 @@ public class PlayerMove : MonoBehaviour
     private float _desireMoveSpeed;
     //ÅIŠó–]ˆÚ“®‘¬“x
     private float _lastDesiredMoveSpeed;
+    private float _speedIncreaseMultiplier = 1.5f;
+    private float _slopeIncreaseMultiplier = 2.5f;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -229,7 +232,16 @@ public class PlayerMove : MonoBehaviour
         while (time < difference)
         {
             _currentSpeed = Mathf.Lerp(startValue, _desireMoveSpeed, time / difference);
-            time += Time.deltaTime;
+            if (_isSlope)
+            {
+                float slopeAngle = Vector3.Angle(Vector3.up, _slopeHit.normal);
+                float slopeAngleIncrease = 1 + (slopeAngle / 90f);
+                time += Time.deltaTime * _speedIncreaseMultiplier * _slopeIncreaseMultiplier * slopeAngleIncrease;
+            }
+            else
+            {
+                time += Time.deltaTime;
+            }
             yield return null;
         }
         _currentSpeed = _desireMoveSpeed;

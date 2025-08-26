@@ -76,11 +76,13 @@ public class PlayerController : MonoBehaviour
         else if (context.canceled)
         {
             _currentMoveInput = Vector2.zero;
-            if (!_playerSliding._isSliding)
-            {
-                _playerMove?.Stop();
-                _playerWallRunning?.MoveStop();
-            }
+            //if (!_playerSliding._isSliding)
+            //{
+            //    _playerMove?.Stop();
+            //    _playerWallRunning?.MoveStop();
+            //}
+            _playerMove?.Stop();
+            _playerWallRunning?.MoveStop();
         }
     }
 

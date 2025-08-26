@@ -79,8 +79,6 @@ public class PlayerController : MonoBehaviour
             if (!_playerSliding._isSliding)
             {
                 _playerMove?.Stop();
-            }else if (_isWallRunning)
-            {
                 _playerWallRunning?.MoveStop();
             }
         }

@@ -6,7 +6,7 @@ public class PlayerWallRunning : MonoBehaviour
     private Rigidbody _rb;
     private RaycastHit _leftWallHit;
     private RaycastHit _rightWallHit;
-    private bool _isWallRunning;
+    public bool _isWallRunning { get; private set; } = false;
     private bool _wallLeft;
     private bool _wallRight;
     private bool _aboveGround;
@@ -59,7 +59,10 @@ public class PlayerWallRunning : MonoBehaviour
 
     public void StopWallRun()
     {
+        if(!_isWallRunning) return;
         _isWallRunning = false;
+        _rb.useGravity = true;
+
     }
 
     private void WallRunningMovement()
@@ -104,7 +107,10 @@ public class PlayerWallRunning : MonoBehaviour
     {
         _currentInput = Vector2.zero;
         _rb.linearVelocity = Vector3.zero;
-        StopWallRun();
+        if (_isWallRunning)
+        {
+            StopWallRun();
+        }
     }
 
     public bool IsWallRunning()

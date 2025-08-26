@@ -42,7 +42,7 @@ public class PlayerData : MonoBehaviour
     [Header("Detection")]
     [SerializeField] private float _wallCheckDistance;
     [SerializeField] private float _minJumpHeight;
-
+    [SerializeField] private float _wallClimbSpeed = 3f;
 
     //“Ç‚ÝŽæ‚èê—p
     public float WalkSpeed => _walkSpeed;

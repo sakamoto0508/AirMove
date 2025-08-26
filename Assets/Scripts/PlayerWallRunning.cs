@@ -48,14 +48,11 @@ public class PlayerWallRunning : MonoBehaviour
     public void StartWallRun()
     {
         _isWallRunning = true;
-        //_previousState = playerState.CurrentState;
-        //_playerState.CurrentState = PlayerState.State.wallrunning;
     }
 
     public void StopWallRun()
     {
         _isWallRunning = false;
-        //_playerState.CurrentState = _previousState;
     }
 
     private void WallRunningMovement()
@@ -64,7 +61,16 @@ public class PlayerWallRunning : MonoBehaviour
         _rb.linearVelocity = new Vector3(_rb.linearVelocity.x, 0f, _rb.linearVelocity.z);
         Vector3 wallNormal = _wallRight ? _rightWallHit.normal : _leftWallHit.normal;
         Vector3 wallForward = Vector3.Cross(wallNormal, Vector3.up);
+        if ((_playerCamera.forward - wallForward).magnitude > (_playerCamera.forward - -wallForward).magnitude)
+        {
+            wallForward = -wallForward;
+        }
         _rb.AddForce(wallForward * _wallRunForce, ForceMode.Force);
+        // •Ç‚Éˆø‚«Šñ‚¹‚ç‚ê‚é—Í
+        if (!(_wallLeft && _currentInput.x > 0) && !(_wallRight && _currentInput.x < 0))
+        {
+            _rb.AddForce(-wallNormal * 10f, ForceMode.Force);
+        }
     }
 
     public void WallRunningMove(Vector2 input, PlayerData playerData, bool wallLeft, bool wallRight, RaycastHit rightWallHit, RaycastHit leftWallHit)
@@ -75,6 +81,7 @@ public class PlayerWallRunning : MonoBehaviour
         _wallRight = wallRight;
         _leftWallHit = leftWallHit;
         _rightWallHit = rightWallHit;
+        _playerCamera = playerData.MainCamera;
     }
 
     public bool IsWallRunning()

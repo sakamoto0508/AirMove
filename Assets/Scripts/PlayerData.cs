@@ -68,4 +68,5 @@ public class PlayerData : MonoBehaviour
     public LayerMask WallLayer => _wallLayer;
     public float WallCheckDistance => _wallCheckDistance;
     public float MinJumpHeight => _minJumpHeight;
+    public float WallClimbSpeed => _wallClimbSpeed;
 }

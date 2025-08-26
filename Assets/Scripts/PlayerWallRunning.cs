@@ -13,7 +13,12 @@ public class PlayerWallRunning : MonoBehaviour
     private Transform _playerCamera;
     private Vector2 _currentInput;
     private float _wallRunForce;
-    private float _minJumpHeight;
+    private KeyCode upwardsRunKey = KeyCode.LeftShift;
+    private KeyCode downwardsRunKey = KeyCode.LeftControl;
+    private bool _upwardsRunning;
+    private bool _downwardsRunning;
+    private float _climbSpeed;
+
     private void Start()
     {
         _rb = GetComponent<Rigidbody>();
@@ -21,6 +26,8 @@ public class PlayerWallRunning : MonoBehaviour
 
     private void Update()
     {
+        _upwardsRunning = Input.GetKey(upwardsRunKey);
+        _downwardsRunning = Input.GetKey(downwardsRunKey);
         if ((_wallLeft || _wallRight) && _currentInput.magnitude > 0 && _aboveGround)
         {
             if (!_isWallRunning)
@@ -66,6 +73,14 @@ public class PlayerWallRunning : MonoBehaviour
             wallForward = -wallForward;
         }
         _rb.AddForce(wallForward * _wallRunForce, ForceMode.Force);
+        if (_upwardsRunning)
+        {
+            _rb.linearVelocity = new Vector3(_rb.linearVelocity.x, _climbSpeed, _rb.linearVelocity.z);
+        }
+        if (_downwardsRunning)
+        {
+            _rb.linearVelocity = new Vector3(_rb.linearVelocity.x, -_climbSpeed, _rb.linearVelocity.z);
+        }
         // •Ç‚Éˆø‚«Šñ‚¹‚ç‚ê‚é—Í
         if (!(_wallLeft && _currentInput.x > 0) && !(_wallRight && _currentInput.x < 0))
         {
@@ -82,6 +97,14 @@ public class PlayerWallRunning : MonoBehaviour
         _leftWallHit = leftWallHit;
         _rightWallHit = rightWallHit;
         _playerCamera = playerData.MainCamera;
+        _climbSpeed = playerData.WallClimbSpeed;
+    }
+
+    public void MoveStop()
+    {
+        _currentInput = Vector2.zero;
+        _rb.linearVelocity = Vector3.zero;
+        StopWallRun();
     }
 
     public bool IsWallRunning()

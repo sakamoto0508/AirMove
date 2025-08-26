@@ -15,10 +15,17 @@ public class PlayerController : MonoBehaviour
     private PlayerSprint _playerSprint;
     private PlayerCrouch _playerCrouch;
     private PlayerSliding _playerSliding;
+    private CheckWall _checkWall;
     private Vector2 _currentMoveInput = Vector2.zero;
     public bool _isGrounded { get; private set; } = false;
     public bool _isSlope { get; private set; } = false;
     public bool _isSliding { get; private set; } = false;
+    public bool _isCrouching { get; private set; } = false;
+    public bool _isSprint {  get; private set; } = false;
+    public bool _rightWall { get; private set; } = false;
+    public bool _leftWall { get; private set; } = false;
+    public bool _isWallRunning { get; private set; } = false;
+    
     private void RegisterInputAction()
     {
         _inputBuffer.MoveAction.performed += OnInputMove;
@@ -51,6 +58,7 @@ public class PlayerController : MonoBehaviour
         _playerSprint = GetComponent<PlayerSprint>();
         _playerCrouch = GetComponent<PlayerCrouch>();
         _playerSliding = GetComponent<PlayerSliding>();
+        _checkWall = GetComponent<CheckWall>();
     }
 
     private void OnInputMove(InputAction.CallbackContext context)
@@ -119,10 +127,13 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        _playerState?.StateMachine(_isWallRunning, _isSliding,_isCrouching, _isGrounded, _isSlope, _isSprint);
         _isGrounded = _groundCheck.IsGrounded(_playerData);
         _isSlope = _slopeCheck.OnSlope(_playerData);
         _playerMove?.SetSliding(_playerSliding._isSliding);
         _playerSliding?.SetIsSlope(_isSlope);
+        _rightWall = _checkWall.CheckForRightWall(_playerData);
+        _leftWall = _checkWall.CheckForLeftWall(_playerData);
         // スライディング中は通常の移動更新をスキップ
         if (!_playerSliding._isSliding)
         {

@@ -15,7 +15,8 @@ public class PlayerController : MonoBehaviour
     private PlayerSprint _playerSprint;
     private PlayerCrouch _playerCrouch;
     private PlayerSliding _playerSliding;
-    private CheckWall _checkWall;
+    private WallCheck _wallCheck;
+    private PlayerWallRunning _playerWallRunning;
     private Vector2 _currentMoveInput = Vector2.zero;
     public bool _isGrounded { get; private set; } = false;
     public bool _isSlope { get; private set; } = false;
@@ -58,7 +59,8 @@ public class PlayerController : MonoBehaviour
         _playerSprint = GetComponent<PlayerSprint>();
         _playerCrouch = GetComponent<PlayerCrouch>();
         _playerSliding = GetComponent<PlayerSliding>();
-        _checkWall = GetComponent<CheckWall>();
+        _wallCheck = GetComponent<WallCheck>();
+        _playerWallRunning = GetComponent<PlayerWallRunning>();
     }
 
     private void OnInputMove(InputAction.CallbackContext context)
@@ -68,7 +70,7 @@ public class PlayerController : MonoBehaviour
             Vector2 input = context.ReadValue<Vector2>();
             _currentMoveInput = input;
             _playerMove?.Move(input, _playerData, _isGrounded);
-
+            _playerWallRunning?.WallRunningMove(input, _playerData, _rightWall, _leftWall, _wallCheck.GetLeftWallHit(), _wallCheck.GetRightWallHit());
         }
         else if (context.canceled)
         {
@@ -133,10 +135,11 @@ public class PlayerController : MonoBehaviour
         _isGrounded = _groundCheck.IsGrounded(_playerData);
         _isSlope = _slopeCheck.OnSlope(_playerData);
         _isSliding = _playerSliding.IsSliding();
+        _isWallRunning = _playerWallRunning.IsWallRunning();
         _playerMove?.SetSliding(_playerSliding._isSliding);
         _playerSliding?.SetIsSlope(_isSlope);
-        //_rightWall = _checkWall.CheckForRightWall(_playerData);
-        //_leftWall = _checkWall.CheckForLeftWall(_playerData);
+        _rightWall = _wallCheck.CheckForRightWall(_playerData);
+        _leftWall = _wallCheck.CheckForLeftWall(_playerData);
         // スライディング中は通常の移動更新をスキップ
         if (!_playerSliding._isSliding)
         {

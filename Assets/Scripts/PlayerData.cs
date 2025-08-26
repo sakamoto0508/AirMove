@@ -10,6 +10,7 @@ public class PlayerData : MonoBehaviour
     [SerializeField] private float _sprintSpeed = 15f;
     [SerializeField] private float _crouchSpeed = 5f;
     [SerializeField] private float _slidingSpeed = 20f;
+    [SerializeField] private float _wallRunningSpeed = 15f;
     [SerializeField] private float _groundDrag = 0.5f;
 
     [Header("GroundCheck")]
@@ -33,11 +34,22 @@ public class PlayerData : MonoBehaviour
     [SerializeField] private float _slidingForce = 10f;
     [SerializeField] private float _slidingYScale = 0.5f;
 
+    [Header("WallRunning")]
+    [SerializeField] private LayerMask _wallLayer;
+    [SerializeField] private float _wallRunForce = 10f;
+    [SerializeField] private float _maxWallRunTime;
+
+    [Header("Detection")]
+    [SerializeField] private float _wallCheckDistance;
+    [SerializeField] private float _minJumpHeight;
+
+
     //“Ç‚ÝŽæ‚èê—p
     public float WalkSpeed => _walkSpeed;
     public float SprintSpeed => _sprintSpeed;
     public float CrouchSpeed => _crouchSpeed;
     public float SlidingSpeed => _slidingSpeed;
+    public float WallRunningSpeed => _wallRunningSpeed;
     public float GroundDrag => _groundDrag;
     public Transform MainCamera => _mainCamera;
     public float PlayerHeight => _playerHeight;
@@ -51,5 +63,9 @@ public class PlayerData : MonoBehaviour
     public float MaxSlidingTime => _maxSlidingTime;
     public float SlidingForce => _slidingForce;
     public float SlidingYScale => _slidingYScale;
-    
+    public float WallRunForce => _wallRunForce;
+    public float MaxWallRunTime => _maxWallRunTime;
+    public LayerMask WallLayer => _wallLayer;
+    public float WallCheckDistance => _wallCheckDistance;
+    public float MinJumpHeight => _minJumpHeight;
 }

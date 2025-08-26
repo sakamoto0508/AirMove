@@ -198,11 +198,14 @@ public class PlayerMove : MonoBehaviour
                     _desireMoveSpeed = playerData.SprintSpeed;
                 }
                 break;
+            case PlayerState.State.wallrunning:
+                _desireMoveSpeed = playerData.WallRunningSpeed;
+                break;
             default:
                 _desireMoveSpeed = playerData.WalkSpeed;
                 break;
         }
-        if(Mathf.Abs(_desireMoveSpeed-_lastDesiredMoveSpeed)>4f&& _currentSpeed != 0)
+        if (Mathf.Abs(_desireMoveSpeed - _lastDesiredMoveSpeed) > 4f && _currentSpeed != 0)
         {
             StopAllCoroutines();
             StartCoroutine(SmoothlyLerpMoveSpeed());
@@ -225,7 +228,7 @@ public class PlayerMove : MonoBehaviour
         float startValue = _currentSpeed;
         while (time < difference)
         {
-            _currentSpeed=Mathf.Lerp(startValue, _desireMoveSpeed, time / difference);
+            _currentSpeed = Mathf.Lerp(startValue, _desireMoveSpeed, time / difference);
             time += Time.deltaTime;
             yield return null;
         }

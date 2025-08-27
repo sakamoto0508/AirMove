@@ -640,7 +640,7 @@ MonoBehaviour:
   _jumpForce: 7
   _jumpSlopeForce: 8
   _jumpCooldown: 0.25
-  _airMultiplier: 0.3
+  _airMultiplier: 0.5
   _crouchHeight: 0.5
   _maxSlopeAngle: 45
   _maxSlidingTime: 0.75
@@ -649,7 +649,7 @@ MonoBehaviour:
   _wallLayer:
     serializedVersion: 2
     m_Bits: 64
-  _wallRunForce: 200
+  _wallRunForce: 30
   _maxWallRunTime: 0
   _wallCheckDistance: 0.7
   _minJumpHeight: 2

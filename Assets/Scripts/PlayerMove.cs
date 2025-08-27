@@ -194,7 +194,7 @@ public class PlayerMove : MonoBehaviour
             case PlayerState.State.sliding:
                 if (_isSlope && _rb.angularVelocity.y < 0.1f)
                 {
-                    _desireMoveSpeed = playerData.SprintSpeed;
+                    _desireMoveSpeed = playerData.SlidingSpeed;
                 }
                 else
                 {
@@ -208,7 +208,7 @@ public class PlayerMove : MonoBehaviour
                 _desireMoveSpeed = playerData.WalkSpeed;
                 break;
         }
-        if (Mathf.Abs(_desireMoveSpeed - _lastDesiredMoveSpeed) > 4f && _currentSpeed != 0)
+        if (Mathf.Abs(_desireMoveSpeed - _lastDesiredMoveSpeed) > 1f && _currentSpeed != 0)
         {
             StopAllCoroutines();
             StartCoroutine(SmoothlyLerpMoveSpeed());

@@ -59,7 +59,7 @@ public class PlayerWallRunning : MonoBehaviour
 
     public void StopWallRun()
     {
-        if(!_isWallRunning) return;
+        if (!_isWallRunning) return;
         _isWallRunning = false;
         _rb.useGravity = true;
 
@@ -91,12 +91,10 @@ public class PlayerWallRunning : MonoBehaviour
         }
     }
 
-    public void WallRunningMove(Vector2 input, PlayerData playerData, bool wallLeft, bool wallRight, RaycastHit rightWallHit, RaycastHit leftWallHit)
+    public void WallRunningMove(Vector2 input, PlayerData playerData, RaycastHit rightWallHit, RaycastHit leftWallHit)
     {
         _currentInput = input;
         _wallRunForce = playerData.WallRunForce;
-        _wallLeft = wallLeft;
-        _wallRight = wallRight;
         _leftWallHit = leftWallHit;
         _rightWallHit = rightWallHit;
         _playerCamera = playerData.MainCamera;
@@ -126,5 +124,11 @@ public class PlayerWallRunning : MonoBehaviour
     public void SetAboveGround(bool aboveGround)
     {
         _aboveGround = aboveGround;
+    }
+
+    public void SetWallCheck(bool leftWall, bool rightWall)
+    {
+        _wallLeft = leftWall;
+        _wallRight = rightWall;
     }
 }

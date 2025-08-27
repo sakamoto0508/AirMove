@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class WallCheck : MonoBehaviour
 {
-    private RaycastHit _rightWallHit;
-    private RaycastHit _leftWallHit;
+    private RaycastHit _wallRightHit;
+    private RaycastHit _wallLeftHit;
 
     /// <summary>
     /// ‰E‘¤‚É•Ç‚ª‚ ‚é‚©”»’è
@@ -15,7 +15,7 @@ public class WallCheck : MonoBehaviour
         Debug.DrawRay(transform.position, playerData.MainCamera.right * playerData.WallCheckDistance, Color.red);
 
         return Physics.Raycast(transform.position, playerData.MainCamera.right,
-            out _rightWallHit, playerData.WallCheckDistance, playerData.WallLayer);
+            out _wallRightHit, playerData.WallCheckDistance, playerData.WallLayer);
     }
 
     /// <summary>
@@ -27,7 +27,7 @@ public class WallCheck : MonoBehaviour
     {
         Debug.DrawRay(transform.position, -playerData.MainCamera.right * playerData.WallCheckDistance, Color.red);
         return Physics.Raycast(transform.position, -playerData.MainCamera.right,
-            out _leftWallHit, playerData.WallCheckDistance, playerData.WallLayer);
+            out _wallLeftHit, playerData.WallCheckDistance, playerData.WallLayer);
     }
 
     /// <summary>
@@ -47,7 +47,7 @@ public class WallCheck : MonoBehaviour
     /// <returns></returns>
     public RaycastHit GetRightWallHit()
     {
-        return _rightWallHit;
+        return _wallRightHit;
     }
 
     /// <summary>
@@ -56,6 +56,6 @@ public class WallCheck : MonoBehaviour
     /// <returns></returns>
     public RaycastHit GetLeftWallHit()
     {
-        return _leftWallHit;
+        return _wallLeftHit;
     }
 }

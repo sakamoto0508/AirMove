@@ -22,9 +22,9 @@ public class PlayerController : MonoBehaviour
     public bool _isSlope { get; private set; } = false;
     public bool _isSliding { get; private set; } = false;
     public bool _isCrouching { get; private set; } = false;
-    public bool _isSprint {  get; private set; } = false;
-    public bool _rightWall { get; private set; } = false;
-    public bool _leftWall { get; private set; } = false;
+    public bool _isSprint { get; private set; } = false;
+    public bool _wallRight { get; private set; } = false;
+    public bool _wallLeft { get; private set; } = false;
     public bool _isWallRunning { get; private set; } = false;
     public bool _isAboveGround { get; private set; } = false;
 
@@ -71,7 +71,7 @@ public class PlayerController : MonoBehaviour
             Vector2 input = context.ReadValue<Vector2>();
             _currentMoveInput = input;
             _playerMove?.Move(input, _playerData, _isGrounded);
-            _playerWallRunning?.WallRunningMove(input, _playerData, _rightWall, _leftWall, _wallCheck.GetLeftWallHit(), _wallCheck.GetRightWallHit());
+            _playerWallRunning?.WallRunningMove(input, _playerData, _wallCheck.GetLeftWallHit(), _wallCheck.GetRightWallHit());
         }
         else if (context.canceled)
         {
@@ -112,6 +112,7 @@ public class PlayerController : MonoBehaviour
         }
         _isCrouching = _playerCrouch.IsCrouching();
     }
+
     private void OnInputSliding(InputAction.CallbackContext context)
     {
         if (_playerSliding._isSliding)
@@ -135,15 +136,16 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        _playerState?.StateMachine(_isWallRunning, _isSliding,_isCrouching, _isGrounded, _isSlope, _isSprint);
+        _playerState?.StateMachine(_isWallRunning, _isSliding, _isCrouching, _isGrounded, _isSlope, _isSprint);
         _isGrounded = _groundCheck.IsGrounded(_playerData);
         _isSlope = _slopeCheck.OnSlope(_playerData);
         _isSliding = _playerSliding.IsSliding();
         _isWallRunning = _playerWallRunning.IsWallRunning();
         _playerMove?.SetSliding(_playerSliding._isSliding);
         _playerSliding?.SetIsSlope(_isSlope);
-        _rightWall = _wallCheck.CheckForRightWall(_playerData);
-        _leftWall = _wallCheck.CheckForLeftWall(_playerData);
+        _wallRight = _wallCheck.CheckForRightWall(_playerData);
+        _wallLeft = _wallCheck.CheckForLeftWall(_playerData);
+        _playerWallRunning.SetWallCheck(_wallLeft,_wallRight);
         _isAboveGround = _wallCheck.AboveGround(_playerData);
         _playerWallRunning.SetAboveGround(_isAboveGround);
         // スライディング中は通常の移動更新をスキップ

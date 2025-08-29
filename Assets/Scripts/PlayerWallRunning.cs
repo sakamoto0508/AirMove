@@ -20,21 +20,30 @@ public class PlayerWallRunning : MonoBehaviour
     private float _climbSpeed;
     private bool _canWallMove;
     private bool _exitingWall;
+    private WallRunningCamera _camera;
 
     private void Start()
     {
         _rb = GetComponent<Rigidbody>();
+        _camera=FindAnyObjectByType<WallRunningCamera>();
     }
 
     private void Update()
     {
         _upwardsRunning = Input.GetKey(upwardsRunKey);
         _downwardsRunning = Input.GetKey(downwardsRunKey);
-        if (_canWallMove)
+        if (_canWallMove && !_exitingWall)
         {
             if (!_isWallRunning)
             {
                 StartWallRun();
+            }
+        }
+        else if(_exitingWall)
+        {
+            if (_isWallRunning)
+            {
+                StopWallRun();
             }
         }
         else
@@ -57,6 +66,17 @@ public class PlayerWallRunning : MonoBehaviour
     public void StartWallRun()
     {
         _isWallRunning = true;
+        _camera.DoFov(90f);
+        if (_wallLeft)
+        {
+            _camera.DoTilt(-5f);
+            Debug.Log("WallRunLeft");
+        }
+        else if (_wallRight)
+        {
+            _camera.DoTilt(5f);
+            Debug.Log("WallRunRight");
+        }
     }
 
     public void StopWallRun()
@@ -64,7 +84,8 @@ public class PlayerWallRunning : MonoBehaviour
         if (!_isWallRunning) return;
         _isWallRunning = false;
         _rb.useGravity = true;
-
+        _camera.DoFov(80f);
+        _camera.DoTilt(0f);
     }
 
     private void WallRunningMovement()

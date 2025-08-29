@@ -38,6 +38,9 @@ public class PlayerData : MonoBehaviour
     [SerializeField] private LayerMask _wallLayer;
     [SerializeField] private float _wallRunForce = 10f;
     [SerializeField] private float _maxWallRunTime;
+    [SerializeField] private float _wallJumpUpForce;
+    [SerializeField] private float _wallJumpSideForce;
+    [SerializeField] private float _exitWallTime;
 
     [Header("Detection")]
     [SerializeField] private float _wallCheckDistance;
@@ -69,4 +72,7 @@ public class PlayerData : MonoBehaviour
     public float WallCheckDistance => _wallCheckDistance;
     public float MinJumpHeight => _minJumpHeight;
     public float WallClimbSpeed => _wallClimbSpeed;
+    public float WallJumpUpForce => _wallJumpUpForce;
+    public float WallJumpSideForce => _wallJumpSideForce;
+    public float ExitWallTime => _exitWallTime;
 }

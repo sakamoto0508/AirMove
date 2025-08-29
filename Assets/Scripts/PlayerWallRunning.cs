@@ -18,6 +18,8 @@ public class PlayerWallRunning : MonoBehaviour
     private bool _upwardsRunning;
     private bool _downwardsRunning;
     private float _climbSpeed;
+    private bool _canWallMove;
+    private bool _exitingWall;
 
     private void Start()
     {
@@ -28,7 +30,7 @@ public class PlayerWallRunning : MonoBehaviour
     {
         _upwardsRunning = Input.GetKey(upwardsRunKey);
         _downwardsRunning = Input.GetKey(downwardsRunKey);
-        if ((_wallLeft || _wallRight) && _currentInput.magnitude > 0 && _aboveGround)
+        if (_canWallMove)
         {
             if (!_isWallRunning)
             {
@@ -91,12 +93,12 @@ public class PlayerWallRunning : MonoBehaviour
         }
     }
 
-    public void WallRunningMove(Vector2 input, PlayerData playerData, RaycastHit rightWallHit, RaycastHit leftWallHit)
+    public void WallRunningMove(Vector2 input, PlayerData playerData, RaycastHit wallRightHit, RaycastHit wallLeftHit)
     {
         _currentInput = input;
         _wallRunForce = playerData.WallRunForce;
-        _leftWallHit = leftWallHit;
-        _rightWallHit = rightWallHit;
+        _leftWallHit = wallLeftHit;
+        _rightWallHit = wallRightHit;
         _playerCamera = playerData.MainCamera;
         _climbSpeed = playerData.WallClimbSpeed;
     }
@@ -130,5 +132,15 @@ public class PlayerWallRunning : MonoBehaviour
     {
         _wallLeft = leftWall;
         _wallRight = rightWall;
+    }
+
+    public void SetCanWallMove(bool canWallMove)
+    {
+        _canWallMove = canWallMove;
+    }
+
+    public void SetExitWall(bool exitingWall)
+    {
+        _exitingWall = exitingWall;
     }
 }

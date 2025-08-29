@@ -13,7 +13,6 @@ public class WallCheck : MonoBehaviour
     public bool CheckForRightWall(PlayerData playerData)
     {
         Debug.DrawRay(transform.position, playerData.MainCamera.right * playerData.WallCheckDistance, Color.red);
-
         return Physics.Raycast(transform.position, playerData.MainCamera.right,
             out _wallRightHit, playerData.WallCheckDistance, playerData.WallLayer);
     }
@@ -26,6 +25,7 @@ public class WallCheck : MonoBehaviour
     public bool CheckForLeftWall(PlayerData playerData)
     {
         Debug.DrawRay(transform.position, -playerData.MainCamera.right * playerData.WallCheckDistance, Color.red);
+
         return Physics.Raycast(transform.position, -playerData.MainCamera.right,
             out _wallLeftHit, playerData.WallCheckDistance, playerData.WallLayer);
     }

@@ -43,6 +43,7 @@ public class PlayerSliding : MonoBehaviour
     /// <param name="playerState"></param>
     public void StopSliding(PlayerState playerState = null)
     {
+        if (_isSliding == false) return;
         _isSliding = false;
         _capsuleCollider.height = _startYScale;
     }

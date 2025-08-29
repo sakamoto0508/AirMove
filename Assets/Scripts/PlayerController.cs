@@ -17,9 +17,12 @@ public class PlayerController : MonoBehaviour
     private PlayerSliding _playerSliding;
     private WallCheck _wallCheck;
     private PlayerWallRunning _playerWallRunning;
+    private PlayerWallJumping _playerWallJumping;
+    private WallMoveCheck _wallMoveCheck;
     private Vector2 _currentMoveInput = Vector2.zero;
     public bool _isGrounded { get; private set; } = false;
     public bool _isSlope { get; private set; } = false;
+    public bool _canWallJump { get; private set; } = false;
     public bool _isSliding { get; private set; } = false;
     public bool _isCrouching { get; private set; } = false;
     public bool _isSprint { get; private set; } = false;
@@ -62,6 +65,8 @@ public class PlayerController : MonoBehaviour
         _playerSliding = GetComponent<PlayerSliding>();
         _wallCheck = GetComponent<WallCheck>();
         _playerWallRunning = GetComponent<PlayerWallRunning>();
+        _playerWallJumping = GetComponent<PlayerWallJumping>();
+        _wallMoveCheck = GetComponent<WallMoveCheck>();
     }
 
     private void OnInputMove(InputAction.CallbackContext context)
@@ -76,11 +81,6 @@ public class PlayerController : MonoBehaviour
         else if (context.canceled)
         {
             _currentMoveInput = Vector2.zero;
-            //if (!_playerSliding._isSliding)
-            //{
-            //    _playerMove?.Stop();
-            //    _playerWallRunning?.MoveStop();
-            //}
             _playerMove?.Stop();
             _playerWallRunning?.MoveStop();
         }
@@ -88,7 +88,14 @@ public class PlayerController : MonoBehaviour
 
     private void OnInputJump(InputAction.CallbackContext context)
     {
-        _playerJump?.Jump(_playerData, _isGrounded, _isSlope);
+        if (_isWallRunning && _canWallJump)
+        {
+            _playerWallJumping?.WallJump(_wallCheck.GetLeftWallHit(), _wallCheck.GetRightWallHit(), _playerData);
+        }
+        else
+        {
+            _playerJump?.Jump(_playerData, _isGrounded, _isSlope);
+        }
         if (_playerSliding._isSliding)
         {
             _playerSliding.StopSliding(_playerState);
@@ -145,10 +152,15 @@ public class PlayerController : MonoBehaviour
         _playerSliding?.SetIsSlope(_isSlope);
         _wallRight = _wallCheck.CheckForRightWall(_playerData);
         _wallLeft = _wallCheck.CheckForLeftWall(_playerData);
-        _playerWallRunning.SetWallCheck(_wallLeft,_wallRight);
+        _playerWallRunning.SetWallCheck(_wallLeft, _wallRight);
+        _playerWallJumping.SetWallCheck(_wallLeft, _wallRight);
         _isAboveGround = _wallCheck.AboveGround(_playerData);
         _playerWallRunning.SetAboveGround(_isAboveGround);
         _playerMove?.UpdateSpeed(_playerState, _playerData);
         _playerMove?.SetSlope(_isSlope, _slopeCheck.GetSlopeHit());
+        _canWallJump = _wallMoveCheck.CanWallMove(_wallLeft, _wallRight, _currentMoveInput, _isAboveGround);
+        _playerWallRunning.SetExitWall(_playerWallJumping.ReturnExitingWall());
+        _playerWallRunning.SetCanWallMove(_canWallJump);
+
     }
 }

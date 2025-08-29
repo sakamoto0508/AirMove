@@ -642,7 +642,7 @@ MonoBehaviour:
   _jumpCooldown: 0.25
   _airMultiplier: 0.5
   _crouchHeight: 0.5
-  _maxSlopeAngle: 45
+  _maxSlopeAngle: 80
   _maxSlidingTime: 0.75
   _slidingForce: 30
   _slidingYScale: 0.5

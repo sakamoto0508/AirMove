@@ -5,8 +5,6 @@ public class PlayerSliding : MonoBehaviour
     private CapsuleCollider _capsuleCollider;
     private float _startYScale;
     private float _slideTimer = 0f;
-    private PlayerState.State _previousState;
-    private PlayerState _playerState;
     private bool _isSlope = false;
     public bool _isSliding { get; private set; } = false;
 
@@ -14,7 +12,6 @@ public class PlayerSliding : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody>();
         _capsuleCollider = GetComponent<CapsuleCollider>();
-        _playerState = GetComponent<PlayerState>();
         _startYScale = _capsuleCollider.height;
     }
 
@@ -34,8 +31,6 @@ public class PlayerSliding : MonoBehaviour
     public void StartSliding(PlayerState playerState, PlayerData playerData)
     {
         if (_isSliding) return;
-        _previousState = playerState.CurrentState;
-        //playerState.CurrentState = PlayerState.State.sliding;
         _isSliding = true;
         _capsuleCollider.height = playerData.SlidingYScale;
         _rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
@@ -50,18 +45,6 @@ public class PlayerSliding : MonoBehaviour
     {
         _isSliding = false;
         _capsuleCollider.height = _startYScale;
-        PlayerState targetState = playerState ?? _playerState;
-        if (targetState != null)
-        {
-            if (_previousState == PlayerState.State.sprinting)
-            {
-                targetState.CurrentState = PlayerState.State.sprinting;
-            }
-            else
-            {
-                targetState.CurrentState = PlayerState.State.walking;
-            }
-        }
     }
 
     /// <summary>

@@ -148,11 +148,7 @@ public class PlayerController : MonoBehaviour
         _playerWallRunning.SetWallCheck(_wallLeft,_wallRight);
         _isAboveGround = _wallCheck.AboveGround(_playerData);
         _playerWallRunning.SetAboveGround(_isAboveGround);
-        // スライディング中は通常の移動更新をスキップ
-        if (!_playerSliding._isSliding)
-        {
-            _playerMove?.UpdateSpeed(_playerState, _playerData);
-            _playerMove?.SetSlope(_isSlope, _slopeCheck.GetSlopeHit());
-        }
+        _playerMove?.UpdateSpeed(_playerState, _playerData);
+        _playerMove?.SetSlope(_isSlope, _slopeCheck.GetSlopeHit());
     }
 }

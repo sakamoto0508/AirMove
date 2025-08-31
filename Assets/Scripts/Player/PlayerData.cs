@@ -51,6 +51,7 @@ public class PlayerData : MonoBehaviour
     [SerializeField] private float _wallClimbJumpUpForce;
     [SerializeField] private float _wallClimbJumpBackForce;
     [SerializeField] private float _minWallNormalAngleChange;
+    [SerializeField] private float _exitWallClimbTime;
     [SerializeField] private int _climbJumps;
 
     [Header("Detection")]
@@ -99,4 +100,5 @@ public class PlayerData : MonoBehaviour
     public float WallClimbJumpBackForce => _wallClimbJumpBackForce;
     public int ClimbJumps => _climbJumps;
     public float MinWallNormalAngleChange => _minWallNormalAngleChange;
+    public float ExitWallClimbTime => _exitWallClimbTime;
 }

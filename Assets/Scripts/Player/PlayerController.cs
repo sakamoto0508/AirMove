@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour
     public bool _isGrounded { get; private set; } = false;
     public bool _isSlope { get; private set; } = false;
     public bool _canWallJump { get; private set; } = false;
-    public bool _canWallClimb { get; private set; } = false;    
+    public bool _canWallClimb { get; private set; } = false;
     public bool _canClimbJump { get; private set; } = false;
     public bool _newWall { get; private set; } = false;
     public bool _isSliding { get; private set; } = false;
@@ -34,7 +34,7 @@ public class PlayerController : MonoBehaviour
     public bool _isWallClimbing { get; private set; } = false;
     public bool _wallRight { get; private set; } = false;
     public bool _wallLeft { get; private set; } = false;
-    public bool _wallFront { get; private set; } = false;   
+    public bool _wallFront { get; private set; } = false;
     public bool _isWallRunning { get; private set; } = false;
     public bool _isAboveGround { get; private set; } = false;
 
@@ -80,6 +80,8 @@ public class PlayerController : MonoBehaviour
 
     private void OnInputMove(InputAction.CallbackContext context)
     {
+        if (_playerClimbJumping.ExitingWallClimb)
+            return;
         if (context.performed)
         {
             Vector2 input = context.ReadValue<Vector2>();
@@ -162,7 +164,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        _playerState?.StateMachine(_isWallClimbing,_isWallRunning, _isSliding, _isCrouching, _isGrounded, _isSlope, _isSprint);
+        _playerState?.StateMachine(_isWallClimbing, _isWallRunning, _isSliding, _isCrouching, _isGrounded, _isSlope, _isSprint);
         _isGrounded = _groundCheck.IsGrounded(_playerData);
         _isSlope = _slopeCheck.OnSlope(_playerData);
         _isSliding = _playerSliding.IsSliding();
@@ -181,11 +183,12 @@ public class PlayerController : MonoBehaviour
         _playerMove?.UpdateSpeed(_playerState, _playerData);
         _playerMove?.SetSlope(_isSlope, _slopeCheck.GetSlopeHit());
         _canWallJump = _wallActionChecker.CanWallMove(_wallLeft, _wallRight, _currentMoveInput, _isAboveGround);
-        _canWallClimb = _wallActionChecker.CanWallClimb(_wallFront, _currentMoveInput, _wallCheck.GetWallLookAngle(_playerData,_wallCheck.GetFrontWallHit()));
+        _canWallClimb = _wallActionChecker.CanWallClimb(_wallFront, _currentMoveInput, _wallCheck.GetWallLookAngle(_playerData, _wallCheck.GetFrontWallHit()));
         _playerWallRunning.SetExitWall(_playerWallJumping.ReturnExitingWall());
+        _playerWallClimbing.SetExitingWallClimb(_playerClimbJumping.ReturnExitingWallClimb());
         _playerWallRunning.SetCanWallMove(_canWallJump);
         _playerWallClimbing.SetCanWallClimb(_canWallClimb);
-        _newWall = _wallCheck.CheckNewWall(_wallCheck.GetFrontWallHit(), _playerWallClimbing._lastWall,_playerWallClimbing._lastWallNormal);
-        _playerClimbJumping.ResetClimbJump(_wallFront,_newWall,_isGrounded);
+        _newWall = _wallCheck.CheckNewWall(_wallCheck.GetFrontWallHit(), _playerWallClimbing._lastWall, _playerWallClimbing._lastWallNormal);
+        _playerClimbJumping.ResetClimbJump(_wallFront, _newWall, _isGrounded);
     }
 }

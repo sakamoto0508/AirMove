@@ -8,6 +8,7 @@ public class PlayerWallClimbing : MonoBehaviour
     private float _climbSpeed;
     private bool _wallFront;
     private bool _canWallClimb;
+    private bool _exitingWallClimb;
     private Vector2 _currentInput;
     private Rigidbody _rb;
     private RaycastHit _wallFrontHit;
@@ -24,6 +25,13 @@ public class PlayerWallClimbing : MonoBehaviour
         {
             StartClimbing();
         }
+        else if (_exitingWallClimb)
+        {
+            if (_isClimbing)
+            {
+                StopClimbing();
+            }
+        }
         else
         {
             if (_isClimbing)
@@ -35,7 +43,7 @@ public class PlayerWallClimbing : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (_isClimbing)
+        if (_isClimbing && !_exitingWallClimb)
         {
             ClimbingMovement();
         }
@@ -83,5 +91,9 @@ public class PlayerWallClimbing : MonoBehaviour
     {
         return _isClimbing;
     }
-    
+
+    public void SetExitingWallClimb(bool exitingWallClimb)
+    {
+        _exitingWallClimb = exitingWallClimb;
+    }
 }

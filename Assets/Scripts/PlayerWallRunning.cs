@@ -63,6 +63,9 @@ public class PlayerWallRunning : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 壁走り開始
+    /// </summary>
     public void StartWallRun()
     {
         _isWallRunning = true;
@@ -79,6 +82,9 @@ public class PlayerWallRunning : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 壁走り終了
+    /// </summary>
     public void StopWallRun()
     {
         if (!_isWallRunning) return;
@@ -88,6 +94,9 @@ public class PlayerWallRunning : MonoBehaviour
         _camera.DoTilt(0f);
     }
 
+    /// <summary>
+    /// 壁走り中の動き
+    /// </summary>
     private void WallRunningMovement()
     {
         _rb.useGravity = false;
@@ -114,6 +123,7 @@ public class PlayerWallRunning : MonoBehaviour
         }
     }
 
+
     public void WallRunningMove(Vector2 input, PlayerData playerData, RaycastHit wallRightHit, RaycastHit wallLeftHit)
     {
         _currentInput = input;
@@ -124,6 +134,9 @@ public class PlayerWallRunning : MonoBehaviour
         _climbSpeed = playerData.WallClimbSpeed;
     }
 
+    /// <summary>
+    /// 壁走り停止
+    /// </summary>
     public void MoveStop()
     {
         _currentInput = Vector2.zero;
@@ -134,32 +147,58 @@ public class PlayerWallRunning : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 壁走り中か返す
+    /// </summary>
+    /// <returns></returns>
     public bool IsWallRunning()
     {
         return _isWallRunning;
     }
 
+    /// <summary>
+    /// 地面から離れているか返す
+    /// </summary>
+    /// <param name="playerData"></param>
+    /// <returns></returns>
     public bool AboveGround(PlayerData playerData)
     {
         return !Physics.Raycast(transform.position, Vector3.down, playerData.MinJumpHeight, playerData.GroundLayer);
     }
 
+    /// <summary>
+    /// 地面から離れているかセット
+    /// </summary>
+    /// <param name="aboveGround"></param>
     public void SetAboveGround(bool aboveGround)
     {
         _aboveGround = aboveGround;
     }
 
+    /// <summary>
+    /// 壁の左右の判定をセット
+    /// </summary>
+    /// <param name="leftWall"></param>
+    /// <param name="rightWall"></param>
     public void SetWallCheck(bool leftWall, bool rightWall)
     {
         _wallLeft = leftWall;
         _wallRight = rightWall;
     }
 
+    /// <summary>
+    /// 壁移動が可能かセット
+    /// </summary>
+    /// <param name="canWallMove"></param>
     public void SetCanWallMove(bool canWallMove)
     {
         _canWallMove = canWallMove;
     }
 
+    /// <summary>
+    /// 壁から離れているかセット
+    /// </summary>
+    /// <param name="exitingWall"></param>
     public void SetExitWall(bool exitingWall)
     {
         _exitingWall = exitingWall;

@@ -825,9 +825,10 @@ MonoBehaviour:
   _cameraFOV: 90
   _cameraTiltAngle: 5
   _climbingSpeed: 7
-  _wallClimbJumpUpForce: 14
-  _wallClimbJumpBackForce: 12
+  _wallClimbJumpUpForce: 10
+  _wallClimbJumpBackForce: 10
   _minWallNormalAngleChange: 5
+  _exitWallClimbTime: 0.2
   _climbJumps: 1
   _wallCheckDistance: 0.7
   _minJumpHeight: 2

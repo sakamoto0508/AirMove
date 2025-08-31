@@ -44,10 +44,16 @@ public class PlayerData : MonoBehaviour
     [SerializeField] private float _cameraFOV=90f;
     [SerializeField] private float _cameraTiltAngle=5f;
 
+    [Header("WallClimbing")]
+    [SerializeField] private float _climbingSpeed;
+
     [Header("Detection")]
     [SerializeField] private float _wallCheckDistance;
     [SerializeField] private float _minJumpHeight;
     [SerializeField] private float _wallClimbSpeed = 3f;
+    [SerializeField] private float _detectingDistance;
+    [SerializeField] private float _sphereCastRadius;
+    [SerializeField] private float _maxWallLookAngle;
 
     //“Ç‚ÝŽæ‚èê—p
     public float WalkSpeed => _walkSpeed;
@@ -79,4 +85,8 @@ public class PlayerData : MonoBehaviour
     public float ExitWallTime => _exitWallTime;
     public float CameraFOV => _cameraFOV;
     public float CameraTiltAngle => _cameraTiltAngle;
+    public float ClimbingSpeed => _climbingSpeed;
+    public float DetectingDistance => _detectingDistance;
+    public float SphereCastRadius => _sphereCastRadius;
+    public float MaxWallLookAngle => _maxWallLookAngle;
 }

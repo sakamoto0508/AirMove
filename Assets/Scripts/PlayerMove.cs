@@ -204,6 +204,9 @@ public class PlayerMove : MonoBehaviour
             case PlayerState.State.wallrunning:
                 _desireMoveSpeed = playerData.WallRunningSpeed;
                 break;
+            case PlayerState.State.wallclimbing:
+                _desireMoveSpeed = playerData.ClimbingSpeed;
+                break;
             default:
                 _desireMoveSpeed = playerData.WalkSpeed;
                 break;

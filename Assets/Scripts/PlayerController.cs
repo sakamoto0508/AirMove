@@ -18,16 +18,20 @@ public class PlayerController : MonoBehaviour
     private WallCheck _wallCheck;
     private PlayerWallRunning _playerWallRunning;
     private PlayerWallJumping _playerWallJumping;
-    private WallMoveCheck _wallMoveCheck;
+    private WallActionChecker _wallActionChecker;
+    private PlayerWallClimbing _playerWallClimbing;
     private Vector2 _currentMoveInput = Vector2.zero;
     public bool _isGrounded { get; private set; } = false;
     public bool _isSlope { get; private set; } = false;
     public bool _canWallJump { get; private set; } = false;
+    public bool _canWallClimb { get; private set; } = false;    
     public bool _isSliding { get; private set; } = false;
     public bool _isCrouching { get; private set; } = false;
     public bool _isSprint { get; private set; } = false;
+    public bool _isWallClimbing { get; private set; } = false;
     public bool _wallRight { get; private set; } = false;
     public bool _wallLeft { get; private set; } = false;
+    public bool _wallFront { get; private set; } = false;   
     public bool _isWallRunning { get; private set; } = false;
     public bool _isAboveGround { get; private set; } = false;
 
@@ -66,7 +70,8 @@ public class PlayerController : MonoBehaviour
         _wallCheck = GetComponent<WallCheck>();
         _playerWallRunning = GetComponent<PlayerWallRunning>();
         _playerWallJumping = GetComponent<PlayerWallJumping>();
-        _wallMoveCheck = GetComponent<WallMoveCheck>();
+        _wallActionChecker = GetComponent<WallActionChecker>();
+        _playerWallClimbing = GetComponent<PlayerWallClimbing>();
     }
 
     private void OnInputMove(InputAction.CallbackContext context)
@@ -77,6 +82,7 @@ public class PlayerController : MonoBehaviour
             _currentMoveInput = input;
             _playerMove?.Move(input, _playerData, _isGrounded);
             _playerWallRunning?.WallRunningMove(input, _wallCheck.GetLeftWallHit(), _wallCheck.GetRightWallHit());
+            _playerWallClimbing?.WallClimbingMove(input, _wallCheck.GetFrontWallHit());
         }
         else if (context.canceled)
         {
@@ -139,29 +145,36 @@ public class PlayerController : MonoBehaviour
     {
         RegisterInputAction();
         _playerWallRunning.StartSetVariables(_playerData);
+        _playerWallClimbing.StartSetVariables(_playerData);
+        _wallActionChecker.StartSetVariables(_playerData);
     }
 
     // Update is called once per frame
     void Update()
     {
-        _playerState?.StateMachine(_isWallRunning, _isSliding, _isCrouching, _isGrounded, _isSlope, _isSprint);
+        _playerState?.StateMachine(_isWallClimbing,_isWallRunning, _isSliding, _isCrouching, _isGrounded, _isSlope, _isSprint);
         _isGrounded = _groundCheck.IsGrounded(_playerData);
         _isSlope = _slopeCheck.OnSlope(_playerData);
         _isSliding = _playerSliding.IsSliding();
         _isWallRunning = _playerWallRunning.IsWallRunning();
+        _isWallClimbing = _playerWallClimbing.IsWallClimbing();
         _playerMove?.SetSliding(_playerSliding._isSliding);
         _playerSliding?.SetIsSlope(_isSlope);
         _wallRight = _wallCheck.CheckForRightWall(_playerData);
         _wallLeft = _wallCheck.CheckForLeftWall(_playerData);
+        _wallFront = _wallCheck.CheckForFrontWall(_playerData);
         _playerWallRunning.SetWallCheck(_wallLeft, _wallRight);
         _playerWallJumping.SetWallCheck(_wallLeft, _wallRight);
+        _playerWallClimbing.SetWallCheck(_wallFront);
         _isAboveGround = _wallCheck.AboveGround(_playerData);
         _playerWallRunning.SetAboveGround(_isAboveGround);
         _playerMove?.UpdateSpeed(_playerState, _playerData);
         _playerMove?.SetSlope(_isSlope, _slopeCheck.GetSlopeHit());
-        _canWallJump = _wallMoveCheck.CanWallMove(_wallLeft, _wallRight, _currentMoveInput, _isAboveGround);
+        _canWallJump = _wallActionChecker.CanWallMove(_wallLeft, _wallRight, _currentMoveInput, _isAboveGround);
+        _canWallClimb = _wallActionChecker.CanWallClimb(_wallFront, _currentMoveInput, _wallCheck.GetWallLookAngle(_playerData,_wallCheck.GetFrontWallHit()));
         _playerWallRunning.SetExitWall(_playerWallJumping.ReturnExitingWall());
         _playerWallRunning.SetCanWallMove(_canWallJump);
+        _playerWallClimbing.SetCanWallClimb(_canWallClimb);
 
     }
 }

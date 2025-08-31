@@ -22,7 +22,6 @@ public class PlayerWallRunning : MonoBehaviour
     private bool _canWallMove;
     private bool _exitingWall;
     private WallRunningCamera _wallRunningCamera;
-    private float _smoothCameraTime = 0.2f;
     private float _cameraFOV;
     private float _cameraTiltAngle;
 
@@ -146,17 +145,6 @@ public class PlayerWallRunning : MonoBehaviour
         {
             StopWallRun();
         }
-    }
-
-    private IEnumerator SmoothCameraFov()
-    {
-        yield return null;
-    }
-
-    private IEnumerator SmoothCameraTilt()
-    {
-        Mathf.Lerp(_cameraTiltAngle,_wallRunningCamera._defaultTilt,_smoothCameraTime);
-        yield return null;
     }
 
     /// <summary>

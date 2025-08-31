@@ -41,6 +41,8 @@ public class PlayerData : MonoBehaviour
     [SerializeField] private float _wallJumpUpForce;
     [SerializeField] private float _wallJumpSideForce;
     [SerializeField] private float _exitWallTime;
+    [SerializeField] private float _cameraFOV=90f;
+    [SerializeField] private float _cameraTiltAngle=5f;
 
     [Header("Detection")]
     [SerializeField] private float _wallCheckDistance;
@@ -75,4 +77,6 @@ public class PlayerData : MonoBehaviour
     public float WallJumpUpForce => _wallJumpUpForce;
     public float WallJumpSideForce => _wallJumpSideForce;
     public float ExitWallTime => _exitWallTime;
+    public float CameraFOV => _cameraFOV;
+    public float CameraTiltAngle => _cameraTiltAngle;
 }

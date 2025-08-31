@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Playables;
 
@@ -20,12 +21,15 @@ public class PlayerWallRunning : MonoBehaviour
     private float _climbSpeed;
     private bool _canWallMove;
     private bool _exitingWall;
-    private WallRunningCamera _camera;
+    private WallRunningCamera _wallRunningCamera;
+    private float _smoothCameraTime = 0.2f;
+    private float _cameraFOV;
+    private float _cameraTiltAngle;
 
     private void Start()
     {
         _rb = GetComponent<Rigidbody>();
-        _camera=FindAnyObjectByType<WallRunningCamera>();
+        _wallRunningCamera = FindAnyObjectByType<WallRunningCamera>();
     }
 
     private void Update()
@@ -39,7 +43,7 @@ public class PlayerWallRunning : MonoBehaviour
                 StartWallRun();
             }
         }
-        else if(_exitingWall)
+        else if (_exitingWall)
         {
             if (_isWallRunning)
             {
@@ -69,15 +73,15 @@ public class PlayerWallRunning : MonoBehaviour
     public void StartWallRun()
     {
         _isWallRunning = true;
-        _camera.DoFov(90f);
+        _wallRunningCamera.DoFov(_cameraFOV);
         if (_wallLeft)
         {
-            _camera.DoTilt(-5f);
+            _wallRunningCamera.DoTilt(-_cameraTiltAngle);
             Debug.Log("WallRunLeft");
         }
         else if (_wallRight)
         {
-            _camera.DoTilt(5f);
+            _wallRunningCamera.DoTilt(_cameraTiltAngle);
             Debug.Log("WallRunRight");
         }
     }
@@ -90,8 +94,8 @@ public class PlayerWallRunning : MonoBehaviour
         if (!_isWallRunning) return;
         _isWallRunning = false;
         _rb.useGravity = true;
-        _camera.DoFov(80f);
-        _camera.DoTilt(0f);
+        _wallRunningCamera.DoFov(_wallRunningCamera._defaultFov);
+        _wallRunningCamera.DoTilt(_wallRunningCamera._defaultTilt);
     }
 
     /// <summary>
@@ -124,14 +128,11 @@ public class PlayerWallRunning : MonoBehaviour
     }
 
 
-    public void WallRunningMove(Vector2 input, PlayerData playerData, RaycastHit wallRightHit, RaycastHit wallLeftHit)
+    public void WallRunningMove(Vector2 input, RaycastHit wallRightHit, RaycastHit wallLeftHit)
     {
         _currentInput = input;
-        _wallRunForce = playerData.WallRunForce;
         _leftWallHit = wallLeftHit;
         _rightWallHit = wallRightHit;
-        _playerCamera = playerData.MainCamera;
-        _climbSpeed = playerData.WallClimbSpeed;
     }
 
     /// <summary>
@@ -145,6 +146,17 @@ public class PlayerWallRunning : MonoBehaviour
         {
             StopWallRun();
         }
+    }
+
+    private IEnumerator SmoothCameraFov()
+    {
+        yield return null;
+    }
+
+    private IEnumerator SmoothCameraTilt()
+    {
+        Mathf.Lerp(_cameraTiltAngle,_wallRunningCamera._defaultTilt,_smoothCameraTime);
+        yield return null;
     }
 
     /// <summary>
@@ -202,5 +214,14 @@ public class PlayerWallRunning : MonoBehaviour
     public void SetExitWall(bool exitingWall)
     {
         _exitingWall = exitingWall;
+    }
+
+    public void StartSetVariables(PlayerData playerData)
+    {
+        _cameraFOV = playerData.CameraFOV;
+        _cameraTiltAngle = playerData.CameraTiltAngle;
+        _playerCamera = playerData.MainCamera;
+        _climbSpeed = playerData.WallClimbSpeed;
+        _wallRunForce = playerData.WallRunForce;
     }
 }

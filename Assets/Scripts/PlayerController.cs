@@ -76,7 +76,7 @@ public class PlayerController : MonoBehaviour
             Vector2 input = context.ReadValue<Vector2>();
             _currentMoveInput = input;
             _playerMove?.Move(input, _playerData, _isGrounded);
-            _playerWallRunning?.WallRunningMove(input, _playerData, _wallCheck.GetLeftWallHit(), _wallCheck.GetRightWallHit());
+            _playerWallRunning?.WallRunningMove(input, _wallCheck.GetLeftWallHit(), _wallCheck.GetRightWallHit());
         }
         else if (context.canceled)
         {
@@ -138,6 +138,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         RegisterInputAction();
+        _playerWallRunning.StartSetVariables(_playerData);
     }
 
     // Update is called once per frame

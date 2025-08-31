@@ -1,16 +1,30 @@
 using UnityEngine;
-using DG.Tweening;
 using Unity.Cinemachine;
+using System.Collections;
 
 public class WallRunningCamera : MonoBehaviour
 {
+    private CinemachineCamera _cinemachineCamera;
+    public float _defaultFov { get; private set; } = 80f;
+    public float _defaultTilt { get; private set; } =0f;
+    [SerializeField] private float _smoothCameraTime = 0.1f;
+    private Coroutine _fovCoroutine;
+    private Coroutine _tiltCoroutine;
+    private void Start()
+    {
+        _cinemachineCamera = FindAnyObjectByType<CinemachineCamera>();
+    }
     /// <summary>
     /// ÉJÉÅÉâÇÃFOVÇïœçX
     /// </summary>
     /// <param name="endValue"></param>
-    public void DoFov(float endValue)
+    public void DoFov(float targetFov)
     {
-        FindAnyObjectByType<CinemachineCamera>().Lens.FieldOfView = 60.25f;
+        if (_fovCoroutine != null)
+        {
+            StopCoroutine(_fovCoroutine);
+        }
+        _fovCoroutine = StartCoroutine(SmoothCameraFov(targetFov));
     }
 
     /// <summary>
@@ -19,6 +33,40 @@ public class WallRunningCamera : MonoBehaviour
     /// <param name="zTilt"></param>
     public void DoTilt(float zTilt)
     {
-        FindAnyObjectByType<CinemachineCamera>().Lens.Dutch = zTilt;
+        if (_tiltCoroutine != null)
+        {
+            StopCoroutine(_tiltCoroutine);
+        }
+        _tiltCoroutine = StartCoroutine(SmoothCameraTilt(zTilt));
+    }
+
+    private IEnumerator SmoothCameraFov(float targetFov)
+    {
+        //åªç›ÇÃFOVÇéÊìæ
+        float startFov = _cinemachineCamera.Lens.FieldOfView;
+        float leapTime = 0f;
+        while(leapTime < _smoothCameraTime)
+        {
+            leapTime += Time.deltaTime;
+            _cinemachineCamera.Lens.FieldOfView = Mathf.Lerp(startFov, targetFov, leapTime / _smoothCameraTime);
+            yield return null;
+        }
+        _cinemachineCamera.Lens.FieldOfView = targetFov;
+        _fovCoroutine = null;
+    }
+
+    private IEnumerator SmoothCameraTilt(float zTilt)
+    {
+        //åªç›ÇÃåXÇ´ÇéÊìæ
+        float startTilt =_cinemachineCamera.Lens.Dutch;
+        float learpTime = 0f;
+        while (learpTime < _smoothCameraTime)
+        {
+            learpTime += Time.deltaTime;
+            _cinemachineCamera.Lens.Dutch = Mathf.Lerp(startTilt, zTilt, learpTime / _smoothCameraTime);
+            yield return null;
+        }
+        _cinemachineCamera.Lens.Dutch = zTilt;
+        _tiltCoroutine = null;
     }
 }

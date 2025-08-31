@@ -2,11 +2,12 @@ using UnityEngine;
 
 public class PlayerWallClimbing : MonoBehaviour
 {
-    private float _climbSpeed;
     public bool _isClimbing { get; private set; } = false;
+    public Transform _lastWall { get; private set; }
+    public Vector3 _lastWallNormal { get; private set; }
+    private float _climbSpeed;
     private bool _wallFront;
     private bool _canWallClimb;
-
     private Vector2 _currentInput;
     private Rigidbody _rb;
     private RaycastHit _wallFrontHit;
@@ -43,11 +44,13 @@ public class PlayerWallClimbing : MonoBehaviour
     private void StartClimbing()
     {
         _isClimbing = true;
+        _lastWall = _wallFrontHit.transform;
+        _lastWallNormal = _wallFrontHit.normal;
     }
 
     private void ClimbingMovement()
     {
-        _rb.linearVelocity=new Vector3(_rb.linearVelocity.x, _climbSpeed, _rb.linearVelocity.z);
+        _rb.linearVelocity = new Vector3(_rb.linearVelocity.x, _climbSpeed, _rb.linearVelocity.z);
     }
 
     private void StopClimbing()
@@ -80,4 +83,5 @@ public class PlayerWallClimbing : MonoBehaviour
     {
         return _isClimbing;
     }
+    
 }

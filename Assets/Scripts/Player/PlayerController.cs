@@ -20,11 +20,14 @@ public class PlayerController : MonoBehaviour
     private PlayerWallJumping _playerWallJumping;
     private WallActionChecker _wallActionChecker;
     private PlayerWallClimbing _playerWallClimbing;
+    private PlayerClimbJumping _playerClimbJumping;
     private Vector2 _currentMoveInput = Vector2.zero;
     public bool _isGrounded { get; private set; } = false;
     public bool _isSlope { get; private set; } = false;
     public bool _canWallJump { get; private set; } = false;
     public bool _canWallClimb { get; private set; } = false;    
+    public bool _canClimbJump { get; private set; } = false;
+    public bool _newWall { get; private set; } = false;
     public bool _isSliding { get; private set; } = false;
     public bool _isCrouching { get; private set; } = false;
     public bool _isSprint { get; private set; } = false;
@@ -72,6 +75,7 @@ public class PlayerController : MonoBehaviour
         _playerWallJumping = GetComponent<PlayerWallJumping>();
         _wallActionChecker = GetComponent<WallActionChecker>();
         _playerWallClimbing = GetComponent<PlayerWallClimbing>();
+        _playerClimbJumping = GetComponent<PlayerClimbJumping>();
     }
 
     private void OnInputMove(InputAction.CallbackContext context)
@@ -94,7 +98,11 @@ public class PlayerController : MonoBehaviour
 
     private void OnInputJump(InputAction.CallbackContext context)
     {
-        if (_isWallRunning && _canWallJump)
+        if (_wallFront)
+        {
+            _playerClimbJumping?.ClimbJumping(_wallCheck.GetFrontWallHit());
+        }
+        else if (_isWallRunning && _canWallJump)
         {
             _playerWallJumping?.WallJump(_wallCheck.GetLeftWallHit(), _wallCheck.GetRightWallHit(), _playerData);
         }
@@ -147,6 +155,8 @@ public class PlayerController : MonoBehaviour
         _playerWallRunning.StartSetVariables(_playerData);
         _playerWallClimbing.StartSetVariables(_playerData);
         _wallActionChecker.StartSetVariables(_playerData);
+        _playerClimbJumping.StartSetVariables(_playerData);
+        _wallCheck.StartSetVariables(_playerData);
     }
 
     // Update is called once per frame
@@ -175,6 +185,7 @@ public class PlayerController : MonoBehaviour
         _playerWallRunning.SetExitWall(_playerWallJumping.ReturnExitingWall());
         _playerWallRunning.SetCanWallMove(_canWallJump);
         _playerWallClimbing.SetCanWallClimb(_canWallClimb);
-
+        _newWall = _wallCheck.CheckNewWall(_wallCheck.GetFrontWallHit(), _playerWallClimbing._lastWall,_playerWallClimbing._lastWallNormal);
+        _playerClimbJumping.ResetClimbJump(_wallFront,_newWall,_isGrounded);
     }
 }

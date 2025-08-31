@@ -5,7 +5,7 @@ public class WallCheck : MonoBehaviour
     private RaycastHit _wallRightHit;
     private RaycastHit _wallLeftHit;
     private RaycastHit _wallFrontHit;
-
+    private float _minWallNormalAngleChange;
     /// <summary>
     /// 右側に壁があるか判定
     /// </summary>
@@ -30,6 +30,11 @@ public class WallCheck : MonoBehaviour
             out _wallLeftHit, playerData.WallCheckDistance, playerData.WallLayer);
     }
 
+    /// <summary>
+    /// 前方に壁があるか判定
+    /// </summary>
+    /// <param name="playerData"></param>
+    /// <returns></returns>
     public bool CheckForFrontWall(PlayerData playerData)
     {
         Debug.DrawRay(transform.position, playerData.SphereCastRadius * playerData.MainCamera.forward, Color.red);
@@ -37,9 +42,29 @@ public class WallCheck : MonoBehaviour
             out _wallFrontHit, playerData.DetectingDistance, playerData.WallLayer);
     }
 
-    public float GetWallLookAngle(PlayerData playerData,RaycastHit wallFrontHit)
+    /// <summary>
+    /// 壁を見ている角度を取得
+    /// </summary>
+    /// <param name="playerData"></param>
+    /// <param name="wallFrontHit"></param>
+    /// <returns></returns>
+    public float GetWallLookAngle(PlayerData playerData, RaycastHit wallFrontHit)
     {
         return Vector3.Angle(playerData.MainCamera.forward, -wallFrontHit.normal);
+    }
+
+    /// <summary>
+    /// 新しい壁に触れたか判定
+    /// </summary>
+    /// <param name="wallFrontHit"></param>
+    /// <param name="lastWall"></param>
+    /// <param name="lastWallNormal"></param>
+    /// <param name="minWallNormalAngleChange"></param>
+    /// <returns></returns>
+    public bool CheckNewWall(RaycastHit wallFrontHit, Transform lastWall, Vector3 lastWallNormal)
+    {
+        return wallFrontHit.transform != lastWall ||
+            Mathf.Abs(Vector3.Angle(lastWallNormal, wallFrontHit.normal)) > _minWallNormalAngleChange;
     }
 
     /// <summary>
@@ -78,5 +103,10 @@ public class WallCheck : MonoBehaviour
     public RaycastHit GetFrontWallHit()
     {
         return _wallFrontHit;
+    }
+
+    public void StartSetVariables(PlayerData playerData)
+    {
+        _minWallNormalAngleChange = playerData.MinWallNormalAngleChange;
     }
 }

@@ -49,7 +49,9 @@ public class PlayerData : MonoBehaviour
 
     [Header("WallClimbJumping")]
     [SerializeField] private float _wallClimbJumpUpForce;
-    [SerializeField] private float _wallClimbJumpSideForce;
+    [SerializeField] private float _wallClimbJumpBackForce;
+    [SerializeField] private float _minWallNormalAngleChange;
+    [SerializeField] private int _climbJumps;
 
     [Header("Detection")]
     [SerializeField] private float _wallCheckDistance;
@@ -94,5 +96,7 @@ public class PlayerData : MonoBehaviour
     public float SphereCastRadius => _sphereCastRadius;
     public float MaxWallLookAngle => _maxWallLookAngle;
     public float WallClimbJumpUpForce => _wallClimbJumpUpForce;
-    public float WallClimbJumpSideForce => _wallClimbJumpSideForce;
+    public float WallClimbJumpBackForce => _wallClimbJumpBackForce;
+    public int ClimbJumps => _climbJumps;
+    public float MinWallNormalAngleChange => _minWallNormalAngleChange;
 }

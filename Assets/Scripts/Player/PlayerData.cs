@@ -47,6 +47,10 @@ public class PlayerData : MonoBehaviour
     [Header("WallClimbing")]
     [SerializeField] private float _climbingSpeed;
 
+    [Header("WallClimbJumping")]
+    [SerializeField] private float _wallClimbJumpUpForce;
+    [SerializeField] private float _wallClimbJumpSideForce;
+
     [Header("Detection")]
     [SerializeField] private float _wallCheckDistance;
     [SerializeField] private float _minJumpHeight;
@@ -89,4 +93,6 @@ public class PlayerData : MonoBehaviour
     public float DetectingDistance => _detectingDistance;
     public float SphereCastRadius => _sphereCastRadius;
     public float MaxWallLookAngle => _maxWallLookAngle;
+    public float WallClimbJumpUpForce => _wallClimbJumpUpForce;
+    public float WallClimbJumpSideForce => _wallClimbJumpSideForce;
 }

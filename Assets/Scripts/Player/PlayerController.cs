@@ -21,17 +21,19 @@ public class PlayerController : MonoBehaviour
     private WallActionChecker _wallActionChecker;
     private PlayerWallClimbing _playerWallClimbing;
     private PlayerClimbJumping _playerClimbJumping;
-    private PlayerDashing _playerDashing;   
+    private PlayerDashing _playerDashing;
     private Vector2 _currentMoveInput = Vector2.zero;
     public bool _isGrounded { get; private set; } = false;
     public bool _isSlope { get; private set; } = false;
     public bool _canWallJump { get; private set; } = false;
     public bool _canWallClimb { get; private set; } = false;
     public bool _canClimbJump { get; private set; } = false;
+    public bool _canDash { get; private set; } = true;
     public bool _newWall { get; private set; } = false;
     public bool _isSliding { get; private set; } = false;
     public bool _isCrouching { get; private set; } = false;
     public bool _isSprint { get; private set; } = false;
+    public bool _isDashing { get; private set; } = false;
     public bool _isWallClimbing { get; private set; } = false;
     public bool _wallRight { get; private set; } = false;
     public bool _wallLeft { get; private set; } = false;
@@ -140,7 +142,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnInputSliding(InputAction.CallbackContext context)
     {
-        if(PlayerState.State.air == _playerState.CurrentState)
+        if (PlayerState.State.air == _playerState.CurrentState && _canDash)
         {
             _playerDashing?.Dash(_playerData);
         }
@@ -171,13 +173,15 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        _playerState?.StateMachine(_isWallClimbing, _isWallRunning, _isSliding, _isCrouching, _isGrounded, _isSlope, _isSprint);
+        _playerState?.StateMachine(_isDashing, _isWallClimbing, _isWallRunning, _isSliding, _isCrouching, _isGrounded, _isSlope, _isSprint);
         _isGrounded = _groundCheck.IsGrounded(_playerData);
         _isSlope = _slopeCheck.OnSlope(_playerData);
         _isSliding = _playerSliding.IsSliding();
         _isWallRunning = _playerWallRunning.IsWallRunning();
         _isWallClimbing = _playerWallClimbing.IsWallClimbing();
+        _isDashing = _playerDashing.IsDashing();
         _playerMove?.SetSliding(_playerSliding._isSliding);
+        _playerMove?.SetDashing(_isDashing);
         _playerSliding?.SetIsSlope(_isSlope);
         _wallRight = _wallCheck.CheckForRightWall(_playerData);
         _wallLeft = _wallCheck.CheckForLeftWall(_playerData);
@@ -197,5 +201,7 @@ public class PlayerController : MonoBehaviour
         _playerWallClimbing.SetCanWallClimb(_canWallClimb);
         _newWall = _wallCheck.CheckNewWall(_wallCheck.GetFrontWallHit(), _playerWallClimbing._lastWall, _playerWallClimbing._lastWallNormal);
         _playerClimbJumping.ResetClimbJump(_wallFront, _newWall, _isGrounded);
+        _playerDashing.CanDash(_isGrounded, _isSlope, _newWall);
+        _playerDashing.ReturnCanDash();
     }
 }

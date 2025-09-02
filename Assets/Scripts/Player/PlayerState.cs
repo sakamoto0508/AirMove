@@ -7,6 +7,7 @@ public class PlayerState : MonoBehaviour
     {
         walking,
         sprinting,
+        dashing,
         wallrunning,
         wallclimbing,
         crouching,
@@ -14,19 +15,24 @@ public class PlayerState : MonoBehaviour
         air
     }
 
-    public void StateMachine(bool isWallClimbing, bool isWallRunning,bool isSliding,bool isCrouching,bool isGround,bool isSlope, bool isSprinting)
+    public void StateMachine(bool dashing,bool isWallClimbing, bool isWallRunning,bool isSliding,bool isCrouching,bool isGround,bool isSlope, bool isSprinting)
     {
-        if(isWallClimbing)
+        if (dashing)
+        {
+            CurrentState = State.dashing;
+            return;
+        }
+        else if (isWallClimbing)
         {
             CurrentState = State.wallclimbing;
             return;
         }
-        if (isWallRunning)
+        else if (isWallRunning)
         {
             CurrentState = State.wallrunning;
             return;
         }
-        if (isSliding)
+        else if (isSliding)
         {
             CurrentState = State.sliding;
         }

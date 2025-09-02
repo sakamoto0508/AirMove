@@ -6,17 +6,9 @@ using UnityEngine.EventSystems;
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerMove : MonoBehaviour
 {
-    private Rigidbody _rb;
-    private Vector2 _currentInput;
     private float _currentSpeed;
-    private Transform _playerCamera;
-    private bool _isGrounded;
-    private bool _isSlope;
     private float _groundDrag;
     private float _airMultiplier;
-    private Vector3 _moveDirection;
-    private RaycastHit _slopeHit;
-    private bool _isSliding = false;
     private float _slidingForce;
     //à⁄ìÆë¨ìxÇÃí≤êÆ
     private float _desireMoveSpeed;
@@ -24,6 +16,15 @@ public class PlayerMove : MonoBehaviour
     private float _lastDesiredMoveSpeed;
     private float _speedIncreaseMultiplier = 1.5f;
     private float _slopeIncreaseMultiplier = 2.5f;
+    private bool _isGrounded;
+    private bool _isSlope;
+    private bool _isSliding = false;
+    private bool _isDashing = false;
+    private Rigidbody _rb;
+    private Vector2 _currentInput;
+    private Transform _playerCamera;
+    private Vector3 _moveDirection;
+    private RaycastHit _slopeHit;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -40,6 +41,10 @@ public class PlayerMove : MonoBehaviour
         if (_isSliding)
         {
             SlidingMovement();
+        }
+        if (_isDashing)
+        {
+            return;
         }
         else if (_isSlope)
         {
@@ -207,6 +212,9 @@ public class PlayerMove : MonoBehaviour
             case PlayerState.State.wallclimbing:
                 _desireMoveSpeed = playerData.ClimbingSpeed;
                 break;
+            case PlayerState.State.dashing:
+                _desireMoveSpeed = playerData.DashSpeed;
+                break;
             default:
                 _desireMoveSpeed = playerData.WalkSpeed;
                 break;
@@ -268,6 +276,11 @@ public class PlayerMove : MonoBehaviour
     public void SetSliding(bool isSliding)
     {
         _isSliding = isSliding;
+    }
+
+    public void SetDashing(bool isDashing)
+    {
+        _isDashing = isDashing;
     }
 
     /// <summary>

@@ -140,7 +140,11 @@ public class PlayerController : MonoBehaviour
 
     private void OnInputSliding(InputAction.CallbackContext context)
     {
-        if (_playerSliding._isSliding)
+        if(PlayerState.State.air == _playerState.CurrentState)
+        {
+            _playerDashing?.Dash(_playerData);
+        }
+        else if (_playerSliding._isSliding)
         {
             _playerSliding.StopSliding(_playerState);
         }

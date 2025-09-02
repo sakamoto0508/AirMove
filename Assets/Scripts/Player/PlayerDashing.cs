@@ -4,6 +4,9 @@ public class PlayerDashing : MonoBehaviour
 {
     public bool _isDashing { get; private set; } = false;
     public bool _canDash { get; private set; } = true;
+    public bool _useCameraForward = true;
+    public bool _allowAllDirection = false;
+    public bool _resetVel = true;
     private float _dashForce;
     private float _dashUpForce;
     private float _dashDuration;
@@ -11,7 +14,11 @@ public class PlayerDashing : MonoBehaviour
     private float _dashCooldown;
     private float _dashCooldownTimer;
     private Rigidbody _rb;
+    private Transform _playerCamera;
     private Vector3 _delayedForceToApply;
+    private Vector3 _moveDirection;
+    private Vector2 _currentInput;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -27,6 +34,15 @@ public class PlayerDashing : MonoBehaviour
         }
     }
 
+    private void FixedUpdate()
+    {
+        if (_playerCamera != null)
+        {
+            _moveDirection = _playerCamera.forward * _currentInput.y + _playerCamera.right * _currentInput.x;
+
+        }
+    }
+
     public void Dash(PlayerData playerData)
     {
         if (_dashCooldownTimer > 0)
@@ -37,9 +53,18 @@ public class PlayerDashing : MonoBehaviour
         {
             _dashCooldownTimer = _dashCooldown;
         }
-        _canDash = false;  
+        _canDash = false;
         _isDashing = true;
-        Vector3 forceToApply = playerData.MainCamera.forward * _dashForce + playerData.MainCamera.up * _dashUpForce;
+        Vector3 dashDirection;
+        if (_currentInput.magnitude > 0.1f)
+        {
+            dashDirection = _moveDirection.normalized;
+        }
+        else
+        {
+            dashDirection = _useCameraForward ? _playerCamera.forward : transform.forward;
+        }
+        Vector3 forceToApply = dashDirection * _dashForce + playerData.MainCamera.up * _dashUpForce;
         _delayedForceToApply = forceToApply;
         Invoke(nameof(DelayedDashForced), 0.02f);
         Invoke(nameof(ResetDush), _dashDuration);
@@ -63,6 +88,17 @@ public class PlayerDashing : MonoBehaviour
         }
     }
 
+    public void SetMoveInput(Vector2 input, PlayerData playerData)
+    {
+        _currentInput = input;
+        _playerCamera = playerData.MainCamera;
+    }
+
+    public void MoveDirectionStop()
+    {
+        _currentInput = Vector2.zero;
+    }
+
     public void StartSetVariables(PlayerData playerData)
     {
         _dashForce = playerData.DashForce;
@@ -70,6 +106,7 @@ public class PlayerDashing : MonoBehaviour
         _dashDuration = playerData.DashDuration;
         _dashSpeed = playerData.DashSpeed;
         _dashCooldown = playerData.DashCooldown;
+        _playerCamera = playerData.MainCamera;
     }
 
     public bool IsDashing()
@@ -80,5 +117,5 @@ public class PlayerDashing : MonoBehaviour
     public bool ReturnCanDash()
     {
         return _canDash;
-    }   
+    }
 }

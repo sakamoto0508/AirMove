@@ -93,12 +93,14 @@ public class PlayerController : MonoBehaviour
             _playerMove?.Move(input, _playerData);
             _playerWallRunning?.WallRunningMove(input, _wallCheck.GetLeftWallHit(), _wallCheck.GetRightWallHit());
             _playerWallClimbing?.WallClimbingMove(input, _wallCheck.GetFrontWallHit());
+            _playerDashing?.SetMoveInput(input,_playerData);
         }
         else if (context.canceled)
         {
             _currentMoveInput = Vector2.zero;
             _playerMove?.Stop();
             _playerWallRunning?.MoveStop();
+            _playerDashing?.MoveDirectionStop();
         }
     }
 

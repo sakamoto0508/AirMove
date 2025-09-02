@@ -102,7 +102,7 @@ public class PlayerMove : MonoBehaviour
     private void GroundMove()
     {
         _rb.AddForce(_moveDirection.normalized * _currentSpeed * 10f, ForceMode.Force);
-        GroundDamping();
+        Damping();
     }
 
     /// <summary>
@@ -116,7 +116,7 @@ public class PlayerMove : MonoBehaviour
     /// <summary>
     /// ínè„Ç…Ç¢ÇÈÇ∆Ç´ÇÃå∏êä
     /// </summary>
-    private void GroundDamping()
+    private void Damping()
     {
         if (_isGrounded)
         {
@@ -157,14 +157,10 @@ public class PlayerMove : MonoBehaviour
     /// <param name="input"></param>
     /// <param name="playerData"></param>
     /// <param name="isGround"></param>
-    public void Move(Vector2 input, PlayerData playerData, bool isGround)
+    public void Move(Vector2 input, PlayerData playerData)
     {
         _currentInput = input;
         _playerCamera = playerData.MainCamera;
-        _groundDrag = playerData.GroundDrag;
-        _isGrounded = isGround;
-        _airMultiplier = playerData.AirMultiplier;
-        _slidingForce = playerData.SlidingForce;
     }
 
     /// <summary>
@@ -281,6 +277,19 @@ public class PlayerMove : MonoBehaviour
     public void SetDashing(bool isDashing)
     {
         _isDashing = isDashing;
+    }
+
+    public void SetGrounded(bool isGrounded)
+    {
+        _isGrounded = isGrounded;
+    }
+
+    public void StartSetVariables(PlayerData playerData)
+    {
+        _groundDrag = playerData.GroundDrag;
+        _airMultiplier = playerData.AirMultiplier;
+        _slidingForce = playerData.SlidingForce;
+        _playerCamera = playerData.MainCamera;
     }
 
     /// <summary>

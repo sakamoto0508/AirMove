@@ -801,6 +801,7 @@ MonoBehaviour:
   _crouchSpeed: 5
   _slidingSpeed: 30
   _wallRunningSpeed: 8.5
+  _dashSpeed: 20
   _groundDrag: 1
   _playerHeight: 2
   _groundLayer:
@@ -823,7 +824,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   _wallRunForce: 30
-  _maxWallRunTime: 0
   _wallJumpUpForce: 5
   _wallJumpSideForce: 20
   _exitWallTime: 0.2

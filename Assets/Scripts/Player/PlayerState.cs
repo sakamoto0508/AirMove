@@ -15,9 +15,9 @@ public class PlayerState : MonoBehaviour
         air
     }
 
-    public void StateMachine(bool dashing,bool isWallClimbing, bool isWallRunning,bool isSliding,bool isCrouching,bool isGround,bool isSlope, bool isSprinting)
+    public void StateMachine(bool isDashing,bool isWallClimbing, bool isWallRunning,bool isSliding,bool isCrouching,bool isGround,bool isSlope, bool isSprinting)
     {
-        if (dashing)
+        if (isDashing)
         {
             CurrentState = State.dashing;
             return;

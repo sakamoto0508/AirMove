@@ -90,7 +90,7 @@ public class PlayerController : MonoBehaviour
         {
             Vector2 input = context.ReadValue<Vector2>();
             _currentMoveInput = input;
-            _playerMove?.Move(input, _playerData, _isGrounded);
+            _playerMove?.Move(input, _playerData);
             _playerWallRunning?.WallRunningMove(input, _wallCheck.GetLeftWallHit(), _wallCheck.GetRightWallHit());
             _playerWallClimbing?.WallClimbingMove(input, _wallCheck.GetFrontWallHit());
         }
@@ -162,12 +162,13 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         RegisterInputAction();
-        _playerWallRunning.StartSetVariables(_playerData);
-        _playerWallClimbing.StartSetVariables(_playerData);
-        _wallActionChecker.StartSetVariables(_playerData);
-        _playerClimbJumping.StartSetVariables(_playerData);
-        _wallCheck.StartSetVariables(_playerData);
-        _playerDashing.StartSetVariables(_playerData);
+        _playerMove?.StartSetVariables(_playerData);
+        _playerWallRunning?.StartSetVariables(_playerData);
+        _playerWallClimbing?.StartSetVariables(_playerData);
+        _wallActionChecker?.StartSetVariables(_playerData);
+        _playerClimbJumping?.StartSetVariables(_playerData);
+        _wallCheck?.StartSetVariables(_playerData);
+        _playerDashing?.StartSetVariables(_playerData);
     }
 
     // Update is called once per frame
@@ -180,6 +181,7 @@ public class PlayerController : MonoBehaviour
         _isWallRunning = _playerWallRunning.IsWallRunning();
         _isWallClimbing = _playerWallClimbing.IsWallClimbing();
         _isDashing = _playerDashing.IsDashing();
+        _playerMove?.SetGrounded(_isGrounded);
         _playerMove?.SetSliding(_playerSliding._isSliding);
         _playerMove?.SetDashing(_isDashing);
         _playerSliding?.SetIsSlope(_isSlope);
@@ -202,6 +204,6 @@ public class PlayerController : MonoBehaviour
         _newWall = _wallCheck.CheckNewWall(_wallCheck.GetFrontWallHit(), _playerWallClimbing._lastWall, _playerWallClimbing._lastWallNormal);
         _playerClimbJumping.ResetClimbJump(_wallFront, _newWall, _isGrounded);
         _playerDashing.CanDash(_isGrounded, _isSlope, _newWall);
-        _playerDashing.ReturnCanDash();
+        _canDash = _playerDashing.ReturnCanDash();
     }
 }

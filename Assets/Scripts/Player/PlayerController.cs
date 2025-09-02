@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour
     private WallActionChecker _wallActionChecker;
     private PlayerWallClimbing _playerWallClimbing;
     private PlayerClimbJumping _playerClimbJumping;
+    private PlayerDashing _playerDashing;   
     private Vector2 _currentMoveInput = Vector2.zero;
     public bool _isGrounded { get; private set; } = false;
     public bool _isSlope { get; private set; } = false;
@@ -76,6 +77,7 @@ public class PlayerController : MonoBehaviour
         _wallActionChecker = GetComponent<WallActionChecker>();
         _playerWallClimbing = GetComponent<PlayerWallClimbing>();
         _playerClimbJumping = GetComponent<PlayerClimbJumping>();
+        _playerDashing = GetComponent<PlayerDashing>();
     }
 
     private void OnInputMove(InputAction.CallbackContext context)
@@ -159,6 +161,7 @@ public class PlayerController : MonoBehaviour
         _wallActionChecker.StartSetVariables(_playerData);
         _playerClimbJumping.StartSetVariables(_playerData);
         _wallCheck.StartSetVariables(_playerData);
+        _playerDashing.StartSetVariables(_playerData);
     }
 
     // Update is called once per frame

@@ -42,7 +42,7 @@ public class PlayerMove : MonoBehaviour
         {
             SlidingMovement();
         }
-        if (_isDashing)
+        else if (_isDashing)
         {
             return;
         }

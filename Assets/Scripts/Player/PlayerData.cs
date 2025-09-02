@@ -34,6 +34,12 @@ public class PlayerData : MonoBehaviour
     [SerializeField] private float _slidingForce = 10f;
     [SerializeField] private float _slidingYScale = 0.5f;
 
+    [Header("Dashing")]
+    [SerializeField] private float _dashForce;
+    [SerializeField] private float _dashUpForce;
+    [SerializeField] private float _dashDuration;
+    [SerializeField] private float _dashCooldown;
+
     [Header("WallRunning")]
     [SerializeField] private LayerMask _wallLayer;
     [SerializeField] private float _wallRunForce = 10f;
@@ -101,4 +107,8 @@ public class PlayerData : MonoBehaviour
     public int ClimbJumps => _climbJumps;
     public float MinWallNormalAngleChange => _minWallNormalAngleChange;
     public float ExitWallClimbTime => _exitWallClimbTime;
+    public float DashForce => _dashForce;
+    public float DashUpForce => _dashUpForce;
+    public float DashDuration => _dashDuration;
+    public float DashCooldown => _dashCooldown;
 }

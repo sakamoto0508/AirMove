@@ -1980,7 +1980,7 @@ GameObject:
   - component: {fileID: 7684047810829590545}
   - component: {fileID: 1929130802466327930}
   m_Layer: 0
-  m_Name: Hands_Sniper_Rifle
+  m_Name: Gun2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -21,7 +21,14 @@ public class PlayerFire : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+       //Debug.DrawRay(_firePosition.position, _firePosition.forward * _fireRange, Color.red);
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (_firePosition == null) return;
+        Gizmos.color = Color.red;
+        Gizmos.DrawRay(_firePosition.position, _firePosition.forward * _fireRange);
     }
 
     public void Fire(PlayerData playerData)

@@ -181,6 +181,7 @@ public class PlayerController : MonoBehaviour
         _playerClimbJumping?.StartSetVariables(_playerData);
         _wallCheck?.StartSetVariables(_playerData);
         _playerDashing?.StartSetVariables(_playerData);
+        _playerFire?.StartSetVariables(_playerData);
     }
 
     // Update is called once per frame

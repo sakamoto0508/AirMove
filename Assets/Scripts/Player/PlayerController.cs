@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour
     private PlayerClimbJumping _playerClimbJumping;
     private PlayerDashing _playerDashing;
     private PlayerFire _playerFire;
+    private PlayerPeek _playerPeek;
     private Vector2 _currentMoveInput = Vector2.zero;
     public bool _isGrounded { get; private set; } = false;
     public bool _isSlope { get; private set; } = false;
@@ -36,6 +37,7 @@ public class PlayerController : MonoBehaviour
     public bool _isSprint { get; private set; } = false;
     public bool _isDashing { get; private set; } = false;
     public bool _isWallClimbing { get; private set; } = false;
+    public bool _isPeeking { get; private set; } = false;
     public bool _wallRight { get; private set; } = false;
     public bool _wallLeft { get; private set; } = false;
     public bool _wallFront { get; private set; } = false;
@@ -88,6 +90,7 @@ public class PlayerController : MonoBehaviour
         _playerClimbJumping = GetComponent<PlayerClimbJumping>();
         _playerDashing = GetComponent<PlayerDashing>();
         _playerFire = GetComponent<PlayerFire>();
+        _playerPeek = GetComponent<PlayerPeek>();
     }
 
     private void OnInputMove(InputAction.CallbackContext context)
@@ -178,11 +181,11 @@ public class PlayerController : MonoBehaviour
     {
         if(context.started)
         {
-            
+            _playerPeek?.StartPeek();
         }
         else if (context.canceled)
         {
-            
+            _playerPeek?.StopPeek();
         }
     }
 

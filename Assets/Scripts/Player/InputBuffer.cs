@@ -10,6 +10,7 @@ public class InputBuffer : MonoBehaviour
     private const string SPRINT_ACTION = "Sprint";
     private const string CROUCH_ACTION = "Crouch";
     private const string SLIDING_ACTION = "Sliding";
+    private const string ATTACK_ACTION = "Attack";
 
     public InputAction MoveAction => _moveAction;
     public InputAction LookAction => _lookAction;
@@ -17,6 +18,7 @@ public class InputBuffer : MonoBehaviour
     public InputAction SprintAction => _sprintAction;
     public InputAction CrouchAction => _crouchAction;
     public InputAction SlidingAction => _slidingAction;
+    public InputAction AttackAction => _attackAction;
 
     private InputAction _moveAction;
     private InputAction _lookAction;
@@ -24,6 +26,7 @@ public class InputBuffer : MonoBehaviour
     private InputAction _sprintAction;
     private InputAction _crouchAction;
     private InputAction _slidingAction;
+    private InputAction _attackAction;
 
     private void Awake()
     {
@@ -35,6 +38,7 @@ public class InputBuffer : MonoBehaviour
             _sprintAction = playerInput.actions[SPRINT_ACTION];
             _crouchAction = playerInput.actions[CROUCH_ACTION];
             _slidingAction = playerInput.actions[SLIDING_ACTION];
+            _attackAction = playerInput.actions[ATTACK_ACTION];
         }
     }
 }

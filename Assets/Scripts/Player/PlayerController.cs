@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour
     private PlayerWallClimbing _playerWallClimbing;
     private PlayerClimbJumping _playerClimbJumping;
     private PlayerDashing _playerDashing;
+    private PlayerFire _playerFire;
     private Vector2 _currentMoveInput = Vector2.zero;
     public bool _isGrounded { get; private set; } = false;
     public bool _isSlope { get; private set; } = false;
@@ -49,6 +50,7 @@ public class PlayerController : MonoBehaviour
         _inputBuffer.SprintAction.started += OnInputSprint;
         _inputBuffer.CrouchAction.started += OnInputCrouch;
         _inputBuffer.SlidingAction.started += OnInputSliding;
+        _inputBuffer.AttackAction.started += OnInputAttack;
     }
 
     private void OnDestroy()
@@ -59,6 +61,7 @@ public class PlayerController : MonoBehaviour
         _inputBuffer.SprintAction.started -= OnInputSprint;
         _inputBuffer.CrouchAction.started -= OnInputCrouch;
         _inputBuffer.SlidingAction.started -= OnInputSliding;
+        _inputBuffer.AttackAction.started -= OnInputAttack;
     }
 
     private void Awake()
@@ -80,6 +83,7 @@ public class PlayerController : MonoBehaviour
         _playerWallClimbing = GetComponent<PlayerWallClimbing>();
         _playerClimbJumping = GetComponent<PlayerClimbJumping>();
         _playerDashing = GetComponent<PlayerDashing>();
+        _playerFire = GetComponent<PlayerFire>();
     }
 
     private void OnInputMove(InputAction.CallbackContext context)
@@ -160,6 +164,12 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+
+    private void OnInputAttack(InputAction.CallbackContext context)
+    {
+
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {

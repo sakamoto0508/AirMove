@@ -2,55 +2,55 @@ using UnityEngine;
 
 public class PlayerState : MonoBehaviour
 {
-    public State CurrentState = State.walking;
+    public State CurrentState = State.Walking;
     public enum State
     {
-        walking,
-        sprinting,
-        dashing,
-        wallrunning,
-        wallclimbing,
-        crouching,
-        sliding,
-        air
+        Walking,
+        Sprinting,
+        Dashing,
+        Wallrunning,
+        Wallclimbing,
+        Crouching,
+        Sliding,
+        Air
     }
 
     public void StateMachine(bool isDashing,bool isWallClimbing, bool isWallRunning,bool isSliding,bool isCrouching,bool isGround,bool isSlope, bool isSprinting)
     {
         if (isDashing)
         {
-            CurrentState = State.dashing;
+            CurrentState = State.Dashing;
             return;
         }
         else if (isWallClimbing)
         {
-            CurrentState = State.wallclimbing;
+            CurrentState = State.Wallclimbing;
             return;
         }
         else if (isWallRunning)
         {
-            CurrentState = State.wallrunning;
+            CurrentState = State.Wallrunning;
             return;
         }
         else if (isSliding)
         {
-            CurrentState = State.sliding;
+            CurrentState = State.Sliding;
         }
         else if (isCrouching)
         {
-            CurrentState = State.crouching;
+            CurrentState = State.Crouching;
         }
         else if ((isGround||isSlope) && isSprinting)
         {
-            CurrentState = State.sprinting;
+            CurrentState = State.Sprinting;
         }
         else if ((isGround||isSlope) && !isSprinting)
         {
-            CurrentState = State.walking;
+            CurrentState = State.Walking;
         }
         else
         {
-            CurrentState = State.air;
+            CurrentState = State.Air;
         }
     }
 }

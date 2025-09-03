@@ -14,7 +14,7 @@ public class PlayerCrouch : MonoBehaviour
 
     public void Crouch(PlayerState playerState, PlayerData playerData)
     {
-        if (playerState.CurrentState == PlayerState.State.crouching)
+        if (playerState.CurrentState == PlayerState.State.Crouching)
         {
             _isCrouching = false;
             //playerState.CurrentState = PlayerState.State.walking;

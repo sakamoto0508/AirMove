@@ -73,8 +73,8 @@ public class PlayerSliding : MonoBehaviour
     /// <returns></returns>
     public bool CanStartSliding(PlayerState playerState, bool isGround, bool isSlope, Vector2 currentInput)
     {
-        return (playerState.CurrentState == PlayerState.State.walking ||
-               playerState.CurrentState == PlayerState.State.sprinting) &&
+        return (playerState.CurrentState == PlayerState.State.Walking ||
+               playerState.CurrentState == PlayerState.State.Sprinting) &&
                (isGround || isSlope) &&
                currentInput.magnitude > 0.1f &&
                !_isSliding;

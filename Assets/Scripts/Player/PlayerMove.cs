@@ -183,16 +183,16 @@ public class PlayerMove : MonoBehaviour
 
         switch (playerState.CurrentState)
         {
-            case PlayerState.State.walking:
+            case PlayerState.State.Walking:
                 _desireMoveSpeed = playerData.WalkSpeed;
                 break;
-            case PlayerState.State.sprinting:
+            case PlayerState.State.Sprinting:
                 _desireMoveSpeed = playerData.SprintSpeed;
                 break;
-            case PlayerState.State.crouching:
+            case PlayerState.State.Crouching:
                 _desireMoveSpeed = playerData.CrouchSpeed;
                 break;
-            case PlayerState.State.sliding:
+            case PlayerState.State.Sliding:
                 if (_isSlope && _rb.angularVelocity.y < 0.1f)
                 {
                     _desireMoveSpeed = playerData.SlidingSpeed;
@@ -202,13 +202,13 @@ public class PlayerMove : MonoBehaviour
                     _desireMoveSpeed = playerData.SprintSpeed;
                 }
                 break;
-            case PlayerState.State.wallrunning:
+            case PlayerState.State.Wallrunning:
                 _desireMoveSpeed = playerData.WallRunningSpeed;
                 break;
-            case PlayerState.State.wallclimbing:
+            case PlayerState.State.Wallclimbing:
                 _desireMoveSpeed = playerData.ClimbingSpeed;
                 break;
-            case PlayerState.State.dashing:
+            case PlayerState.State.Dashing:
                 _desireMoveSpeed = playerData.DashSpeed;
                 break;
             default:

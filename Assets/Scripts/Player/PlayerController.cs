@@ -155,7 +155,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnInputSliding(InputAction.CallbackContext context)
     {
-        if (PlayerState.State.air == _playerState.CurrentState && _canDash)
+        if (PlayerState.State.Air == _playerState.CurrentState && _canDash)
         {
             _playerDashing?.Dash(_playerData);
         }

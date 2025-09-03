@@ -5,11 +5,11 @@ using System.Collections;
 public class CameraManager : MonoBehaviour
 {
     private CinemachineCamera _cinemachineCamera;
+    private Coroutine _fovCoroutine;
+    private Coroutine _tiltCoroutine;
     public float _defaultFov { get; private set; } = 80f;
     public float _defaultTilt { get; private set; } =0f;
     [SerializeField] private float _smoothCameraTime = 0.1f;
-    private Coroutine _fovCoroutine;
-    private Coroutine _tiltCoroutine;
     private void Start()
     {
         _cinemachineCamera = FindAnyObjectByType<CinemachineCamera>();

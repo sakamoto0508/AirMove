@@ -2,7 +2,7 @@ using UnityEngine;
 using Unity.Cinemachine;
 using System.Collections;
 
-public class WallRunningCamera : MonoBehaviour
+public class CameraManager : MonoBehaviour
 {
     private CinemachineCamera _cinemachineCamera;
     public float _defaultFov { get; private set; } = 80f;

@@ -40,6 +40,7 @@ public class PlayerData : MonoBehaviour
     [SerializeField] private float _dashUpForce;
     [SerializeField] private float _dashDuration;
     [SerializeField] private float _dashCooldown;
+    [SerializeField] private float _dashFOV = 90f;
     
     [Header("WallRunning")]
     [SerializeField] private LayerMask _wallLayer;
@@ -111,4 +112,5 @@ public class PlayerData : MonoBehaviour
     public float DashDuration => _dashDuration;
     public float DashCooldown => _dashCooldown;
     public float DashSpeed => _dashSpeed;
+    public float DashFOV => _dashFOV;
 }

@@ -21,14 +21,14 @@ public class PlayerWallRunning : MonoBehaviour
     private float _climbSpeed;
     private bool _canWallMove;
     private bool _exitingWall;
-    private WallRunningCamera _wallRunningCamera;
+    private CameraManager _wallRunningCamera;
     private float _cameraFOV;
     private float _cameraTiltAngle;
 
     private void Start()
     {
         _rb = GetComponent<Rigidbody>();
-        _wallRunningCamera = FindAnyObjectByType<WallRunningCamera>();
+        _wallRunningCamera = FindAnyObjectByType<CameraManager>();
     }
 
     private void Update()
@@ -76,12 +76,10 @@ public class PlayerWallRunning : MonoBehaviour
         if (_wallLeft)
         {
             _wallRunningCamera.DoTilt(-_cameraTiltAngle);
-            Debug.Log("WallRunLeft");
         }
         else if (_wallRight)
         {
             _wallRunningCamera.DoTilt(_cameraTiltAngle);
-            Debug.Log("WallRunRight");
         }
     }
 

@@ -13,16 +13,19 @@ public class PlayerDashing : MonoBehaviour
     private float _dashSpeed;
     private float _dashCooldown;
     private float _dashCooldownTimer;
+    private float _dashFOV;
     private Rigidbody _rb;
     private Transform _playerCamera;
     private Vector3 _delayedForceToApply;
     private Vector3 _moveDirection;
     private Vector2 _currentInput;
+    private CameraManager _cameraManager;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         _rb = GetComponent<Rigidbody>();
+        _cameraManager = FindAnyObjectByType<CameraManager>();
     }
 
     // Update is called once per frame
@@ -39,7 +42,6 @@ public class PlayerDashing : MonoBehaviour
         if (_playerCamera != null)
         {
             _moveDirection = _playerCamera.forward * _currentInput.y + _playerCamera.right * _currentInput.x;
-
         }
     }
 
@@ -55,6 +57,7 @@ public class PlayerDashing : MonoBehaviour
         }
         _canDash = false;
         _isDashing = true;
+        _cameraManager.DoFov(_dashFOV);
         Vector3 dashDirection;
         if (_currentInput.magnitude > 0.1f)
         {
@@ -78,6 +81,7 @@ public class PlayerDashing : MonoBehaviour
     private void ResetDush()
     {
         _isDashing = false;
+        _cameraManager.DoFov(_cameraManager._defaultFov);
     }
 
     public void CanDash(bool isGrounded, bool isSlope, bool newWall)
@@ -107,6 +111,7 @@ public class PlayerDashing : MonoBehaviour
         _dashSpeed = playerData.DashSpeed;
         _dashCooldown = playerData.DashCooldown;
         _playerCamera = playerData.MainCamera;
+        _dashFOV = playerData.DashFOV;
     }
 
     public bool IsDashing()

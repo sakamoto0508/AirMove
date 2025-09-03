@@ -167,7 +167,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnInputAttack(InputAction.CallbackContext context)
     {
-
+        _playerFire?.Fire(_playerData);
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created

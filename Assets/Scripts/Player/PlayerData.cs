@@ -72,7 +72,9 @@ public class PlayerData : MonoBehaviour
     [Header("Fire")]
     [SerializeField] private float _fireRate = 0.1f;
     [SerializeField] private float _reloadTime = 1f;
+    [SerializeField] private float _fireRange = 100f;
     [SerializeField] private int _magazineSize = 3;
+    [SerializeField] private Transform _firePosition;
 
     //“Ç‚ÝŽæ‚èê—p
     public float WalkSpeed => _walkSpeed;
@@ -120,5 +122,7 @@ public class PlayerData : MonoBehaviour
     public float DashFOV => _dashFOV;
     public float FireRate => _fireRate;
     public float ReloadTime => _reloadTime;
+    public float FireRange => _fireRange;
     public int MagazineSize => _magazineSize;
+    public Transform FirePosition => _firePosition;
 }

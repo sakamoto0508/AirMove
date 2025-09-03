@@ -51,6 +51,8 @@ public class PlayerController : MonoBehaviour
         _inputBuffer.CrouchAction.started += OnInputCrouch;
         _inputBuffer.SlidingAction.started += OnInputSliding;
         _inputBuffer.AttackAction.started += OnInputAttack;
+        _inputBuffer.PeekAction.started += OnInputPeek;
+        _inputBuffer.PeekAction.canceled += OnInputPeek;
     }
 
     private void OnDestroy()
@@ -62,6 +64,8 @@ public class PlayerController : MonoBehaviour
         _inputBuffer.CrouchAction.started -= OnInputCrouch;
         _inputBuffer.SlidingAction.started -= OnInputSliding;
         _inputBuffer.AttackAction.started -= OnInputAttack;
+        _inputBuffer.PeekAction.started -= OnInputPeek;
+        _inputBuffer.PeekAction.canceled -= OnInputPeek;
     }
 
     private void Awake()
@@ -168,6 +172,18 @@ public class PlayerController : MonoBehaviour
     private void OnInputAttack(InputAction.CallbackContext context)
     {
         _playerFire?.Fire(_playerData);
+    }
+
+    private void OnInputPeek(InputAction.CallbackContext context)
+    {
+        if(context.started)
+        {
+            
+        }
+        else if (context.canceled)
+        {
+            
+        }
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created

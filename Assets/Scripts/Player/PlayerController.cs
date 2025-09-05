@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour
     private PlayerClimbJumping _playerClimbJumping;
     private PlayerDashing _playerDashing;
     private PlayerFire _playerFire;
-    private PlayerPeek _playerPeek;
+    private PlayerAiming _playerAiming;
     private PlayerAnimation _playerAnimation;
     private Vector2 _currentMoveInput = Vector2.zero;
     public bool _isGrounded { get; private set; } = false;
@@ -38,7 +38,7 @@ public class PlayerController : MonoBehaviour
     public bool _isSprint { get; private set; } = false;
     public bool _isDashing { get; private set; } = false;
     public bool _isWallClimbing { get; private set; } = false;
-    public bool _isPeeking { get; private set; } = false;
+    public bool _isAiming { get; private set; } = false;
     public bool _wallRight { get; private set; } = false;
     public bool _wallLeft { get; private set; } = false;
     public bool _wallFront { get; private set; } = false;
@@ -92,7 +92,7 @@ public class PlayerController : MonoBehaviour
         _playerClimbJumping = GetComponent<PlayerClimbJumping>();
         _playerDashing = GetComponent<PlayerDashing>();
         _playerFire = GetComponent<PlayerFire>();
-        _playerPeek = GetComponent<PlayerPeek>();
+        _playerAiming = GetComponent<PlayerAiming>();
         _playerAnimation = GetComponent<PlayerAnimation>();
     }
 
@@ -184,11 +184,11 @@ public class PlayerController : MonoBehaviour
     {
         if(context.started)
         {
-            _playerPeek?.StartPeek();
+            _playerAiming?.StartAim();
         }
         else if (context.canceled)
         {
-            _playerPeek?.StopPeek();
+            _playerAiming?.StopAim();
         }
     }
 
@@ -218,7 +218,7 @@ public class PlayerController : MonoBehaviour
         _isWallClimbing = _playerWallClimbing.IsWallClimbing();
         _isDashing = _playerDashing.IsDashing();
         _isIdle = _playerMove.IsIdle();
-        _isPeeking=_playerPeek.IsPeeking();
+        _isAiming=_playerAiming.IsAiming();
         _playerMove?.SetGrounded(_isGrounded);
         _playerMove?.SetSliding(_playerSliding._isSliding);
         _playerMove?.SetDashing(_isDashing);
@@ -243,6 +243,6 @@ public class PlayerController : MonoBehaviour
         _playerClimbJumping.ResetClimbJump(_wallFront, _newWall, _isGrounded);
         _playerDashing.CanDash(_isGrounded, _isSlope, _newWall);
         _canDash = _playerDashing.ReturnCanDash();
-        _playerAnimation.SetIsAiming(_isPeeking);
+        _playerAnimation.SetIsAiming(_isAiming);
     }
 }

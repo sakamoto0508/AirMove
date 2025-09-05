@@ -15,12 +15,12 @@ public class PlayerAnimation : MonoBehaviour
 
     private void Update()
     {
-        
+        AnimationAiming();
     }
 
     public void AnimationAiming()
     {
-        _animator.SetBool(SHOOT_TRIGGER, true);
+        _animator.SetBool(IS_AIMING, _isAiming);
     }
 
     public void TriggerShot()

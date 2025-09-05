@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour
     private PlayerDashing _playerDashing;
     private PlayerFire _playerFire;
     private PlayerPeek _playerPeek;
+    private PlayerAnimation _playerAnimation;
     private Vector2 _currentMoveInput = Vector2.zero;
     public bool _isGrounded { get; private set; } = false;
     public bool _isSlope { get; private set; } = false;
@@ -92,6 +93,7 @@ public class PlayerController : MonoBehaviour
         _playerDashing = GetComponent<PlayerDashing>();
         _playerFire = GetComponent<PlayerFire>();
         _playerPeek = GetComponent<PlayerPeek>();
+        _playerAnimation = GetComponent<PlayerAnimation>();
     }
 
     private void OnInputMove(InputAction.CallbackContext context)
@@ -216,6 +218,7 @@ public class PlayerController : MonoBehaviour
         _isWallClimbing = _playerWallClimbing.IsWallClimbing();
         _isDashing = _playerDashing.IsDashing();
         _isIdle = _playerMove.IsIdle();
+        _isPeeking=_playerPeek.IsPeeking();
         _playerMove?.SetGrounded(_isGrounded);
         _playerMove?.SetSliding(_playerSliding._isSliding);
         _playerMove?.SetDashing(_isDashing);
@@ -240,5 +243,6 @@ public class PlayerController : MonoBehaviour
         _playerClimbJumping.ResetClimbJump(_wallFront, _newWall, _isGrounded);
         _playerDashing.CanDash(_isGrounded, _isSlope, _newWall);
         _canDash = _playerDashing.ReturnCanDash();
+        _playerAnimation.SetIsAiming(_isPeeking);
     }
 }

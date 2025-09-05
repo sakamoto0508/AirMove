@@ -5025,6 +5025,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2621633951448708898, guid: 4f25eda913d4f004186d8105c74906b4, type: 3}
+      propertyPath: _animator
+      value: 
+      objectReference: {fileID: 821363594}
     - target: {fileID: 3428104368104980253, guid: 4f25eda913d4f004186d8105c74906b4, type: 3}
       propertyPath: _playerSpeedText
       value: 

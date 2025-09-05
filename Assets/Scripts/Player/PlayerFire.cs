@@ -10,12 +10,14 @@ public class PlayerFire : MonoBehaviour
     private bool _fireTimerIsActive = false;
     private Transform _firePosition;
     private WaitForSeconds _fireRateWait;
+    private PlayerAnimation _fireAnimation;
     private RaycastHit _hit;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         _fireRateWait= new WaitForSeconds(_fireRate);
+        _fireAnimation=GetComponent<PlayerAnimation>();
     }
 
     // Update is called once per frame
@@ -38,11 +40,14 @@ public class PlayerFire : MonoBehaviour
             return;
         }
         Debug.Log("Fire");
-        if(Physics.Raycast(playerData.FirePosition.position, playerData.FirePosition.forward, out _hit, _fireRange))
+        _fireAnimation.TriggerShot();
+        if (Physics.Raycast(playerData.FirePosition.position, playerData.FirePosition.forward, out _hit, _fireRange))
         {
             BulletHit();
         }
-        StartCoroutine(FireTimer());
+        // 撃ちアニメーションの長さ分待機
+        float animLength = _fireAnimation.GetAnimationLength("Shot");
+        StartCoroutine(FireTimer(animLength));
     }
 
     private void BulletHit()
@@ -50,10 +55,10 @@ public class PlayerFire : MonoBehaviour
         Debug.Log("Hit: " + _hit.collider.name);
     }
 
-    private IEnumerator FireTimer()
+    private IEnumerator FireTimer(float waitTime)
     {
         _fireTimerIsActive = true;
-        yield return _fireRateWait;
+        yield return new WaitForSeconds(waitTime);
         _fireTimerIsActive = false;
     }
 

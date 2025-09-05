@@ -5042,6 +5042,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 821363594}
     - target: {fileID: 6502889988218867216, guid: 4f25eda913d4f004186d8105c74906b4, type: 3}
+      propertyPath: _fireRate
+      value: 1.28
+      objectReference: {fileID: 0}
+    - target: {fileID: 6502889988218867216, guid: 4f25eda913d4f004186d8105c74906b4, type: 3}
       propertyPath: _fireRange
       value: 1000
       objectReference: {fileID: 0}
@@ -5053,6 +5057,10 @@ PrefabInstance:
       propertyPath: _firePosition
       value: 
       objectReference: {fileID: 1821962827}
+    - target: {fileID: 6502889988218867216, guid: 4f25eda913d4f004186d8105c74906b4, type: 3}
+      propertyPath: _cameraTiltAngle
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 8268862242888354375, guid: 4f25eda913d4f004186d8105c74906b4, type: 3}
       propertyPath: m_Name
       value: Player 1

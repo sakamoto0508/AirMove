@@ -18,6 +18,19 @@ public class PlayerAnimation : MonoBehaviour
         AnimationAiming();
     }
 
+    public float GetAnimationLength(string aniName)
+    {
+        RuntimeAnimatorController ac = _animator.runtimeAnimatorController;
+        foreach (var clip in ac.animationClips)
+        {
+            if (clip.name == aniName)
+            {
+                return clip.length;
+            }
+        }
+        return 0f;
+    }
+
     public void AnimationAiming()
     {
         _animator.SetBool(IS_AIMING, _isAiming);

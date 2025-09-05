@@ -155,7 +155,11 @@ public class PlayerMove : MonoBehaviour
 
     private void IdleCheck()
     {
-        if(_currentInput.magnitude > 0f)
+        if (_currentInput.magnitude > 0f)
+        {
+            _isIdle = false;
+        }
+        else
         {
             _isIdle = true;
         }

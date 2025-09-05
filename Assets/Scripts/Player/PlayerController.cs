@@ -208,6 +208,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         _playerState?.StateMachine(_isDashing, _isWallClimbing, _isWallRunning, _isSliding, _isCrouching, _isGrounded, _isSlope, _isSprint, _isIdle);
+        _playerState?.AnimationChange(_playerState.CurrentState);
         _isGrounded = _groundCheck.IsGrounded(_playerData);
         _isSlope = _slopeCheck.OnSlope(_playerData);
         _isSliding = _playerSliding.IsSliding();

@@ -2,7 +2,9 @@ using UnityEngine;
 
 public class PlayerState : MonoBehaviour
 {
-    public State CurrentState = State.Walking;
+    public State CurrentState = State.Idle;
+    [SerializeField] private Animator _animator;
+    private const string CURRENT_STATE = "CurrentState";
     public enum State
     {
         Walking,
@@ -57,5 +59,10 @@ public class PlayerState : MonoBehaviour
         {
             CurrentState = State.Air;
         }
+    }
+
+    public void AnimationChange(State state)
+    {
+        _animator.SetInteger("State",(int)state);
     }
 }

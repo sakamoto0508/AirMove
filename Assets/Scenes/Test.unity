@@ -2519,6 +2519,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &821363594 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 8749133875315435892, guid: 156aa7cb77451494db0cfec28ab20e6b, type: 3}
+  m_PrefabInstance: {fileID: 6923976267431881611}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -4938,11 +4943,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b5a97ccaf48520d4fab489a2e57bc239, type: 3}
---- !u!1 &3525364050931866405 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8268862242888354375, guid: 4f25eda913d4f004186d8105c74906b4, type: 3}
-  m_PrefabInstance: {fileID: 7456521038811674985}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6923976267431881611
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4995,10 +4995,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Main Camera
       objectReference: {fileID: 0}
+    - target: {fileID: 4853375778395393240, guid: 156aa7cb77451494db0cfec28ab20e6b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6726130378392734798, guid: 156aa7cb77451494db0cfec28ab20e6b, type: 3}
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 6061f1e806c9e654fad54f474ed4f40c, type: 2}
+    - target: {fileID: 8749133875315435892, guid: 156aa7cb77451494db0cfec28ab20e6b, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5025,6 +5033,10 @@ PrefabInstance:
       propertyPath: _heightUI
       value: 
       objectReference: {fileID: 320784015}
+    - target: {fileID: 5987107330558413609, guid: 4f25eda913d4f004186d8105c74906b4, type: 3}
+      propertyPath: _animator
+      value: 
+      objectReference: {fileID: 821363594}
     - target: {fileID: 6502889988218867216, guid: 4f25eda913d4f004186d8105c74906b4, type: 3}
       propertyPath: _fireRange
       value: 1000
@@ -5084,23 +5096,8 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8268862242888354375, guid: 4f25eda913d4f004186d8105c74906b4, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 8893050264360180522}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4f25eda913d4f004186d8105c74906b4, type: 3}
---- !u!114 &8893050264360180522
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3525364050931866405}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1437380a6e2804547b0228b64b679613, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -12,10 +12,11 @@ public class PlayerState : MonoBehaviour
         Wallclimbing,
         Crouching,
         Sliding,
-        Air
+        Air,
+        Idle
     }
 
-    public void StateMachine(bool isDashing,bool isWallClimbing, bool isWallRunning,bool isSliding,bool isCrouching,bool isGround,bool isSlope, bool isSprinting)
+    public void StateMachine(bool isDashing, bool isWallClimbing, bool isWallRunning, bool isSliding, bool isCrouching, bool isGround, bool isSlope, bool isSprinting, bool isIdle)
     {
         if (isDashing)
         {
@@ -40,11 +41,15 @@ public class PlayerState : MonoBehaviour
         {
             CurrentState = State.Crouching;
         }
-        else if ((isGround||isSlope) && isSprinting)
+        else if (isIdle)
+        {
+            CurrentState = State.Idle;
+        }
+        else if ((isGround || isSlope) && isSprinting)
         {
             CurrentState = State.Sprinting;
         }
-        else if ((isGround||isSlope) && !isSprinting)
+        else if ((isGround || isSlope) && !isSprinting)
         {
             CurrentState = State.Walking;
         }

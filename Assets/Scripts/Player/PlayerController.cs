@@ -43,6 +43,7 @@ public class PlayerController : MonoBehaviour
     public bool _wallFront { get; private set; } = false;
     public bool _isWallRunning { get; private set; } = false;
     public bool _isAboveGround { get; private set; } = false;
+    public bool _isIdle {  get; private set; } = true;
 
     private void RegisterInputAction()
     {
@@ -206,13 +207,14 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        _playerState?.StateMachine(_isDashing, _isWallClimbing, _isWallRunning, _isSliding, _isCrouching, _isGrounded, _isSlope, _isSprint);
+        _playerState?.StateMachine(_isDashing, _isWallClimbing, _isWallRunning, _isSliding, _isCrouching, _isGrounded, _isSlope, _isSprint, _isIdle);
         _isGrounded = _groundCheck.IsGrounded(_playerData);
         _isSlope = _slopeCheck.OnSlope(_playerData);
         _isSliding = _playerSliding.IsSliding();
         _isWallRunning = _playerWallRunning.IsWallRunning();
         _isWallClimbing = _playerWallClimbing.IsWallClimbing();
         _isDashing = _playerDashing.IsDashing();
+        _isIdle = _playerMove.IsIdle();
         _playerMove?.SetGrounded(_isGrounded);
         _playerMove?.SetSliding(_playerSliding._isSliding);
         _playerMove?.SetDashing(_isDashing);

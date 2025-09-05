@@ -20,6 +20,7 @@ public class PlayerMove : MonoBehaviour
     private bool _isSlope;
     private bool _isSliding = false;
     private bool _isDashing = false;
+    private bool _isIdle = true;
     private Rigidbody _rb;
     private Vector2 _currentInput;
     private Transform _playerCamera;
@@ -38,6 +39,7 @@ public class PlayerMove : MonoBehaviour
         Vector3 inputDir = _playerCamera.forward * _currentInput.y + _playerCamera.right * _currentInput.x;
         inputDir.y = 0;
         _moveDirection = inputDir;
+        IdleCheck();
         if (_isSliding)
         {
             SlidingMovement();
@@ -151,6 +153,14 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
+    private void IdleCheck()
+    {
+        if(_currentInput.magnitude > 0f)
+        {
+            _isIdle = true;
+        }
+    }
+
     /// <summary>
     /// ˆÚ“®
     /// </summary>
@@ -170,6 +180,7 @@ public class PlayerMove : MonoBehaviour
     {
         _currentInput = Vector2.zero;
         _rb.linearVelocity = Vector3.zero;
+        _isIdle = true;
     }
 
     /// <summary>
@@ -282,6 +293,11 @@ public class PlayerMove : MonoBehaviour
     public void SetGrounded(bool isGrounded)
     {
         _isGrounded = isGrounded;
+    }
+
+    public bool IsIdle()
+    {
+        return _isIdle;
     }
 
     public void StartSetVariables(PlayerData playerData)

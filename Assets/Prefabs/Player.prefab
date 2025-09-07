@@ -263,7 +263,7 @@ MonoBehaviour:
   _wallJumpSideForce: 20
   _exitWallTime: 0.2
   _cameraFOV: 90
-  _cameraTiltAngle: 5
+  _cameraTiltAngle: 10
   _climbingSpeed: 7
   _wallClimbJumpUpForce: 10
   _wallClimbJumpBackForce: 10
@@ -276,9 +276,9 @@ MonoBehaviour:
   _detectingDistance: 0.7
   _sphereCastRadius: 0.25
   _maxWallLookAngle: 30
-  _fireRate: 0.1
+  _fireRate: 1.28
   _reloadTime: 1
-  _fireRange: 100
+  _fireRange: 1000
   _magazineSize: 3
   _firePosition: {fileID: 0}
 --- !u!114 &5987107330558413609
@@ -530,3 +530,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1437380a6e2804547b0228b64b679613, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _cameraMain: {fileID: 0}
+  _cameraFPS: {fileID: 0}
+  _priorityHigh: 1
+  _priorityLow: 0

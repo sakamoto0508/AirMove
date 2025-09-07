@@ -1,3 +1,4 @@
+using Unity.Cinemachine;
 using UnityEngine;
 
 public class PlayerData : MonoBehaviour
@@ -76,6 +77,10 @@ public class PlayerData : MonoBehaviour
     [SerializeField] private int _magazineSize = 3;
     [SerializeField] private Transform _firePosition;
 
+    [Header("Aim")]
+    [SerializeField] private float _transitionDurationSetUpTime = 0.5f;
+    [SerializeField] private float _transitionDurationSetEndTime = 0.1f;
+
     //“Ç‚ÝŽæ‚èê—p
     public float WalkSpeed => _walkSpeed;
     public float SprintSpeed => _sprintSpeed;
@@ -124,5 +129,7 @@ public class PlayerData : MonoBehaviour
     public float ReloadTime => _reloadTime;
     public float FireRange => _fireRange;
     public int MagazineSize => _magazineSize;
+    public float TransitionDurationSetUpTime => _transitionDurationSetUpTime;
+    public float TransitionDurationSetEndTime => _transitionDurationSetEndTime;
     public Transform FirePosition => _firePosition;
 }

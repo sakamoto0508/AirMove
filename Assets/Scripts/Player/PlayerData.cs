@@ -80,6 +80,8 @@ public class PlayerData : MonoBehaviour
     [Header("Aim")]
     [SerializeField] private float _transitionDurationSetUpTime = 0.5f;
     [SerializeField] private float _transitionDurationSetEndTime = 0.1f;
+    [SerializeField] private float _feedInTime = 1f;
+    [SerializeField] private float _feedOutTime = 0.1f;
 
     //“Ç‚ÝŽæ‚èê—p
     public float WalkSpeed => _walkSpeed;
@@ -131,5 +133,7 @@ public class PlayerData : MonoBehaviour
     public int MagazineSize => _magazineSize;
     public float TransitionDurationSetUpTime => _transitionDurationSetUpTime;
     public float TransitionDurationSetEndTime => _transitionDurationSetEndTime;
+    public float FeedInTime => _feedInTime;
+    public float FeedOutTime => _feedOutTime;
     public Transform FirePosition => _firePosition;
 }

@@ -2,6 +2,8 @@ using System.Runtime.CompilerServices;
 using Unity.Cinemachine;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.UI;
+using System.Collections;
 
 public class PlayerAiming : MonoBehaviour
 {
@@ -11,15 +13,26 @@ public class PlayerAiming : MonoBehaviour
     [SerializeField] private int _priorityHigh = 1;
     [SerializeField] private int _priorityLow = 0;
     // イージングタイプ
-    [SerializeField] private Ease _easeType = Ease.InOutQuad;
+    [SerializeField] private Ease _easeTypeCamera = Ease.InOutQuad;
+    [SerializeField] private Ease _easeTypeScope = Ease.InQuart;
+    [SerializeField] Image _image;
     private float _transitionDurationSetUpTime;
     private float _transitionDurationSetEndTime;
+    private float _feedInTime;
+    private float _feedOutTime;
+    private Coroutine _coroutine;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         _cameraMain.depth = _priorityHigh;
         _cameraFPS.depth = _priorityLow;
+        //透明化
+        if (_image != null)
+        {
+            //_image.color = new Color(_image.color.r, _image.color.g, _image.color.b, 0f);
+            _image.gameObject.SetActive(false);
+        }
         // DOTween初期設定（オプション）
         DOTween.Init(false, true, LogBehaviour.ErrorsOnly);
     }
@@ -34,48 +47,47 @@ public class PlayerAiming : MonoBehaviour
     {
         Debug.Log("Aiming");
         _isAiming = true;
-        //_cameraMain.depth = _priorityLow;
-        //_cameraFPS.depth = _priorityHigh;
-        // 既存のカメラ遷移アニメーションを停止
-        // "cameraTransition"というIDを持つすべてのTweenを停止
-        DOTween.Kill("cameraTransition");
-        // メインカメラの深度をスムーズに変更
-        DOTween.To(() => _cameraMain.depth,           // getter: 現在の値を取得
-                  x => _cameraMain.depth = x,         // setter: 値を設定
-                  _priorityLow,                       // endValue: 目標値
-                  _transitionDurationSetUpTime)                // duration: 遷移時間
-            .SetId("cameraTransition")                // ID設定で管理しやすく
-            .SetEase(_easeType);
-        // FPSカメラの深度をスムーズに変更
-        DOTween.To(() => _cameraFPS.depth,
-                  x => _cameraFPS.depth = x,
-                  _priorityHigh,
-                  _transitionDurationSetUpTime)
-            .SetId("cameraTransition")
-            .SetEase(_easeType);
+        // Sequenceを使って同期的にアニメーション実行
+        Sequence aimSequence = DOTween.Sequence();
+        aimSequence.SetId("aimTransition");
+        // カメラ遷移
+        aimSequence.Join(
+            DOTween.To(() => _cameraMain.depth, x => _cameraMain.depth = x, _priorityLow, _transitionDurationSetUpTime)
+                .SetEase(_easeTypeCamera)
+        );
+        aimSequence.Join(
+            DOTween.To(() => _cameraFPS.depth, x => _cameraFPS.depth = x, _priorityHigh, _transitionDurationSetUpTime)
+                .SetEase(_easeTypeCamera)
+        );
+        //スコープ画像の表示
+        _coroutine = StartCoroutine(ShowScope());
     }
 
     public void StopAim()
     {
         Debug.Log("Stop Aiming");
         _isAiming = false;
-        //_cameraMain.depth = _priorityHigh;
-        //_cameraFPS.depth = _priorityLow;
+        // 既存のスコープコルーチンを停止
+        if (_coroutine != null)
+        {
+            StopCoroutine(_coroutine);
+        }
         // 既存のアニメーションを停止
-        DOTween.Kill("cameraTransition");
-        // カメラを元の状態に戻す
-        DOTween.To(() => _cameraMain.depth,
-                  x => _cameraMain.depth = x,
-                  _priorityHigh,
-                  _transitionDurationSetEndTime)
-            .SetId("cameraTransition")
-            .SetEase(_easeType);
-        DOTween.To(() => _cameraFPS.depth,
-                  x => _cameraFPS.depth = x,
-                  _priorityLow,
-                  _transitionDurationSetEndTime)
-            .SetId("cameraTransition")
-            .SetEase(_easeType);
+        DOTween.Kill("aimTransition");
+        Sequence stopSequence = DOTween.Sequence();
+        stopSequence.SetId("aimTransition");
+        // カメラを元に戻す
+        //getter,setter,目標値,時間
+        stopSequence.Join(
+            DOTween.To(() => _cameraMain.depth, x => _cameraMain.depth = x, _priorityHigh, _transitionDurationSetEndTime)
+                .SetEase(_easeTypeCamera)
+        );
+        stopSequence.Join(
+            DOTween.To(() => _cameraFPS.depth, x => _cameraFPS.depth = x, _priorityLow, _transitionDurationSetEndTime)
+                .SetEase(_easeTypeCamera)
+        );
+        // スコープ画像の非表示
+        _coroutine = StartCoroutine(CloseScope());
     }
 
     public bool IsAiming()
@@ -87,5 +99,19 @@ public class PlayerAiming : MonoBehaviour
     {
         _transitionDurationSetUpTime = playerData.TransitionDurationSetUpTime;
         _transitionDurationSetEndTime = playerData.TransitionDurationSetEndTime;
+        _feedInTime = playerData.FeedInTime;
+        _feedOutTime = playerData.FeedOutTime;
+    }
+
+    private IEnumerator ShowScope()
+    {
+        yield return new WaitForSeconds(_feedInTime);
+        _image.gameObject.SetActive(true);
+    }
+
+    private IEnumerator CloseScope()
+    {
+        yield return new WaitForSeconds(_feedOutTime);
+        _image.gameObject.SetActive(false);
     }
 }

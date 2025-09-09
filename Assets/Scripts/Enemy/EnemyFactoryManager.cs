@@ -7,13 +7,7 @@ public class EnemyFactoryManager : MonoBehaviour
     private Dictionary<string,EnemyData> _enemyDict=new Dictionary<string, EnemyData>();
     private void Awake()
     {
-        foreach (var data in _database.EnemyList)
-        {
-            if (!_enemyDict.ContainsKey(data.TypeName))
-            {
-                _enemyDict[data.TypeName] = data;
-            }
-        }
+        InitializeEnemyDictionary();
 
     }
 
@@ -22,4 +16,18 @@ public class EnemyFactoryManager : MonoBehaviour
     {
         
     }
+
+    //エネミーのデータを追加
+    private void InitializeEnemyDictionary()
+    {
+        foreach (var data in _database.EnemyList)
+        {
+            if (!_enemyDict.ContainsKey(data.TypeName))
+            {
+                _enemyDict[data.TypeName] = data;
+            }
+        }
+    }
+
+
 }

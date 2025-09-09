@@ -4,11 +4,12 @@ using UnityEngine;
 public class EnemyFactoryManager : MonoBehaviour
 {
     [SerializeField] private EnemyDatabase _database;
+    // 敵の種類名をキーにしてデータを管理する辞書
     private Dictionary<string, EnemyData> _enemyDict = new Dictionary<string, EnemyData>();
+
     private void Awake()
     {
         InitializeEnemyDictionary();
-
     }
 
     // Update is called once per frame
@@ -18,15 +19,15 @@ public class EnemyFactoryManager : MonoBehaviour
     }
 
     /// <summary>
-    /// // データベース内の全ての敵を辞書に登録
+    /// データベース内の全ての敵を辞書に登録
     /// </summary>
     private void InitializeEnemyDictionary()
     {
         foreach (var data in _database.EnemyList)
         {
-            if (!_enemyDict.ContainsKey(data.TypeName))
+            if (!_enemyDict.ContainsKey(data.EnemyName))
             {
-                _enemyDict[data.TypeName] = data;
+                _enemyDict[data.EnemyName] = data;
             }
         }
     }
@@ -62,5 +63,14 @@ public class EnemyFactoryManager : MonoBehaviour
     public List<string> GetAvailableTypes()
     {
         return new List<string>(_enemyDict.Keys);
+    }
+
+    /// <summary>
+    /// 指定タイプの敵データを取得する
+    /// </summary>
+    public EnemyData GetEnemyData(string type)
+    {
+        _enemyDict.TryGetValue(type, out var data);
+        return data;
     }
 }

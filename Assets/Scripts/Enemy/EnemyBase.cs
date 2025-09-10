@@ -5,13 +5,13 @@ public class EnemyBase : MonoBehaviour
 {
     public Action EnemyDamageAction;
     public Action<EnemyBase, string, EnemyData.enemyType> EnemyDeathAction;
+    // 敵のタイプ情報を保持
+    public string EnemyTypeName { get; private set; }
+    public EnemyData.enemyType EnemyType { get; private set; }
     protected float _speed;
     protected float _enemyFieldOfView;
     protected int _health;
     protected int _score;
-    // 敵のタイプ情報を保持
-    public string EnemyTypeName { get; private set; }
-    public EnemyData.enemyType EnemyType { get; private set; }
 
     /// <summary>
     /// エネミーデータのデータをセット

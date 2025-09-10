@@ -3,24 +3,35 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewEnemyData", menuName = "Enemy/Enemy Data")]
 public class EnemyData : ScriptableObject
 {
-    public string EnemyName;
-    public GameObject Prefab;
-    public float MoveSpeed;
+    [SerializeField] private string _enemyName;
+    [SerializeField] private GameObject _prefab;
+    [SerializeField] private float _moveSpeed;
     /// <summary>
     /// ŒŸ’m”ÍˆÍ
     /// </summary>
-    public float DetectionRange;
+    [SerializeField] private float _detectionRange;
     /// <summary>
     /// Ž‹–ìŠp
     /// </summary>
-    public float EnemyFieldOfView;
-    public int Health;
-    public int MaxEnemyValue;
-    public int Score;
-    public enemyType EnemyType;
+    [SerializeField] private float _enemyFieldOfView;
+    [SerializeField] private int _health;
+    [SerializeField] private int _maxEnemyValue;
+    [SerializeField] private int _score;
+    [SerializeField] private enemyType _enemyType;
     public enum enemyType
     {
         Ground,
         Ai
     }
+
+    public string EnemyName => _enemyName;
+    public GameObject Prefab => _prefab;
+    public float MoveSpeed => _moveSpeed;
+    public float DetectionRange => _detectionRange;
+    public float EnemyFieldOfView => _enemyFieldOfView;
+    public int Health => _health;
+    public int MaxEnemyValue => _maxEnemyValue;
+    public int Score => _score;
+    public enemyType EnemyType => _enemyType;
+
 }

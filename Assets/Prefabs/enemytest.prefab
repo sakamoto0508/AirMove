@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2071452806463462060}
   - component: {fileID: 33017482017704499}
   m_Layer: 0
-  m_Name: Sphere
+  m_Name: enemytest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

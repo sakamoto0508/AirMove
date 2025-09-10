@@ -1,16 +1,12 @@
 using UnityEngine;
 
-public class ItemData : MonoBehaviour
+[CreateAssetMenu(fileName = "NewItemData", menuName = "Item/Item Data")]
+public class ItemData : ScriptableObject
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    [SerializeField] private string _itemName;
+    [SerializeField] private GameObject _itemPrefab;
+    [SerializeField] private float _itemEffectTime;
+    public string ItemName => _itemName;
+    public GameObject ItemPrefab => _itemPrefab;
+    public float EffectTime => _itemEffectTime;
 }

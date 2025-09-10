@@ -25,7 +25,7 @@ public class EnemyData : ScriptableObject
     public enum enemyType
     {
         Ground,
-        Ai
+        Air
     }
 
     public string EnemyName => _enemyName;

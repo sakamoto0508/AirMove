@@ -10,14 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4db62c650a998094db3f7c95a8ab3d7c, type: 3}
-  m_Name: NewEnemyData
+  m_Name: testAir
   m_EditorClassIdentifier: 
-  EnemyName: Sphere
-  Prefab: {fileID: 7334874953857922130, guid: 023ee59ab1ca42040a68ad3f8bc64f1c, type: 3}
-  MoveSpeed: 5
-  DetectionRange: 5
-  EnemyFieldOfView: 5
-  Health: 1
-  MaxEnemyValue: 5
-  Score: 10
-  EnemyType: 0
+  _enemyName: testAir
+  _prefab: {fileID: 0}
+  _roamingRangeMax: {fileID: 0}
+  _roamingRangeMin: {fileID: 0}
+  _roamingRangeDistance: 0
+  _moveSpeed: 5
+  _detectionRange: 0
+  _enemyFieldOfView: 0
+  _idleTime: 0
+  _health: 0
+  _maxEnemyValue: 0
+  _score: 0
+  _enemyType: 0

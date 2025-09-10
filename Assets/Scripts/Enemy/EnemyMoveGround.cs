@@ -5,8 +5,6 @@ using UnityEngine.AI;
 public class EnemyMoveGround : EnemyBase
 {
     private NavMeshAgent _agent;
-    private float _timer;
-
     private void Awake()
     {
         _agent = GetComponent<NavMeshAgent>();
@@ -20,7 +18,8 @@ public class EnemyMoveGround : EnemyBase
     // Update is called once per frame
     void Update()
     {
-        if (!_agent.pathPending && _agent.remainingDistance < _roamingRangeDistance)
+        if (EnemyState != enemyState.Idle && !_agent.pathPending &&
+            _agent.remainingDistance < _roamingRangeDistance)
         {
             StartCoroutine(IdleWait());
         }
@@ -35,7 +34,6 @@ public class EnemyMoveGround : EnemyBase
         _agent.speed = _speed;
         _agent.SetDestination(newPos);
         EnemyState = enemyState.Run;
-        _timer = 0;
     }
 
     /// <summary>

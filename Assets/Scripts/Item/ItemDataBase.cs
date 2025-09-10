@@ -1,16 +1,9 @@
+using System.Collections.Generic;
+using NUnit.Framework;
 using UnityEngine;
 
-public class ItemDataBase : MonoBehaviour
+[CreateAssetMenu(fileName = "ItemDataBase", menuName = "Item/Item DataBase")]
+public class ItemDataBase : ScriptableObject
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public List<ItemBase> ItemList;
 }

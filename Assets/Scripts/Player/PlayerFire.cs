@@ -33,13 +33,16 @@ public class PlayerFire : MonoBehaviour
         Gizmos.DrawRay(_firePosition.position, _firePosition.forward * _fireRange);
     }
 
+    /// <summary>
+    /// 射撃処理
+    /// </summary>
+    /// <param name="playerData"></param>
     public void Fire(PlayerData playerData)
     {
         if (_fireTimerIsActive)
         {
             return;
         }
-        Debug.Log("Fire");
         _fireAnimation.TriggerShot();
         if (Physics.Raycast(playerData.FirePosition.position, playerData.FirePosition.forward, out _hit, _fireRange))
         {
@@ -50,11 +53,23 @@ public class PlayerFire : MonoBehaviour
         StartCoroutine(FireTimer(animLength));
     }
 
+    /// <summary>
+    /// 弾が命中したときの処理
+    /// </summary>
     private void BulletHit()
     {
         Debug.Log("Hit: " + _hit.collider.name);
+        if((_hit.collider.TryGetComponent(out EnemyBase enemy)))
+        {
+            enemy.TakeDamage();
+        }
     }
 
+    /// <summary>
+    /// 射撃後のクールダウン処理
+    /// </summary>
+    /// <param name="waitTime"></param>
+    /// <returns></returns>
     private IEnumerator FireTimer(float waitTime)
     {
         _fireTimerIsActive = true;

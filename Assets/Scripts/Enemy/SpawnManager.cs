@@ -25,19 +25,21 @@ public class SpawnManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 書く敵タイプを最大数まで出現させる
+    /// 各敵タイプを最大数まで出現させる
     /// </summary>
     private void SpawnAllEemiesToMax()
     {
+        //登録されている全敵タイプを取得
         List<string> types = _factoryManager.GetAvailableTypes();
         foreach (string type in types)
         {
+            //各タイプのデータを取得
             EnemyData data = _factoryManager.GetEnemyData(type);
             if (data != null)
             {
+                //すでに出現している数を確認
                 int currentCount = CountEnemiesByType(type);
                 int maxCount = data.MaxEnemyValue;
-
                 // 不足分を補充
                 for (int i = currentCount; i < maxCount; i++)
                 {
@@ -47,13 +49,22 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 指定した敵を生成
+    /// </summary>
+    /// <param name="type"></param>
+    /// <param name="enemyType"></param>
     private void SpawnEnemy(string type, EnemyData.enemyType enemyType)
     {
+        //敵タイプに応じたランダム座標を取得
         Vector3 spawnPos = GetRandomSpawnPosition(enemyType);
+        //敵を生成
         EnemyBase enemy = _factoryManager.CreateEnemy(type, spawnPos);
         if (enemy != null)
         {
+            //敵が死亡したときのイベントに登録
             enemy.EnemyDeathAction += HandleEnemyDestroyed;
+            //管理リストに追加
             _spawnedEnemies.Add(enemy);
         }
     }
@@ -63,7 +74,9 @@ public class SpawnManager : MonoBehaviour
     /// </summary>
     private void HandleEnemyDestroyed(EnemyBase enemy, string type, EnemyData.enemyType enemyType)
     {
+        //管理リストから削除
         _spawnedEnemies.Remove(enemy);
+        //データを取得して不足分を確認
         EnemyData data = _factoryManager.GetEnemyData(type);
         if (data != null)
         {

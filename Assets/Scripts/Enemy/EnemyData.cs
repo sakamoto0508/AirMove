@@ -5,6 +5,8 @@ public class EnemyData : ScriptableObject
 {
     [SerializeField] private string _enemyName;
     [SerializeField] private GameObject _prefab;
+    [SerializeField] private Transform _roamingRangeMax;
+    [SerializeField] private Transform _roamingRangeMin;
     [SerializeField] private float _moveSpeed;
     /// <summary>
     /// ŒŸ’m”ÍˆÍ
@@ -26,6 +28,8 @@ public class EnemyData : ScriptableObject
 
     public string EnemyName => _enemyName;
     public GameObject Prefab => _prefab;
+    public Transform RoamingRangeMax => _roamingRangeMax;
+    public Transform RoamingRangeMin => _roamingRangeMin;
     public float MoveSpeed => _moveSpeed;
     public float DetectionRange => _detectionRange;
     public float EnemyFieldOfView => _enemyFieldOfView;

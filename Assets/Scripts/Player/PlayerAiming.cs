@@ -45,7 +45,6 @@ public class PlayerAiming : MonoBehaviour
 
     public void StartAim()
     {
-        Debug.Log("Aiming");
         _isAiming = true;
         // Sequenceを使って同期的にアニメーション実行
         Sequence aimSequence = DOTween.Sequence();
@@ -65,7 +64,6 @@ public class PlayerAiming : MonoBehaviour
 
     public void StopAim()
     {
-        Debug.Log("Stop Aiming");
         _isAiming = false;
         // 既存のスコープコルーチンを停止
         if (_coroutine != null)

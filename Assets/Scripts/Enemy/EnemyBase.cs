@@ -8,6 +8,7 @@ public class EnemyBase : MonoBehaviour
     // 敵のタイプ情報を保持
     public string EnemyTypeName { get; private set; }
     public EnemyData.enemyType EnemyType { get; private set; }
+    protected enemyState EnemyState { get; private set; } = enemyState.Idle;
     protected float _speed;
     protected float _enemyFieldOfView;
     protected int _health;
@@ -30,26 +31,27 @@ public class EnemyBase : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     /// <summary> ダメージの処理</summary>
     public void TakeDamage()
     {
-        if(_health > 0)
+        if (_health > 0)
         {
             _health--;
+            Debug.Log(_health);
             EnemyDamageAction?.Invoke();
-        }
-        else
-        {
-            Die();
+            if (_health <= 0)
+            {
+                Die();
+            }
         }
     }
 
@@ -57,7 +59,8 @@ public class EnemyBase : MonoBehaviour
     protected virtual void Die()
     {
         this.gameObject.SetActive(false);
-        EnemyDeathAction?.Invoke(this,EnemyTypeName,EnemyType);
+        EnemyState = enemyState.Die;
+        EnemyDeathAction?.Invoke(this, EnemyTypeName, EnemyType);
     }
 
     public enum enemyState

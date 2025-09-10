@@ -7,6 +7,7 @@ public class PlayerFire : MonoBehaviour
     private float _fireRange;
     private float _reloadTime;
     private int _magazineSize;
+    private int _bullets;
     private bool _fireTimerIsActive = false;
     private Transform _firePosition;
     private WaitForSeconds _fireRateWait;
@@ -39,18 +40,27 @@ public class PlayerFire : MonoBehaviour
     /// <param name="playerData"></param>
     public void Fire(PlayerData playerData)
     {
-        if (_fireTimerIsActive)
+        if(_bullets > 0)
         {
-            return;
+            _bullets--;
+            if (_fireTimerIsActive)
+            {
+                return;
+            }
+            _fireAnimation.TriggerShot();
+            if (Physics.Raycast(playerData.FirePosition.position, playerData.FirePosition.forward, out _hit, _fireRange))
+            {
+                BulletHit();
+            }
+            // 撃ちアニメーションの長さ分待機
+            float animLength = _fireAnimation.GetAnimationLength("Shot");
+            StartCoroutine(FireTimer(animLength));
         }
-        _fireAnimation.TriggerShot();
-        if (Physics.Raycast(playerData.FirePosition.position, playerData.FirePosition.forward, out _hit, _fireRange))
+        else
         {
-            BulletHit();
+            _fireAnimation.TriggerReload();
+            _bullets = _magazineSize;
         }
-        // 撃ちアニメーションの長さ分待機
-        float animLength = _fireAnimation.GetAnimationLength("Shot");
-        StartCoroutine(FireTimer(animLength));
     }
 
     /// <summary>
@@ -82,6 +92,7 @@ public class PlayerFire : MonoBehaviour
         _fireRate = playerData.FireRate;
         _reloadTime = playerData.ReloadTime;
         _magazineSize = playerData.MagazineSize;
+        _bullets = playerData.MagazineSize;
         _firePosition = playerData.FirePosition;
         _fireRange = playerData.FireRange;
     }

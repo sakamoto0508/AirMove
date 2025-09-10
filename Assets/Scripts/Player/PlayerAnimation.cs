@@ -7,6 +7,7 @@ public class PlayerAnimation : MonoBehaviour
     private bool _isAiming;
     private const string IS_AIMING = "IsAiming";
     private const string SHOOT_TRIGGER = "Shoot";
+    private const string RELOAD_TRIGGER = "Reload";
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -39,6 +40,11 @@ public class PlayerAnimation : MonoBehaviour
     public void TriggerShot()
     {
         _animator.SetTrigger(SHOOT_TRIGGER);
+    }
+
+    public void TriggerReload()
+    {
+        _animator.SetTrigger(RELOAD_TRIGGER);
     }
 
     /// <summary>

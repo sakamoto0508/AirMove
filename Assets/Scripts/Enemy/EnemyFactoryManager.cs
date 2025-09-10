@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class EnemyFactoryManager : MonoBehaviour
 {
-    [SerializeField] private EnemyDatabase _database;
+    [SerializeField] private EnemyDataBase _database;
     // 敵の種類名をキーにしてデータを管理する辞書
     private Dictionary<string, EnemyData> _enemyDict = new Dictionary<string, EnemyData>();
 

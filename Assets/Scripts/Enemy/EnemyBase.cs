@@ -5,6 +5,7 @@ public class EnemyBase : MonoBehaviour
 {
     public Action EnemyDamageAction;
     public Action<EnemyBase, string, EnemyData.enemyType> EnemyDeathAction;
+    public Action EnemyDeathNoArgAction;
     // “G‚Ìƒ^ƒCƒvî•ñ‚ğ•Û
     public string EnemyTypeName { get; private set; }
     public EnemyData.enemyType EnemyType { get; private set; }
@@ -69,6 +70,7 @@ public class EnemyBase : MonoBehaviour
         this.gameObject.SetActive(false);
         EnemyState = enemyState.Die;
         EnemyDeathAction?.Invoke(this, EnemyTypeName, EnemyType);
+        EnemyDeathNoArgAction?.Invoke();
     }
 
     public enum enemyState

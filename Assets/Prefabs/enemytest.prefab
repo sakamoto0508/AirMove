@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 3702278234987888298}
   - component: {fileID: 2071452806463462060}
   - component: {fileID: 33017482017704499}
-  - component: {fileID: 7842624502632690236}
+  - component: {fileID: 2897107745523116562}
+  - component: {fileID: 8406610862177605976}
   m_Layer: 0
   m_Name: enemytest
   m_TagString: Untagged
@@ -109,7 +110,29 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &7842624502632690236
+--- !u!195 &2897107745523116562
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7334874953857922130}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 1
+  m_BaseOffset: 0.5
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &8406610862177605976
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -118,6 +141,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 7334874953857922130}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78bc515281c28664dacccb46ce4200cf, type: 3}
+  m_Script: {fileID: 11500000, guid: 7de0cffd3249aa6469a7a4f3a6cba4e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

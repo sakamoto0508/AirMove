@@ -8,9 +8,13 @@ public class EnemyBase : MonoBehaviour
     // ìGÇÃÉ^ÉCÉvèÓïÒÇï€éù
     public string EnemyTypeName { get; private set; }
     public EnemyData.enemyType EnemyType { get; private set; }
-    protected enemyState EnemyState { get; private set; } = enemyState.Idle;
+    protected enemyState EnemyState = enemyState.Idle;
+    protected Transform _roamingRangeMax;
+    protected Transform _roamingRangeMin;
+    protected float _roamingRangeDistance;
     protected float _speed;
     protected float _enemyFieldOfView;
+    protected float _idleTime;
     protected int _health;
     protected int _score;
 
@@ -20,12 +24,16 @@ public class EnemyBase : MonoBehaviour
     /// <param name="data"></param>
     public virtual void Setup(EnemyData data)
     {
-        _speed = data.MoveSpeed;
-        _enemyFieldOfView = data.EnemyFieldOfView;
-        _health = data.Health;
-        _score = data.Score;
         EnemyTypeName = data.EnemyName;
         EnemyType = data.EnemyType;
+        _roamingRangeMax = data.RoamingRangeMax;
+        _roamingRangeMin = data.RoamingRangeMin;
+        _roamingRangeDistance = data.RoamingRangeDistance;
+        _speed = data.MoveSpeed;
+        _enemyFieldOfView = data.EnemyFieldOfView;
+        _idleTime = data.IdleTime;
+        _health = data.Health;
+        _score = data.Score;
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created

@@ -5,5 +5,5 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "ItemDataBase", menuName = "Item/Item DataBase")]
 public class ItemDataBase : ScriptableObject
 {
-    public List<ItemBase> ItemList;
+    public List<ItemData> ItemList;
 }

@@ -64,7 +64,7 @@ public abstract class ItemBase : MonoBehaviour
 
     }
 
-    private void SetUp(ItemData itemData)
+    public void SetUp(ItemData itemData)
     {
         ItemName = itemData.ItemName;
         ItemType = itemData.ItemType;

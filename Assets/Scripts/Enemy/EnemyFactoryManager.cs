@@ -12,12 +12,6 @@ public class EnemyFactoryManager : MonoBehaviour
         InitializeEnemyDictionary();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     /// <summary>
     /// データベース内の全ての敵を辞書に登録
     /// </summary>

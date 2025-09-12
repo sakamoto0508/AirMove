@@ -7,6 +7,8 @@ public class PlayerFire : MonoBehaviour
     private float _fireRange;
     private float _reloadTime;
     private int _magazineSize;
+    private int _magazineSizeUp;
+    private int _magazineSizeSum;
     private int _bullets;
     private bool _fireTimerIsActive = false;
     private bool _isReloading = false;
@@ -19,9 +21,11 @@ public class PlayerFire : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        _fireRateWait= new WaitForSeconds(_fireRate);
-        _fireAnimation=GetComponent<PlayerAnimation>();
-        _playerAiming=GetComponent<PlayerAiming>();
+        _fireRateWait = new WaitForSeconds(_fireRate);
+        _fireAnimation = GetComponent<PlayerAnimation>();
+        _playerAiming = GetComponent<PlayerAiming>();
+        _magazineSizeUp = 0;
+        UpdateMagazineSizeSum();
     }
 
     private void OnDrawGizmos()
@@ -41,7 +45,7 @@ public class PlayerFire : MonoBehaviour
         {
             return;
         }
-        if(_bullets > 0)
+        if (_bullets > 0)
         {
             if (_fireTimerIsActive)
             {
@@ -69,7 +73,7 @@ public class PlayerFire : MonoBehaviour
     private void BulletHit()
     {
         Debug.Log("Hit: " + _hit.collider.name);
-        if((_hit.collider.TryGetComponent(out EnemyBase enemy)))
+        if ((_hit.collider.TryGetComponent(out EnemyBase enemy)))
         {
             enemy.TakeDamage();
         }
@@ -77,7 +81,7 @@ public class PlayerFire : MonoBehaviour
 
     private void StartReload()
     {
-        if (_isReloading || _bullets == _magazineSize)
+        if (_isReloading || _bullets == _magazineSizeSum)
         {
             return;
         }
@@ -88,6 +92,11 @@ public class PlayerFire : MonoBehaviour
         _fireAnimation.TriggerReload();
         float animLength = _fireAnimation.GetAnimationLength("Reload");
         StartCoroutine(ReloadCoroutine(animLength));
+    }
+
+    private void UpdateMagazineSizeSum()
+    {
+        _magazineSizeSum = _magazineSize + _magazineSizeUp;
     }
 
     /// <summary>
@@ -102,8 +111,6 @@ public class PlayerFire : MonoBehaviour
         _fireTimerIsActive = false;
     }
 
-    
-
     /// <summary>
     /// リロード処理のコルーチン
     /// </summary>
@@ -112,7 +119,7 @@ public class PlayerFire : MonoBehaviour
     {
         _isReloading = true;
         yield return new WaitForSeconds(waitTime); // リロード時間を使用
-        _bullets = _magazineSize; // アスタリスクを削除
+        _bullets = _magazineSizeSum;
         _isReloading = false;
     }
 
@@ -129,5 +136,11 @@ public class PlayerFire : MonoBehaviour
     public bool IsReloading()
     {
         return _isReloading;
+    }
+
+    public void SetMagazineSizeUp(int magazinsize)
+    {
+        _magazineSizeUp += magazinsize;
+        UpdateMagazineSizeSum();
     }
 }

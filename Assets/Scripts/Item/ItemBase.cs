@@ -64,10 +64,15 @@ public abstract class ItemBase : MonoBehaviour
 
     }
 
-    public void SetUp(ItemData itemData)
+    public virtual void SetUp(ItemData itemData)
     {
         ItemName = itemData.ItemName;
         ItemType = itemData.ItemType;
         ItemEffectTime = itemData.EffectTime;
+    }
+
+    public virtual void  SetUpEffect(ItemData itemData)
+    {
+
     }
 }

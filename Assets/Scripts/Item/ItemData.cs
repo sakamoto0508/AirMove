@@ -8,6 +8,8 @@ public class ItemData : ScriptableObject
     [SerializeField] private float _itemEffectTime;
     [SerializeField] private float _spawnProbability;
     [SerializeField] private itemType _itemType;
+    [Header("magazine")]
+    [SerializeField] private int _magazineSizeUp = 1;
     public enum itemType
     {
         Forever,
@@ -18,4 +20,5 @@ public class ItemData : ScriptableObject
     public float EffectTime => _itemEffectTime;
     public float SpawnProbability => _spawnProbability;
     public itemType ItemType => _itemType;
+    public int MagazineSizeUp => _magazineSizeUp;
 }

@@ -9,9 +9,11 @@ public class PlayerFire : MonoBehaviour
     private int _magazineSize;
     private int _bullets;
     private bool _fireTimerIsActive = false;
+    private bool _isReloading = false;
     private Transform _firePosition;
     private WaitForSeconds _fireRateWait;
     private PlayerAnimation _fireAnimation;
+    private PlayerAiming _playerAiming;
     private RaycastHit _hit;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -19,12 +21,7 @@ public class PlayerFire : MonoBehaviour
     {
         _fireRateWait= new WaitForSeconds(_fireRate);
         _fireAnimation=GetComponent<PlayerAnimation>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-       //Debug.DrawRay(_firePosition.position, _firePosition.forward * _fireRange, Color.red);
+        _playerAiming=GetComponent<PlayerAiming>();
     }
 
     private void OnDrawGizmos()
@@ -40,13 +37,17 @@ public class PlayerFire : MonoBehaviour
     /// <param name="playerData"></param>
     public void Fire(PlayerData playerData)
     {
+        if (_isReloading)
+        {
+            return;
+        }
         if(_bullets > 0)
         {
-            _bullets--;
             if (_fireTimerIsActive)
             {
                 return;
             }
+            _bullets--;
             _fireAnimation.TriggerShot();
             if (Physics.Raycast(playerData.FirePosition.position, playerData.FirePosition.forward, out _hit, _fireRange))
             {
@@ -58,8 +59,7 @@ public class PlayerFire : MonoBehaviour
         }
         else
         {
-            _fireAnimation.TriggerReload();
-            _bullets = _magazineSize;
+            StartReload();
         }
     }
 
@@ -75,6 +75,21 @@ public class PlayerFire : MonoBehaviour
         }
     }
 
+    private void StartReload()
+    {
+        if (_isReloading || _bullets == _magazineSize)
+        {
+            return;
+        }
+        if (_playerAiming != null && _playerAiming.IsAiming())
+        {
+            _playerAiming.StopAim();
+        }
+        _fireAnimation.TriggerReload();
+        float animLength = _fireAnimation.GetAnimationLength("Reload");
+        StartCoroutine(ReloadCoroutine(animLength));
+    }
+
     /// <summary>
     /// 射撃後のクールダウン処理
     /// </summary>
@@ -87,6 +102,20 @@ public class PlayerFire : MonoBehaviour
         _fireTimerIsActive = false;
     }
 
+    
+
+    /// <summary>
+    /// リロード処理のコルーチン
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator ReloadCoroutine(float waitTime)
+    {
+        _isReloading = true;
+        yield return new WaitForSeconds(waitTime); // リロード時間を使用
+        _bullets = _magazineSize; // アスタリスクを削除
+        _isReloading = false;
+    }
+
     public void StartSetVariables(PlayerData playerData)
     {
         _fireRate = playerData.FireRate;
@@ -95,5 +124,10 @@ public class PlayerFire : MonoBehaviour
         _bullets = playerData.MagazineSize;
         _firePosition = playerData.FirePosition;
         _fireRange = playerData.FireRange;
+    }
+
+    public bool IsReloading()
+    {
+        return _isReloading;
     }
 }

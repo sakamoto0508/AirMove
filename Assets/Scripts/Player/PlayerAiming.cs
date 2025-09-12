@@ -20,6 +20,7 @@ public class PlayerAiming : MonoBehaviour
     private float _transitionDurationSetEndTime;
     private float _feedInTime;
     private float _feedOutTime;
+    private bool _isReloading;
     private Coroutine _coroutine;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -45,6 +46,7 @@ public class PlayerAiming : MonoBehaviour
 
     public void StartAim()
     {
+        if(_isReloading) { return; };
         _isAiming = true;
         // Sequenceを使って同期的にアニメーション実行
         Sequence aimSequence = DOTween.Sequence();
@@ -111,5 +113,10 @@ public class PlayerAiming : MonoBehaviour
     {
         yield return new WaitForSeconds(_feedOutTime);
         _image.gameObject.SetActive(false);
+    }
+
+    public void SetIsReloading(bool isReloading)
+    {
+        _isReloading = isReloading;
     }
 }

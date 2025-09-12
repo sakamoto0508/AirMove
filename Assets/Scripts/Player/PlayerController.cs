@@ -39,6 +39,7 @@ public class PlayerController : MonoBehaviour
     public bool _isDashing { get; private set; } = false;
     public bool _isWallClimbing { get; private set; } = false;
     public bool _isAiming { get; private set; } = false;
+    public bool _isReloading { get; private set; } = false;
     public bool _wallRight { get; private set; } = false;
     public bool _wallLeft { get; private set; } = false;
     public bool _wallFront { get; private set; } = false;
@@ -220,6 +221,7 @@ public class PlayerController : MonoBehaviour
         _isDashing = _playerDashing.IsDashing();
         _isIdle = _playerMove.IsIdle();
         _isAiming=_playerAiming.IsAiming();
+        _isReloading=_playerFire.IsReloading();
         _playerMove?.SetGrounded(_isGrounded);
         _playerMove?.SetSliding(_playerSliding._isSliding);
         _playerMove?.SetDashing(_isDashing);
@@ -245,5 +247,6 @@ public class PlayerController : MonoBehaviour
         _playerDashing.CanDash(_isGrounded, _isSlope, _newWall);
         _canDash = _playerDashing.ReturnCanDash();
         _playerAnimation.SetIsAiming(_isAiming);
+        _playerAiming.SetIsReloading(_isReloading);
     }
 }

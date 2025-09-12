@@ -70,9 +70,4 @@ public abstract class ItemBase : MonoBehaviour
         ItemType = itemData.ItemType;
         ItemEffectTime = itemData.EffectTime;
     }
-
-    public virtual void  SetUpEffect(ItemData itemData)
-    {
-
-    }
 }

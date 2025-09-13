@@ -9,6 +9,10 @@ public class PlayerSpeedUI : MonoBehaviour
     void Start()
     {
         _rb = GetComponent<Rigidbody>();
+        if (_playerSpeedText == null)
+        {
+            _playerSpeedText = GameObject.Find("SpeedUI").GetComponent<Text>();
+        }
     }
 
     // Update is called once per frame

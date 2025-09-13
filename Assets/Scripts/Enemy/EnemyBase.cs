@@ -68,6 +68,7 @@ public class EnemyBase : MonoBehaviour
     protected virtual void Die()
     {
         this.gameObject.SetActive(false);
+        ScoreManager.Instance.AddScore(this._score);
         EnemyState = enemyState.Die;
         EnemyDeathAction?.Invoke(this, EnemyTypeName, EnemyType);
         EnemyDeathNoArgAction?.Invoke();

@@ -67,11 +67,11 @@ public class EnemyBase : MonoBehaviour
     /// <summary>éÄÇ èàóù </summary>
     protected virtual void Die()
     {
-        this.gameObject.SetActive(false);
         ScoreManager.Instance.AddScore(this._score);
         EnemyState = enemyState.Die;
         EnemyDeathAction?.Invoke(this, EnemyTypeName, EnemyType);
         EnemyDeathNoArgAction?.Invoke();
+        Destroy(this.gameObject);
     }
 
     public enum enemyState

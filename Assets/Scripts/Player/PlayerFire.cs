@@ -6,6 +6,7 @@ public class PlayerFire : MonoBehaviour
     private float _fireRate;
     private float _fireRange;
     private float _reloadTime;
+    private float _animationSpeed;
     private int _magazineSize;
     private int _magazineSizeUp;
     private int _magazineSizeSum;

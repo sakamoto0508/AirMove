@@ -5,6 +5,7 @@ public class PlayerAnimation : MonoBehaviour
     [SerializeField] private Animator _animator;
     private PlayerState _playerState;
     private bool _isAiming;
+    private float _combatAnimationSpeed = 1.0f;
     private const string IS_AIMING = "IsAiming";
     private const string SHOOT_TRIGGER = "Shoot";
     private const string RELOAD_TRIGGER = "Reload";
@@ -26,6 +27,10 @@ public class PlayerAnimation : MonoBehaviour
         {
             if (clip.name == aniName)
             {
+                if (aniName == "Shot" || aniName == "Reload")
+                {
+                    return clip.length / _combatAnimationSpeed;
+                }
                 return clip.length;
             }
         }
@@ -39,11 +44,13 @@ public class PlayerAnimation : MonoBehaviour
 
     public void TriggerShot()
     {
+        _animator.SetFloat("ShotSpeed",_combatAnimationSpeed);
         _animator.SetTrigger(SHOOT_TRIGGER);
     }
 
     public void TriggerReload()
     {
+        _animator.SetFloat("ReloadSpeed", _combatAnimationSpeed);
         _animator.SetTrigger(RELOAD_TRIGGER);
     }
 
@@ -53,5 +60,15 @@ public class PlayerAnimation : MonoBehaviour
     public void SetIsAiming(bool isAiming)
     {
         _isAiming = isAiming;
+    }
+
+    public void AddCombatAnimationSpeedUP(float animationSpeed)
+    {
+        _combatAnimationSpeed += animationSpeed;
+    }
+
+    public float GetCombatAnimationSpeed()
+    {
+        return _combatAnimationSpeed;
     }
 }

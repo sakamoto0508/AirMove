@@ -22,11 +22,9 @@ public class PlayerFire : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        _fireRateWait = new WaitForSeconds(_fireRate);
         _fireAnimation = GetComponent<PlayerAnimation>();
         _playerAiming = GetComponent<PlayerAiming>();
         _magazineSizeUp = 0;
-        UpdateMagazineSizeSum();
     }
 
     private void OnDrawGizmos()
@@ -132,6 +130,8 @@ public class PlayerFire : MonoBehaviour
         _bullets = playerData.MagazineSize;
         _firePosition = playerData.FirePosition;
         _fireRange = playerData.FireRange;
+        UpdateMagazineSizeSum();
+        _fireRateWait = new WaitForSeconds(_fireRate);
     }
 
     public bool IsReloading()

@@ -12,6 +12,8 @@ public class ItemData : ScriptableObject
     [SerializeField] private int _magazineSizeUp = 1;
     [Header("animation")]
     [SerializeField] private float _animationSpeed = 0.1f;
+    [Header("score")]
+    [SerializeField] private float _scoreUpMultiplier = 2.0f;
     public enum itemType
     {
         Forever,
@@ -24,4 +26,5 @@ public class ItemData : ScriptableObject
     public itemType ItemType => _itemType;
     public int MagazineSizeUp => _magazineSizeUp;
     public float AnimationSpeed => _animationSpeed;
+    public float ScoreUpMultiplier => _scoreUpMultiplier;
 }

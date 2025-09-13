@@ -17,3 +17,6 @@ MonoBehaviour:
   _itemEffectTime: 0
   _spawnProbability: 50
   _itemType: 0
+  _magazineSizeUp: 1
+  _animationSpeed: 0.1
+  _scoreUpMultiplier: 2

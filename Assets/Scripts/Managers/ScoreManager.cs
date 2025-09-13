@@ -4,6 +4,7 @@ public class ScoreManager : MonoBehaviour
 {
     public static ScoreManager Instance;
     public int ScoreSum = 0;
+    private float _scoreMultiplier = 1.0f;
 
     private void Awake()
     {
@@ -20,6 +21,17 @@ public class ScoreManager : MonoBehaviour
 
     public void AddScore(int score)
     {
-        ScoreSum += score;
+        int multipliedScore = Mathf.RoundToInt(score * _scoreMultiplier);
+        ScoreSum += multipliedScore;
+    }
+
+    public void SetScoreMultiplier(float multiplier)
+    {
+        _scoreMultiplier = multiplier;
+    }
+
+    public void ResetScoreMultiplier()
+    {
+        _scoreMultiplier = 1.0f;
     }
 }

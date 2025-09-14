@@ -14,6 +14,7 @@ public class EnemyBase : MonoBehaviour
     protected Transform _roamingRangeMin;
     protected float _roamingRangeDistance;
     protected float _speed;
+    protected float _currentSpeed;
     protected float _enemyFieldOfView;
     protected float _idleTime;
     protected int _health;
@@ -31,22 +32,23 @@ public class EnemyBase : MonoBehaviour
         _roamingRangeMin = data.RoamingRangeMin;
         _roamingRangeDistance = data.RoamingRangeDistance;
         _speed = data.MoveSpeed;
+        _currentSpeed = data.MoveSpeed;
         _enemyFieldOfView = data.EnemyFieldOfView;
         _idleTime = data.IdleTime;
         _health = data.Health;
         _score = data.Score;
     }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void Start()
     {
-
+        TimeEventManager.TimeStart += TimeStartAction;
+        TimeEventManager.TimeStop += TimeStopAction;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnDestroy()
     {
-
+        TimeEventManager.TimeStart -= TimeStartAction;
+        TimeEventManager.TimeStop -= TimeStopAction;
     }
 
     /// <summary> É_ÉÅÅ[ÉWÇÃèàóù</summary>
@@ -72,6 +74,16 @@ public class EnemyBase : MonoBehaviour
         EnemyDeathAction?.Invoke(this, EnemyTypeName, EnemyType);
         EnemyDeathNoArgAction?.Invoke();
         Destroy(this.gameObject);
+    }
+
+    public virtual void TimeStopAction()
+    {
+        Debug.Log("TimeStop");
+    }
+
+    public virtual void TimeStartAction()
+    {
+        Debug.Log("TimeResume");
     }
 
     public enum enemyState

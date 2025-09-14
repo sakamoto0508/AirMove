@@ -8,6 +8,7 @@ public class TimeManager : MonoBehaviour
     public float Timer;
     [SerializeField] private float _initialTimer = 180f;
     private bool _timerRunning = false;
+    private bool _timerPause = false;
 
     private void Awake()
     {
@@ -25,12 +26,13 @@ public class TimeManager : MonoBehaviour
     void Start()
     {
         _timerRunning = false;
+        _timerPause = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (_timerRunning)
+        if (_timerRunning && !_timerPause)
         {
             if (Timer >= 0)
             {
@@ -48,5 +50,27 @@ public class TimeManager : MonoBehaviour
     {
         Timer = _initialTimer;
         _timerRunning = true;
+        _timerPause = false;
+    }
+
+    public void StopTimer()
+    {
+        _timerPause = true;
+    }
+
+    public void ResumeTimer()
+    {
+        _timerPause = false;
+    }
+
+    /// <summary>
+    /// シーン切り替え時にイベントをクリア
+    /// </summary>
+    private void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            TimeEventManager.ClearAllEvents();
+        }
     }
 }

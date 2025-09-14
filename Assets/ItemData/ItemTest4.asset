@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b210c6dd35ed884ebac5a02bbb4c24e, type: 3}
+  m_Name: ItemTest4
+  m_EditorClassIdentifier: 
+  _itemName: ItemTest4
+  _itemPrefab: {fileID: 697296238273741355, guid: 2df5c71516befd24a8bba4d22fef162a, type: 3}
+  _itemEffectTime: 5
+  _spawnProbability: 50
+  _itemType: 1
+  _magazineSizeUp: 1
+  _animationSpeed: 0.1
+  _scoreUpMultiplier: 2

@@ -25,8 +25,14 @@ public abstract class ItemBase : MonoBehaviour
             else
             {
                 ItemEffect();
+                this.gameObject.SetActive(false);
             }
-            this.gameObject.SetActive(false);
+            //見た目消す
+            foreach (var renderer in GetComponentsInChildren<Renderer>())
+                renderer.enabled = false;
+            //コライダー無効
+            foreach (var col in GetComponents<Collider>())
+                col.enabled = false;
             ItemHitAction?.Invoke(this, ItemName, ItemType);
             _hasBeenUsed = true;
         }

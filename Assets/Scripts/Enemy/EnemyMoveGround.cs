@@ -65,4 +65,18 @@ public class EnemyMoveGround : EnemyBase
         yield return new WaitForSeconds(_idleTime);
         GoToRandPoint();
     }
+
+    public override void TimeStopAction()
+    {
+        base.TimeStopAction();
+        _agent.isStopped = true;
+        _agent.speed = 0;
+    }
+
+    public override void TimeStartAction()
+    {
+        base.TimeStartAction();
+        _agent.speed = _speed;
+        _agent.isStopped = false;
+    }
 }

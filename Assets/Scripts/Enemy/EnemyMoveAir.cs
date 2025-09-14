@@ -62,4 +62,16 @@ public class EnemyMoveAir : EnemyBase
         SetNewDestination();
         MoveToTarget();
     }
+
+    public override void TimeStopAction()
+    {
+        base.TimeStopAction();
+        _speed = 0f;
+    }
+
+    public override void TimeStartAction()
+    {
+        base.TimeStartAction();
+        _speed = _currentSpeed;
+    }
 }

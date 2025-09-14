@@ -15,7 +15,7 @@ MonoBehaviour:
   _itemName: test2
   _itemPrefab: {fileID: 5409833174092761196, guid: 0cae18cc8a8279d4ba8b05c7ef0b335d, type: 3}
   _itemEffectTime: 10
-  _spawnProbability: 50
+  _spawnProbability: 0
   _itemType: 0
   _magazineSizeUp: 1
   _animationSpeed: 0.2

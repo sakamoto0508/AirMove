@@ -15,6 +15,7 @@ public class EnemyBase : MonoBehaviour
     protected float _roamingRangeDistance;
     protected float _speed;
     protected float _currentSpeed;
+    protected float _detectionRange;
     protected float _enemyFieldOfView;
     protected float _idleTime;
     protected int _health;
@@ -33,13 +34,14 @@ public class EnemyBase : MonoBehaviour
         _roamingRangeDistance = data.RoamingRangeDistance;
         _speed = data.MoveSpeed;
         _currentSpeed = data.MoveSpeed;
+        _detectionRange = data.DetectionRange;
         _enemyFieldOfView = data.EnemyFieldOfView;
         _idleTime = data.IdleTime;
         _health = data.Health;
         _score = data.Score;
     }
 
-    private void Awake()
+    protected void Awake()
     {
         TimeEventManager.TimeStart += TimeStartAction;
         TimeEventManager.TimeStop += TimeStopAction;

@@ -16,10 +16,15 @@ public class EnemyMoveAir : EnemyBase
     {
         if (EnemyState == enemyState.Idle)
             return;
-        else
+
+        if (CheckForObstacles())
         {
-            MoveToTarget();
+            SetNewDestination();
+            return;
         }
+
+        MoveToTarget();
+        
         if (Vector3.Distance(transform.position, _targetPosition) < _roamingRangeDistance)
         {
             StartCoroutine(IdleWait());
@@ -52,6 +57,19 @@ public class EnemyMoveAir : EnemyBase
         EnemyState = enemyState.Run;
     }
 
+    private bool CheckForObstacles()
+    {
+        Vector3 moveDirection=(_targetPosition-transform.position).normalized;
+        Vector3 origin=transform.position;
+        RaycastHit hit;
+        if(Physics.SphereCast(origin,_enemyFieldOfView,moveDirection,
+            out hit, _detectionRange))
+        {
+            return true;
+        }
+        return false;
+    }
+
     /// <summary>
     /// Idle‘Ò‹@
     /// </summary>
@@ -73,5 +91,28 @@ public class EnemyMoveAir : EnemyBase
     {
         base.TimeStartAction();
         _speed = _currentSpeed;
+    }
+
+    public override void Setup(EnemyData data)
+    {
+        base.Setup(data);
+
+    }
+
+    private void OnDrawGizmos()
+    {
+        Vector3 moveDirection = (_targetPosition - transform.position).normalized;
+        Vector3 origin = transform.position;
+        // áŠQ•¨ŒŸ’m”ÍˆÍ‚ğ•`‰æ
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(origin, _enemyFieldOfView);
+        Gizmos.DrawWireSphere(origin + moveDirection * _detectionRange, _enemyFieldOfView);
+        // ŒŸ’m•ûŒü‚Ìü‚ğ•`‰æ
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawLine(origin, origin + moveDirection * _detectionRange);
+        // –Ú“I’n‚ğ•`‰æ
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(_targetPosition, 0.5f);
+        Gizmos.DrawLine(transform.position, _targetPosition);
     }
 }

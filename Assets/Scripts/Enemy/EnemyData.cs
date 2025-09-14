@@ -14,7 +14,7 @@ public class EnemyData : ScriptableObject
     /// </summary>
     [SerializeField] private float _detectionRange;
     /// <summary>
-    /// 視野角
+    /// スフィアキャストの半径
     /// </summary>
     [SerializeField] private float _enemyFieldOfView;
     [SerializeField] private float _idleTime;

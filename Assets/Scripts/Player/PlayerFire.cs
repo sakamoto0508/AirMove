@@ -14,7 +14,6 @@ public class PlayerFire : MonoBehaviour
     private bool _fireTimerIsActive = false;
     private bool _isReloading = false;
     private Transform _firePosition;
-    private WaitForSeconds _fireRateWait;
     private PlayerAnimation _fireAnimation;
     private PlayerAiming _playerAiming;
     private RaycastHit _hit;
@@ -130,7 +129,6 @@ public class PlayerFire : MonoBehaviour
         _firePosition = playerData.FirePosition;
         _fireRange = playerData.FireRange;
         UpdateMagazineSizeSum();
-        _fireRateWait = new WaitForSeconds(_fireRate);
     }
 
     public bool IsReloading()

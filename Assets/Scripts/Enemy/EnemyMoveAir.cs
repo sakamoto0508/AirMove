@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using static EnemyBase;
 
 public class EnemyMoveAir : EnemyBase
 {
@@ -22,9 +21,7 @@ public class EnemyMoveAir : EnemyBase
             SetNewDestination();
             return;
         }
-
         MoveToTarget();
-        
         if (Vector3.Distance(transform.position, _targetPosition) < _roamingRangeDistance)
         {
             StartCoroutine(IdleWait());

@@ -7,7 +7,6 @@ public class TheWorldItem : ItemBase
     {
         base.OnEffectStart();
         TimeEventManager.InvokeTimeStop();
-        Debug.Log("TimeStop");
         if (TimeManager.Instance != null)
         {
             TimeManager.Instance.StopTimer();
@@ -18,7 +17,6 @@ public class TheWorldItem : ItemBase
     {
         base.OnEffectEnd();
         TimeEventManager.InvokeTimeStart();
-        Debug.Log("effectend");
         if (TimeManager.Instance != null)
         {
             TimeManager.Instance.ResumeTimer();

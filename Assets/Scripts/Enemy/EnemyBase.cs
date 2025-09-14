@@ -39,7 +39,7 @@ public class EnemyBase : MonoBehaviour
         _score = data.Score;
     }
 
-    private void Start()
+    private void Awake()
     {
         TimeEventManager.TimeStart += TimeStartAction;
         TimeEventManager.TimeStop += TimeStopAction;
@@ -57,7 +57,6 @@ public class EnemyBase : MonoBehaviour
         if (_health > 0)
         {
             _health--;
-            Debug.Log(_health);
             EnemyDamageAction?.Invoke();
             if (_health <= 0)
             {
@@ -78,12 +77,12 @@ public class EnemyBase : MonoBehaviour
 
     public virtual void TimeStopAction()
     {
-        Debug.Log("TimeStop");
+        Debug.Log("TimeStopBase");
     }
 
     public virtual void TimeStartAction()
     {
-        Debug.Log("TimeResume");
+        Debug.Log("TimeStartBase");
     }
 
     public enum enemyState

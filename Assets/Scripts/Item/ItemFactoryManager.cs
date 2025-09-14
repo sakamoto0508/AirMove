@@ -43,7 +43,6 @@ public class ItemFactoryManager : MonoBehaviour
             if (item != null)
             {
                 item.SetUp(data);
-                Debug.Log($"ÉAÉCÉeÉÄê∂ê¨: {type} at {position}");
             }
             else
             {

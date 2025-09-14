@@ -5,13 +5,10 @@ using UnityEngine.AI;
 public class EnemyMoveGround : EnemyBase
 {
     private NavMeshAgent _agent;
-    private void Awake()
-    {
-        _agent = GetComponent<NavMeshAgent>();
-    }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        _agent = GetComponent<NavMeshAgent>();
         GoToRandPoint();
     }
 
@@ -69,8 +66,16 @@ public class EnemyMoveGround : EnemyBase
     public override void TimeStopAction()
     {
         base.TimeStopAction();
-        _agent.isStopped = true;
-        _agent.speed = 0;
+        Debug.Log("TheWorld");
+        EnemyState=enemyState.Idle;
+        // NavMeshAgent‚ðŠ®‘S’âŽ~
+        if (_agent != null && _agent.enabled)
+        {
+            _agent.isStopped = true;
+            _agent.ResetPath();
+            _agent.velocity = Vector3.zero; 
+        }
+        StopAllCoroutines();
     }
 
     public override void TimeStartAction()
@@ -78,5 +83,6 @@ public class EnemyMoveGround : EnemyBase
         base.TimeStartAction();
         _agent.speed = _speed;
         _agent.isStopped = false;
+        GoToRandPoint();
     }
 }

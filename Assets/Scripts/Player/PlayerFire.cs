@@ -71,7 +71,6 @@ public class PlayerFire : MonoBehaviour
     /// </summary>
     private void BulletHit()
     {
-        Debug.Log("Hit: " + _hit.collider.name);
         if ((_hit.collider.TryGetComponent(out EnemyBase enemy)))
         {
             enemy.TakeDamage();

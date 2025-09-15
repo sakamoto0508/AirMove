@@ -4,7 +4,7 @@ using UnityEngine;
 public class TimeManager : MonoBehaviour
 {
     public static TimeManager Instance;
-    public Action TimerStop;
+    public Action TimerUpAction;
     public float Timer;
     [SerializeField] private float _initialTimer = 180f;
     private bool _timerRunning = false;
@@ -40,7 +40,7 @@ public class TimeManager : MonoBehaviour
             }
             else
             {
-                TimerStop?.Invoke();
+                TimerUpAction?.Invoke();
                 Timer = 0;
                 _timerRunning = false;
             }

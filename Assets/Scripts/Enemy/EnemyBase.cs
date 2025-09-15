@@ -41,20 +41,20 @@ public class EnemyBase : MonoBehaviour
         _score = data.Score;
     }
 
-    protected void Awake()
+    protected virtual void Awake()
     {
         TimeEventManager.TimeStart += TimeStartAction;
         TimeEventManager.TimeStop += TimeStopAction;
     }
 
-    private void OnDestroy()
+    protected virtual void OnDestroy()
     {
         TimeEventManager.TimeStart -= TimeStartAction;
         TimeEventManager.TimeStop -= TimeStopAction;
     }
 
     /// <summary> É_ÉÅÅ[ÉWÇÃèàóù</summary>
-    public void TakeDamage()
+    public virtual void TakeDamage()
     {
         if (_health > 0)
         {
@@ -68,7 +68,7 @@ public class EnemyBase : MonoBehaviour
     }
 
     /// <summary>éÄÇ èàóù </summary>
-    protected virtual void Die()
+    public virtual void Die()
     {
         ScoreManager.Instance.AddScore(this._score);
         EnemyState = enemyState.Die;
@@ -79,12 +79,12 @@ public class EnemyBase : MonoBehaviour
 
     public virtual void TimeStopAction()
     {
-        Debug.Log("TimeStopBase");
+        //Debug.Log("TimeStopBase");
     }
 
     public virtual void TimeStartAction()
     {
-        Debug.Log("TimeStartBase");
+        //Debug.Log("TimeStartBase");
     }
 
     public enum enemyState

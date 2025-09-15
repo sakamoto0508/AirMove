@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: testAir
   m_EditorClassIdentifier: 
   _enemyName: testAir
-  _prefab: {fileID: 2311882921989042011, guid: 6bd1af7087b96f84ab0d176ea0b9501d, type: 3}
+  _prefab: {fileID: 5433495354891085072, guid: 26bf2d990a4271f449282330d60f3b9c, type: 3}
   _roamingRangeMax: {fileID: 6059698889629493248, guid: 71f9634448f0dac488489bc050101e09, type: 3}
   _roamingRangeMin: {fileID: 7220195344665019907, guid: a8e9757fbaa54004fba398c551c246d4, type: 3}
   _roamingRangeDistance: 0.5
@@ -21,7 +21,7 @@ MonoBehaviour:
   _detectionRange: 5
   _enemyFieldOfView: 2
   _idleTime: 1
-  _health: 1
+  _health: 2
   _maxEnemyValue: 5
   _score: 20
   _enemyType: 1

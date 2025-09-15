@@ -1,11 +1,23 @@
 using System.Collections;
+using Microsoft.Win32.SafeHandles;
 using UnityEngine;
 
 public class EnemyMoveAir : EnemyBase
 {
     private Vector3 _targetPosition;
+
+    protected override void Awake()
+    {
+        base.Awake();
+    }
+
+    protected override void OnDestroy()
+    {
+        base.OnDestroy();
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    protected virtual void Start()
     {
         SetNewDestination();
     }
@@ -44,7 +56,7 @@ public class EnemyMoveAir : EnemyBase
     /// <summary>
     /// ÉâÉìÉ_ÉÄÇ»úpújêÊÇëIÇ‘
     /// </summary>
-    private void SetNewDestination()
+    protected void SetNewDestination()
     {
         _targetPosition = new Vector3(
             Random.Range(_roamingRangeMin.position.x, _roamingRangeMax.position.x),
@@ -80,20 +92,24 @@ public class EnemyMoveAir : EnemyBase
 
     public override void TimeStopAction()
     {
-        base.TimeStopAction();
+        Debug.Log("baseTimeStop");
         _speed = 0f;
     }
 
     public override void TimeStartAction()
     {
-        base.TimeStartAction();
+        Debug.Log("baseTimeStart");
         _speed = _currentSpeed;
+    }
+
+    public override void TakeDamage()
+    {
+        base.TakeDamage();
     }
 
     public override void Setup(EnemyData data)
     {
         base.Setup(data);
-
     }
 
     private void OnDrawGizmos()

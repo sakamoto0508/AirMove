@@ -70,7 +70,17 @@ public class PlayerFire : MonoBehaviour
     /// </summary>
     private void BulletHit()
     {
-        if ((_hit.collider.TryGetComponent(out EnemyBase enemy)))
+        EnemyRamieruChild childRaycast=_hit.collider.GetComponent<EnemyRamieruChild>();
+        if(childRaycast != null)
+        {
+            childRaycast.OnRaycastHit();
+            return;
+        }
+        if ((_hit.collider.TryGetComponent(out EnemyRamieru enemyRamieru)))
+        {
+            enemyRamieru.TakeDamage();
+        }
+        else if ((_hit.collider.TryGetComponent(out EnemyBase enemy)))
         {
             enemy.TakeDamage();
         }

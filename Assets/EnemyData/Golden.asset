@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4db62c650a998094db3f7c95a8ab3d7c, type: 3}
   m_Name: Golden
   m_EditorClassIdentifier: 
-  _enemyName: 
+  _enemyName: Golden
   _prefab: {fileID: 0}
   _roamingRangeMax: {fileID: 0}
   _roamingRangeMin: {fileID: 0}
@@ -22,6 +22,6 @@ MonoBehaviour:
   _enemyFieldOfView: 0
   _idleTime: 0
   _health: 0
-  _maxEnemyValue: 0
+  _maxEnemyValue: 1
   _score: 0
   _enemyType: 0

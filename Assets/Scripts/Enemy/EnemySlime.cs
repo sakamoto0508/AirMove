@@ -1,16 +1,28 @@
+using System.Collections;
 using UnityEngine;
 
 public class EnemySlime : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [SerializeField] private float _jumpForce = 1f;
+    [SerializeField] private float _jumpCoolTime = 3f;
+    private Rigidbody _rb;
+    private void Start()
     {
-        
+        _rb = GetComponent<Rigidbody>();
+        StartCoroutine(JumpLoop());
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Jump()
     {
-        
+        _rb.AddForce(transform.up * _jumpForce, ForceMode.Impulse);
+    }
+
+    private IEnumerator JumpLoop()
+    {
+        while (true)
+        {
+            Jump();
+            yield return new WaitForSeconds(_jumpCoolTime);
+        }
     }
 }

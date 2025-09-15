@@ -15,3 +15,4 @@ MonoBehaviour:
   EnemyList:
   - {fileID: 11400000, guid: e3d379ade90273744968bcaf49ec3274, type: 2}
   - {fileID: 11400000, guid: 3131e5f4fd9abbc44a772c6ce9b26b65, type: 2}
+  - {fileID: 11400000, guid: b0de10b2d2f45b944b2d82d28d32354d, type: 2}

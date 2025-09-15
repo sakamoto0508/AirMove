@@ -7,6 +7,9 @@ public class EnemyData : ScriptableObject
     [SerializeField] private GameObject _prefab;
     [SerializeField] private Transform _roamingRangeMax;
     [SerializeField] private Transform _roamingRangeMin;
+    /// <summary>
+    /// w’è‚Ì‹——£‚ÌŒë·”ÍˆÍ
+    /// </summary>
     [SerializeField] private float _roamingRangeDistance;
     [SerializeField] private float _moveSpeed;
     /// <summary>

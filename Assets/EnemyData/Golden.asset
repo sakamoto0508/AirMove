@@ -13,15 +13,15 @@ MonoBehaviour:
   m_Name: Golden
   m_EditorClassIdentifier: 
   _enemyName: Golden
-  _prefab: {fileID: 0}
-  _roamingRangeMax: {fileID: 0}
-  _roamingRangeMin: {fileID: 0}
-  _roamingRangeDistance: 0
-  _moveSpeed: 0
-  _detectionRange: 0
-  _enemyFieldOfView: 0
-  _idleTime: 0
-  _health: 0
+  _prefab: {fileID: 1383697202882872480, guid: 5116b552affeb5042bba467c5480da96, type: 3}
+  _roamingRangeMax: {fileID: 6059698889629493248, guid: 71f9634448f0dac488489bc050101e09, type: 3}
+  _roamingRangeMin: {fileID: 7220195344665019907, guid: a8e9757fbaa54004fba398c551c246d4, type: 3}
+  _roamingRangeDistance: 0.5
+  _moveSpeed: 100
+  _detectionRange: 5
+  _enemyFieldOfView: 1
+  _idleTime: 0.5
+  _health: 1
   _maxEnemyValue: 1
-  _score: 0
-  _enemyType: 0
+  _score: 1000
+  _enemyType: 1

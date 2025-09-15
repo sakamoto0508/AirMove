@@ -13,7 +13,7 @@ public class EnemyMoveGround : EnemyBase
     }
 
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
         if (EnemyState != enemyState.Idle && !_agent.pathPending &&
             _agent.remainingDistance < _roamingRangeDistance)

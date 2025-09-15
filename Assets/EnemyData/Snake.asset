@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4db62c650a998094db3f7c95a8ab3d7c, type: 3}
+  m_Name: Snake
+  m_EditorClassIdentifier: 
+  _enemyName: Snake
+  _prefab: {fileID: 5333490496868965789, guid: 4a98340442d476f47bcb78d18d501579, type: 3}
+  _roamingRangeMax: {fileID: 1898750807138683509, guid: f45e967d622afeb4bb523a5b1aab22a7, type: 3}
+  _roamingRangeMin: {fileID: 937953642303579412, guid: 30a14fcae486cd049bab936462554574, type: 3}
+  _roamingRangeDistance: 0.5
+  _moveSpeed: 2
+  _detectionRange: 0
+  _enemyFieldOfView: 0
+  _idleTime: 2
+  _health: 1
+  _maxEnemyValue: 3
+  _score: 20
+  _enemyType: 0

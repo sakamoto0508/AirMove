@@ -42,15 +42,15 @@ public class PlayerData : MonoBehaviour
     [SerializeField] private float _dashDuration;
     [SerializeField] private float _dashCooldown;
     [SerializeField] private float _dashFOV = 90f;
-    
+
     [Header("WallRunning")]
     [SerializeField] private LayerMask _wallLayer;
     [SerializeField] private float _wallRunForce = 10f;
     [SerializeField] private float _wallJumpUpForce;
     [SerializeField] private float _wallJumpSideForce;
     [SerializeField] private float _exitWallTime;
-    [SerializeField] private float _cameraFOV=90f;
-    [SerializeField] private float _cameraTiltAngle=5f;
+    [SerializeField] private float _cameraFOV = 90f;
+    [SerializeField] private float _cameraTiltAngle = 5f;
 
     [Header("WallClimbing")]
     [SerializeField] private float _climbingSpeed;
@@ -82,6 +82,9 @@ public class PlayerData : MonoBehaviour
     [SerializeField] private float _transitionDurationSetEndTime = 0.1f;
     [SerializeField] private float _feedInTime = 1f;
     [SerializeField] private float _feedOutTime = 0.1f;
+
+    [Header("ParticleSystem")]
+    [SerializeField] private ParticleSystem _firePS;
 
     //“Ç‚ÝŽæ‚èê—p
     public float WalkSpeed => _walkSpeed;
@@ -136,4 +139,5 @@ public class PlayerData : MonoBehaviour
     public float FeedInTime => _feedInTime;
     public float FeedOutTime => _feedOutTime;
     public Transform FirePosition => _firePosition;
+    public ParticleSystem FirePS => _firePS;
 }

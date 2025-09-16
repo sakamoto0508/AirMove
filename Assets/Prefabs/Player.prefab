@@ -229,7 +229,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e84a4961b994e3440b0d0f0740c4112a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mainCamera: {fileID: 0}
+  _mainCamera: {fileID: 7601933862897964281, guid: 192b4a435c58eec409ee9b9e630fe0ec, type: 3}
   _walkSpeed: 7
   _sprintSpeed: 10
   _crouchSpeed: 5
@@ -281,6 +281,11 @@ MonoBehaviour:
   _fireRange: 1000
   _magazineSize: 3
   _firePosition: {fileID: 0}
+  _transitionDurationSetUpTime: 0.5
+  _transitionDurationSetEndTime: 0.1
+  _feedInTime: 1
+  _feedOutTime: 0.1
+  _firePS: {fileID: 0}
 --- !u!114 &5987107330558413609
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -534,3 +539,6 @@ MonoBehaviour:
   _cameraFPS: {fileID: 0}
   _priorityHigh: 1
   _priorityLow: 0
+  _easeTypeCamera: 7
+  _easeTypeScope: 11
+  _image: {fileID: 0}

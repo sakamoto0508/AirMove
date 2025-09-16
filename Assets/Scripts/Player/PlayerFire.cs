@@ -16,6 +16,7 @@ public class PlayerFire : MonoBehaviour
     private Transform _firePosition;
     private PlayerAnimation _fireAnimation;
     private PlayerAiming _playerAiming;
+    private ParticleSystem _firePS;
     private RaycastHit _hit;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -24,6 +25,14 @@ public class PlayerFire : MonoBehaviour
         _fireAnimation = GetComponent<PlayerAnimation>();
         _playerAiming = GetComponent<PlayerAiming>();
         _magazineSizeUp = 0;
+    }
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.R))
+        {
+            StartReload();
+        }
     }
 
     private void OnDrawGizmos()
@@ -51,6 +60,8 @@ public class PlayerFire : MonoBehaviour
             }
             _bullets--;
             _fireAnimation.TriggerShot();
+            AudioManager.Instance.PlaySE("Fire");
+            _firePS.Play();
             if (Physics.Raycast(playerData.FirePosition.position, playerData.FirePosition.forward, out _hit, _fireRange))
             {
                 BulletHit();
@@ -72,8 +83,8 @@ public class PlayerFire : MonoBehaviour
     {
         if (_hit.collider.TryGetComponent(out EnemyRamieruChild ramieruChild))
         {
-            ramieruChild.OnRaycastHit(); 
-            return; 
+            ramieruChild.OnRaycastHit();
+            return;
         }
         else if (_hit.collider.TryGetComponent(out EnemyHitBox hitBox))
         {
@@ -103,6 +114,7 @@ public class PlayerFire : MonoBehaviour
         }
         _fireAnimation.TriggerReload();
         float animLength = _fireAnimation.GetAnimationLength("Reload");
+        AudioManager.Instance.PlaySE("Reload");
         StartCoroutine(ReloadCoroutine(animLength));
     }
 
@@ -143,6 +155,7 @@ public class PlayerFire : MonoBehaviour
         _bullets = playerData.MagazineSize;
         _firePosition = playerData.FirePosition;
         _fireRange = playerData.FireRange;
+        _firePS = playerData.FirePS;
         UpdateMagazineSizeSum();
     }
 

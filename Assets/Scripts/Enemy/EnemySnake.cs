@@ -17,8 +17,16 @@ public class EnemySnake : EnemyMoveGround
     /// sin葉の速さ
     /// </summary>
     [SerializeField] private float _waveFrequency = 5f;
+    private Collider[] _childrenColliders;
     private float _waveOffset;
+    private float _currentWaveFrequency;
 
+    protected override void Start()
+    {
+        base.Start();
+        _currentWaveFrequency = _waveFrequency;
+        _childrenColliders = GetComponentsInChildren<Collider>();
+    }
     // Update is called once per frame
     protected override void Update()
     {
@@ -49,5 +57,17 @@ public class EnemySnake : EnemyMoveGround
             // 前のセグメントの方向を向かせる
             segment.LookAt(i == 0 ? transform.position : _bodySegments[i - 1].position);
         }
+    }
+
+    public override void TimeStopAction()
+    {
+        base.TimeStopAction();
+        _waveFrequency = 0f;
+    }
+
+    public override void TimeStartAction()
+    {
+        base.TimeStartAction();
+        _waveFrequency = _currentWaveFrequency;
     }
 }

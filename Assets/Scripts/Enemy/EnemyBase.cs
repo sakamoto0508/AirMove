@@ -59,9 +59,11 @@ public class EnemyBase : MonoBehaviour
         if (_health > 0)
         {
             _health--;
+            Debug.Log(gameObject.name+"damage");
             EnemyDamageAction?.Invoke();
             if (_health <= 0)
             {
+                Debug.Log(gameObject.name+"die");
                 Die();
             }
         }

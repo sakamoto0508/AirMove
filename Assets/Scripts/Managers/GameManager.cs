@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
-    public enum GameState { Title, Playing, Tutorial }
+    public enum GameState { Title, Playing, PlayEnd, Tutorial }
     public GameState CurrentState { get; private set; } = GameState.Title;
     private void Awake()
     {
@@ -30,13 +30,69 @@ public class GameManager : MonoBehaviour
         switch (newState)
         {
             case GameState.Title:
+                HandleTitleState();
                 break;
             case GameState.Playing:
-                ScoreManager.Instance.ScoreSum = 0;
-                TimeManager.Instance.TimerStart();
+                HandlePlayingState();
+                break;
+            case GameState.PlayEnd:
+                HandlePlayingEndState();
                 break;
             case GameState.Tutorial:
+                HandleTutorialState();
                 break;
+        }
+    }
+
+    private void HandleTitleState()
+    {
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayBGM("TitleBGM");
+        }
+    }
+
+    private void HandlePlayingState()
+    {
+        // スコアリセット
+        if (ScoreManager.Instance != null)
+        {
+            ScoreManager.Instance.ScoreSum = 0;
+            ScoreManager.Instance.ResetScoreMultiplier();
+        }
+        // タイマー開始
+        TimeManager.Instance?.TimerStart();
+        // BGM再生
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayBGM("GameBGM");
+        }
+    }
+
+    private void HandlePlayingEndState()
+    {
+
+        // ゲームオーバーSE再生
+        AudioManager.Instance?.PlaySE("TimeUp");
+        //ハイスコア判定とランキング登録
+        CheckAndSaveHighScore();
+    }
+
+    private void HandleTutorialState()
+    {
+
+    }
+
+    private void CheckAndSaveHighScore()
+    {
+        if (ScoreManager.Instance == null || TimeManager.Instance == null || RankingManager.Instance == null)
+            return;
+
+        int finalScore = ScoreManager.Instance.ScoreSum;
+        if (RankingManager.Instance.IsHighScore(finalScore))
+        {
+            AudioManager.Instance?.PlaySE("HighScore");
+            RankingManager.Instance.AddScore("Player", finalScore);
         }
     }
 

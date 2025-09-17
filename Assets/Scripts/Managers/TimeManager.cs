@@ -5,7 +5,7 @@ public class TimeManager : MonoBehaviour
 {
     public static TimeManager Instance;
     public Action TimerUpAction;
-    public float Timer;
+    public float Timer { get; private set; }
     [SerializeField] private float _initialTimer = 180f;
     private bool _timerRunning = false;
     private bool _timerPause = false;
@@ -22,6 +22,18 @@ public class TimeManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    /// <summary>
+    /// シーン切り替え時にイベントをクリア
+    /// </summary>
+    private void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            TimeEventManager.ClearAllEvents();
+        }
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -61,16 +73,5 @@ public class TimeManager : MonoBehaviour
     public void ResumeTimer()
     {
         _timerPause = false;
-    }
-
-    /// <summary>
-    /// シーン切り替え時にイベントをクリア
-    /// </summary>
-    private void OnDestroy()
-    {
-        if (Instance == this)
-        {
-            TimeEventManager.ClearAllEvents();
-        }
     }
 }

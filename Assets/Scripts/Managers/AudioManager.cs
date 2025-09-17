@@ -11,19 +11,17 @@ public class SoundData
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance { get; private set; }
-
     [Header("BGM 用 AudioSource")]
     [SerializeField] private AudioSource bgmSource;
-
     [Header("SE 用 AudioSource プレハブ")]
     [SerializeField] private AudioSource sfxSourcePrefab;
-
+    [Header("BGMリスト")]
+    [SerializeField] private List<SoundData> bgmList = new List<SoundData>();
     [Header("効果音リスト")]
     [SerializeField] private List<SoundData> seList = new List<SoundData>();
-
     [Header("効果音プール設定")]
     [SerializeField] private int sfxPoolSize = 10; // 同時再生可能数（必要に応じて増やす）
-
+    private Dictionary<string, AudioClip> _bgmDict=new Dictionary<string, AudioClip>();
     private Dictionary<string, AudioClip> _seDict = new Dictionary<string, AudioClip>();
     private List<AudioSource> _sfxPool = new List<AudioSource>();
 
@@ -37,7 +35,14 @@ public class AudioManager : MonoBehaviour
         }
         Instance = this;
         DontDestroyOnLoad(gameObject);
-
+        // BGMを辞書に登録
+        foreach (var bgm in bgmList)
+        {
+            if (!_bgmDict.ContainsKey(bgm.name) && bgm.clip != null)
+            {
+                _bgmDict.Add(bgm.name, bgm.clip);
+            }
+        }
         // SE を辞書に登録
         foreach (var se in seList)
         {
@@ -46,7 +51,6 @@ public class AudioManager : MonoBehaviour
                 _seDict.Add(se.name, se.clip);
             }
         }
-
         // プールを初期化
         for (int i = 0; i < sfxPoolSize; i++)
         {
@@ -68,11 +72,34 @@ public class AudioManager : MonoBehaviour
     }
 
     /// <summary>
+    /// BGM 再生（名前指定）
+    /// </summary>
+    public void PlayBGM(string bgmName)
+    {
+        if (_bgmDict.TryGetValue(bgmName, out var clip))
+        {
+            PlayBGM(clip);
+        }
+        else
+        {
+            Debug.LogWarning($"指定された BGM '{bgmName}' は登録されていません。");
+        }
+    }
+
+    /// <summary>
     /// BGM 停止
     /// </summary>
     public void StopBGM()
     {
         bgmSource.Stop();
+    }
+
+    /// <summary>
+    /// BGM 音量調整
+    /// </summary>
+    public void SetBGMVolume(float volume)
+    {
+        bgmSource.volume = Mathf.Clamp01(volume);
     }
 
     /// <summary>
@@ -111,14 +138,6 @@ public class AudioManager : MonoBehaviour
         extra.playOnAwake = false;
         _sfxPool.Add(extra);
         return extra;
-    }
-
-    /// <summary>
-    /// BGM 音量調整
-    /// </summary>
-    public void SetBGMVolume(float volume)
-    {
-        bgmSource.volume = Mathf.Clamp01(volume);
     }
 
     /// <summary>

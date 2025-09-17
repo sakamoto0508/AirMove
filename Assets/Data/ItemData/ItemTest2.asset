@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0b210c6dd35ed884ebac5a02bbb4c24e, type: 3}
-  m_Name: ItemTest3
+  m_Name: ItemTest2
   m_EditorClassIdentifier: 
-  _itemName: TheWorld
-  _itemPrefab: {fileID: 9138781913573522924, guid: 69cccc97133071d449b75b8b0a0dd6d9, type: 3}
-  _itemEffectTime: 15
-  _spawnProbability: 0
-  _itemType: 1
+  _itemName: test2
+  _itemPrefab: {fileID: 5409833174092761196, guid: 0cae18cc8a8279d4ba8b05c7ef0b335d, type: 3}
+  _itemEffectTime: 10
+  _spawnProbability: 50
+  _itemType: 0
   _magazineSizeUp: 1
-  _animationSpeed: 0.1
+  _animationSpeed: 0.2
   _scoreUpMultiplier: 2

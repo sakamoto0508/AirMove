@@ -35,6 +35,15 @@ public class AudioManager : MonoBehaviour
         }
         Instance = this;
         DontDestroyOnLoad(gameObject);
+        // BGM用 AudioSource を自動生成（シーンに依存しない）
+        if (bgmSource == null)
+        {
+            GameObject bgmObj = new GameObject("BGM_Source");
+            bgmObj.transform.SetParent(transform);
+            bgmSource = bgmObj.AddComponent<AudioSource>();
+            bgmSource.loop = true;
+            bgmSource.playOnAwake = false;
+        }
         // BGMを辞書に登録
         foreach (var bgm in bgmList)
         {
@@ -65,7 +74,7 @@ public class AudioManager : MonoBehaviour
     /// </summary>
     public void PlayBGM(AudioClip clip)
     {
-        if (clip == null) return;
+        if (clip == null || bgmSource == null || bgmSource.Equals(null)) return;
         bgmSource.clip = clip;
         bgmSource.loop = true;
         bgmSource.Play();

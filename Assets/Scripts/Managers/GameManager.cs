@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,6 +11,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private string titleSceneName = "Title";
     [SerializeField] private string gameSceneName = "Game";
     [SerializeField] private string tutorialSceneName = "Tutorial";
+    [SerializeField] private float _waitSeconds = 3f;
     private void Awake()
     {
         if (Instance == null)
@@ -87,6 +89,7 @@ public class GameManager : MonoBehaviour
         AudioManager.Instance?.PlaySE("TimeUp");
         //ハイスコア判定とランキング登録
         CheckAndSaveHighScore();
+        StartCoroutine(CoroutineTitle());
     }
 
     private void HandleTutorialState()
@@ -183,5 +186,11 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene("Title");
         ChangeState(GameState.Title);
+    }
+
+    private IEnumerator CoroutineTitle()
+    {
+        yield return new WaitForSeconds(_waitSeconds);
+        ReturnTitle();
     }
 }

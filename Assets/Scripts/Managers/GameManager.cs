@@ -5,12 +5,13 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
-    public enum GameState { Title, Playing, PlayEnd, Tutorial }
+    public enum GameState { Title, Playing, PlayEnd, Tutorial, Ranking }
     public GameState CurrentState { get; private set; } = GameState.Title;
     [Header("Scene Names")]
     [SerializeField] private string titleSceneName = "Title";
     [SerializeField] private string gameSceneName = "Game";
     [SerializeField] private string tutorialSceneName = "Tutorial";
+    [SerializeField] private string rankingSceneName = "Ranking";
     [SerializeField] private float _waitSeconds = 3f;
     private void Awake()
     {
@@ -29,7 +30,7 @@ public class GameManager : MonoBehaviour
     private void OnDestroy()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
-    }  
+    }
 
     private void Start()
     {
@@ -53,6 +54,9 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.Tutorial:
                 HandleTutorialState();
+                break;
+            case GameState.Ranking:
+                HandleRankingState();
                 break;
         }
     }
@@ -93,6 +97,11 @@ public class GameManager : MonoBehaviour
     }
 
     private void HandleTutorialState()
+    {
+
+    }
+
+    private void HandleRankingState()
     {
 
     }
@@ -139,6 +148,10 @@ public class GameManager : MonoBehaviour
         {
             targetState = GameState.Tutorial;
         }
+        else if (sceneName == rankingSceneName)
+        {
+            targetState = GameState.Ranking;
+        }
         // ステートが変更される場合のみChangeStateを呼ぶ
         if (targetState != CurrentState)
         {
@@ -146,7 +159,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void LoadSceneWithState(string sceneName,GameState newState)
+    public void LoadSceneWithState(string sceneName, GameState newState)
     {
         ChangeState(newState);
         SceneManager.LoadScene(sceneName);
@@ -165,6 +178,11 @@ public class GameManager : MonoBehaviour
     public void ReturnToTitle()
     {
         LoadSceneWithState(titleSceneName, GameState.Title);
+    }
+
+    public void StartRanking()
+    {
+        LoadSceneWithState(rankingSceneName, GameState.Ranking);
     }
 
     // タイムアップ時に呼び出す

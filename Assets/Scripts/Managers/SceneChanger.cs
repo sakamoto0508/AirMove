@@ -58,4 +58,16 @@ public class SceneChanger : MonoBehaviour
             SceneManager.LoadScene("Tutorial");
         }
     }
+
+    public void ChangeToRanking()
+    {
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.StartRanking();
+        }
+        else
+        {
+            SceneManager.LoadScene("Ranking");
+        }
+    }
 }

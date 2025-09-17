@@ -20,6 +20,7 @@ public class CameraManager : MonoBehaviour
     /// <param name="endValue"></param>
     public void DoFov(float targetFov)
     {
+        if (this == null || _cinemachineCamera == null) return;
         if (_fovCoroutine != null)
         {
             StopCoroutine(_fovCoroutine);
@@ -33,6 +34,7 @@ public class CameraManager : MonoBehaviour
     /// <param name="zTilt"></param>
     public void DoTilt(float zTilt)
     {
+        if (this == null || _cinemachineCamera == null) return;
         if (_tiltCoroutine != null)
         {
             StopCoroutine(_tiltCoroutine);

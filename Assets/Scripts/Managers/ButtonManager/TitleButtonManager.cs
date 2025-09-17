@@ -13,6 +13,16 @@ public class TitleButtonManager : MonoBehaviour
         SetupButtons();
     }
 
+    private void OnEnable()
+    {
+        InvokeRepeating(nameof(UpdateButtonVisibility), 0f, 0.1f);
+    }
+
+    private void OnDisable()
+    {
+        CancelInvoke(nameof(UpdateButtonVisibility));
+    }
+
     private void SetupButtons()
     {
         // ボタンイベントを直接メソッドに設定（Inspector設定不要）
@@ -54,7 +64,6 @@ public class TitleButtonManager : MonoBehaviour
                 SetButtonActive(RankingButton, true);
                 SetButtonActive(TitleButton, false);
                 break;
-
             case GameManager.GameState.Playing:
                 // ゲーム中は全ボタン非表示
                 SetButtonActive(StartGameButton, false);
@@ -62,7 +71,6 @@ public class TitleButtonManager : MonoBehaviour
                 SetButtonActive(RankingButton, false);
                 SetButtonActive(TitleButton, false);
                 break;
-
             case GameManager.GameState.PlayEnd:
                 // ゲーム終了時は何も表示しない（自動的にタイトルに戻る）
                 SetButtonActive(StartGameButton, false);
@@ -70,7 +78,6 @@ public class TitleButtonManager : MonoBehaviour
                 SetButtonActive(RankingButton, false);
                 SetButtonActive(TitleButton, false);
                 break;
-
             case GameManager.GameState.Tutorial:
                 // チュートリアル中はタイトルに戻るボタンのみ表示
                 SetButtonActive(StartGameButton, false);

@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [System.Serializable]
-public class RankingData : MonoBehaviour
+public class RankingData
 {
     public string PlayerName;
     public int Score;
@@ -9,5 +9,11 @@ public class RankingData : MonoBehaviour
     {
         PlayerName = name;
         Score = playerScore;
+    }
+
+    public RankingData()
+    {
+        PlayerName = "";
+        Score = 0;
     }
 }

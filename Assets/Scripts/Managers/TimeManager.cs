@@ -1,14 +1,13 @@
 using System;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
 public class TimeManager : MonoBehaviour
 {
     public static TimeManager Instance;
-    public Action TimerUpAction;
-    public float Timer { get; private set; }
+    public float _currentTime { get; private set; }
     [SerializeField] private float _initialTimer = 180f;
     private bool _timerRunning = false;
-    private bool _timerPause = false;
 
     private void Awake()
     {
@@ -23,55 +22,54 @@ public class TimeManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// シーン切り替え時にイベントをクリア
-    /// </summary>
-    private void OnDestroy()
-    {
-        if (Instance == this)
-        {
-            TimeEventManager.ClearAllEvents();
-        }
-    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         _timerRunning = false;
-        _timerPause = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (_timerRunning && !_timerPause)
+        if (_timerRunning && _currentTime >= 0)
         {
-            if (Timer >= 0)
+            _currentTime -= Time.deltaTime;
+            if (_currentTime < 0)
             {
-                Timer -= Time.deltaTime;
-            }
-            else
-            {
-                TimerUpAction?.Invoke();
-                Timer = 0;
-                _timerRunning = false;
+                _currentTime = 0;
+                TimeUp();
             }
         }
     }
     public void TimerStart()
     {
-        Timer = _initialTimer;
+        _currentTime = _initialTimer;
         _timerRunning = true;
-        _timerPause = false;
     }
 
     public void StopTimer()
     {
-        _timerPause = true;
+        _timerRunning = false;
     }
 
     public void ResumeTimer()
     {
-        _timerPause = false;
+        _timerRunning = true;
+    }
+
+    public void ResetTimer()
+    {
+        _currentTime = _initialTimer;
+        _timerRunning = false;
+    }
+
+    public void TimeUp()
+    {
+        _timerRunning = false;
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.TimeUp();
+        }
     }
 }

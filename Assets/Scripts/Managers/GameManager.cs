@@ -6,6 +6,10 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
     public enum GameState { Title, Playing, PlayEnd, Tutorial }
     public GameState CurrentState { get; private set; } = GameState.Title;
+    [Header("Scene Names")]
+    [SerializeField] private string titleSceneName = "Title";
+    [SerializeField] private string gameSceneName = "Game";
+    [SerializeField] private string tutorialSceneName = "Tutorial";
     private void Awake()
     {
         if (Instance == null)
@@ -17,10 +21,17 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
+
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }  
 
     private void Start()
     {
+        SetStateFromCurrentScene();
         ChangeState(GameState.Title);
     }
 
@@ -93,6 +104,72 @@ public class GameManager : MonoBehaviour
         {
             AudioManager.Instance?.PlaySE("HighScore");
             RankingManager.Instance.AddScore("Player", finalScore);
+        }
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        SetStateFromScene(scene.name);
+    }
+
+    private void SetStateFromCurrentScene()
+    {
+        string currentSceneName = SceneManager.GetActiveScene().name;
+        SetStateFromScene(currentSceneName);
+    }
+
+    private void SetStateFromScene(string sceneName)
+    {
+        GameState targetState = CurrentState;
+        if (sceneName == titleSceneName)
+        {
+            targetState = GameState.Title;
+        }
+        else if (sceneName == gameSceneName)
+        {
+            if (CurrentState != GameState.PlayEnd)
+            {
+                targetState = GameState.Playing;
+            }
+        }
+        else if (sceneName == tutorialSceneName)
+        {
+            targetState = GameState.Tutorial;
+        }
+        // ステートが変更される場合のみChangeStateを呼ぶ
+        if (targetState != CurrentState)
+        {
+            ChangeState(targetState);
+        }
+    }
+
+    public void LoadSceneWithState(string sceneName,GameState newState)
+    {
+        ChangeState(newState);
+        SceneManager.LoadScene(sceneName);
+    }
+
+    public void StartGame()
+    {
+        LoadSceneWithState(gameSceneName, GameState.Playing);
+    }
+
+    public void StartTutorial()
+    {
+        LoadSceneWithState(tutorialSceneName, GameState.Tutorial);
+    }
+
+    public void ReturnToTitle()
+    {
+        LoadSceneWithState(titleSceneName, GameState.Title);
+    }
+
+    // タイムアップ時に呼び出す
+    public void TimeUp()
+    {
+        if (CurrentState == GameState.Playing)
+        {
+            ChangeState(GameState.PlayEnd);
         }
     }
 

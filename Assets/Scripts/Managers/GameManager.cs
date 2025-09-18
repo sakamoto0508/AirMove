@@ -103,7 +103,12 @@ public class GameManager : MonoBehaviour
 
     private void HandleRankingState()
     {
-
+        // ランキングUIを探して強制更新
+        RankingDisplayUI ui = FindAnyObjectByType<RankingDisplayUI>();
+        if (ui != null)
+        {
+            ui.DisplayRanking();
+        }
     }
 
     private void CheckAndSaveHighScore()
@@ -112,10 +117,12 @@ public class GameManager : MonoBehaviour
             return;
 
         int finalScore = ScoreManager.Instance.ScoreSum;
+        string playerName = PlayerNameManager.Instance != null ?
+                           PlayerNameManager.Instance.GetPlayerName() : "Player";
         if (RankingManager.Instance.IsHighScore(finalScore))
         {
             AudioManager.Instance?.PlaySE("HighScore");
-            RankingManager.Instance.AddScore("Player", finalScore);
+            RankingManager.Instance.AddScore(playerName, finalScore);
         }
     }
 

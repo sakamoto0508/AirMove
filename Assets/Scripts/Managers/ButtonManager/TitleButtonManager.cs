@@ -8,9 +8,19 @@ public class TitleButtonManager : MonoBehaviour
     public Button StartGameButton;
     public Button TutorialButton;
     public Button RankingButton;
+
+    [Header("Name Input")]
+    public NameInputUI nameInputUI;
+
     private void Start()
     {
         SetupButtons();
+
+        // NameInputUIが見つからない場合は検索
+        if (nameInputUI == null)
+        {
+            nameInputUI = FindObjectOfType<NameInputUI>();
+        }
     }
 
     private void OnEnable()
@@ -52,6 +62,11 @@ public class TitleButtonManager : MonoBehaviour
     private void UpdateButtonVisibility()
     {
         if (GameManager.Instance == null) return;
+        // 名前入力UIが表示中なら TitleButtonManager は何もしない
+        if (nameInputUI != null && nameInputUI.gameObject.activeInHierarchy)
+        {
+            return;
+        }
 
         GameManager.GameState currentState = GameManager.Instance.CurrentState;
         // 現在の状態に応じてボタンの表示/非表示を設定
@@ -104,52 +119,79 @@ public class TitleButtonManager : MonoBehaviour
         }
     }
 
-    // ボタンイベントメソッド（SceneChangerを使用）
+    // 修正：名前入力を待ってからゲーム開始
     public void OnStartGameClicked()
     {
-        if (SceneChanger.Instance != null)
+        Debug.Log("スタートボタンがクリックされました");
+
+        // 名前入力UIを表示してから ゲームを開始
+        if (nameInputUI != null)
         {
-            SceneChanger.Instance.ChangeToGame();
+            Debug.Log("名前入力UIを表示します");
+            nameInputUI.ShowNameInput(OnNameConfirmed);
         }
         else
         {
-            Debug.LogError("SceneChanger.Instance is null!");
+            Debug.LogError("NameInputUIが見つかりません！");
+            // 名前入力UIがない場合は直接ゲーム開始
+            StartGame();
+        }
+    }
+
+    private void OnNameConfirmed(string playerName)
+    {
+        Debug.Log($"名前が確定されました: {playerName}");
+        // 名前が確定されたらゲーム開始
+        StartGame();
+    }
+
+    private void StartGame()
+    {
+        Debug.Log("ゲームを開始します");
+
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.StartGame();
+        }
+        else
+        {
+            Debug.LogError("GameManager.Instance is null!");
         }
     }
 
     public void OnTutorialClicked()
     {
-        if (SceneChanger.Instance != null)
+        if (GameManager.Instance != null)
         {
-            SceneChanger.Instance.ChangeToTutorial();
+            GameManager.Instance.StartTutorial();
         }
         else
         {
-            Debug.LogError("SceneChanger.Instance is null!");
+            Debug.LogError("GameManager.Instance is null!");
         }
     }
 
     public void OnTitleClicked()
     {
-        if (SceneChanger.Instance != null)
+        if (GameManager.Instance != null)
         {
-            SceneChanger.Instance.ChangeToTitle();
+            GameManager.Instance.ReturnToTitle();
         }
         else
         {
-            Debug.LogError("SceneChanger.Instance is null!");
+            Debug.LogError("GameManager.Instance is null!");
         }
     }
 
     public void OnRankingClicked()
     {
-        if (SceneChanger.Instance != null)
+        if (GameManager.Instance != null)
         {
-            SceneChanger.Instance.ChangeToRanking();
+            GameManager.Instance.StartRanking();
         }
         else
         {
-            Debug.LogError("SceneChanger.Instance is null!");
+            Debug.LogError("GameManager.Instance is null!");
         }
     }
 

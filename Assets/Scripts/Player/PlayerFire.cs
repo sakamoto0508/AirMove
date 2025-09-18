@@ -27,6 +27,13 @@ public class PlayerFire : MonoBehaviour
         _magazineSizeUp = 0;
     }
 
+    private void OnDisable()
+    {
+        // コルーチンを開始せず、即時処理に切り替える
+        StopAllCoroutines();
+        // もしくは StopAim() を呼ばないようにする
+    }
+
     private void Update()
     {
         if(Input.GetKeyDown(KeyCode.R))

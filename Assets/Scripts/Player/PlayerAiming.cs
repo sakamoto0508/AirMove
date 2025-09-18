@@ -38,6 +38,17 @@ public class PlayerAiming : MonoBehaviour
         DOTween.Init(false, true, LogBehaviour.ErrorsOnly);
     }
 
+    private void OnDisable()
+    {
+        StopAllCoroutines();
+        DOTween.Kill("aimTransition");
+
+        if (_image != null)
+        {
+            _image.gameObject.SetActive(false);
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -60,7 +71,8 @@ public class PlayerAiming : MonoBehaviour
             DOTween.To(() => _cameraFPS.depth, x => _cameraFPS.depth = x, _priorityHigh, _transitionDurationSetUpTime)
                 .SetEase(_easeTypeCamera)
         );
-        //スコープ画像の表示
+        // スコープ表示開始
+        if (_coroutine != null) StopCoroutine(_coroutine);
         _coroutine = StartCoroutine(ShowScope());
     }
 
@@ -86,8 +98,18 @@ public class PlayerAiming : MonoBehaviour
             DOTween.To(() => _cameraFPS.depth, x => _cameraFPS.depth = x, _priorityLow, _transitionDurationSetEndTime)
                 .SetEase(_easeTypeCamera)
         );
-        // スコープ画像の非表示
-        _coroutine = StartCoroutine(CloseScope());
+        // Image が存在する時だけ処理
+        if (_image != null && _image.gameObject != null)
+        {
+            if (!gameObject.activeInHierarchy)
+            {
+                _image.gameObject.SetActive(false);
+            }
+            else
+            {
+                _coroutine = StartCoroutine(CloseScope());
+            }
+        }
     }
 
     public bool IsAiming()

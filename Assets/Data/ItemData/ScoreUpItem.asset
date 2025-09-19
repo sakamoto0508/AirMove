@@ -15,7 +15,7 @@ MonoBehaviour:
   _itemName: ScoreUpItem
   _itemPrefab: {fileID: 4485229998111319829, guid: 9c5f6883b6a07254183ba5c1265d2b94, type: 3}
   _itemEffectTime: 15
-  _spawnProbability: 0
+  _spawnProbability: 50
   _itemType: 1
   _magazineSizeUp: 1
   _animationSpeed: 0.1

@@ -15,7 +15,7 @@ MonoBehaviour:
   _itemName: MagazineItem
   _itemPrefab: {fileID: 4485229998111319829, guid: 556575936dd944d468eca937d2ef9996, type: 3}
   _itemEffectTime: 0
-  _spawnProbability: 50
+  _spawnProbability: 30
   _itemType: 0
   _magazineSizeUp: 1
   _animationSpeed: 0.1

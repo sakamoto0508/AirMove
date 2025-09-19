@@ -104,11 +104,12 @@ public class GameManager : MonoBehaviour
     private void HandleTitleState()
     {
         // タイトル状態での処理
+        Cursor.visible = true;
     }
 
     private void HandlePlayingState()
     {
-        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
         // スコアリセット
         if (ScoreManager.Instance != null)
         {
@@ -130,7 +131,7 @@ public class GameManager : MonoBehaviour
 
     private void HandleTutorialState()
     {
-        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     private void HandleRankingState()

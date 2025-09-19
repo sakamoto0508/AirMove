@@ -14609,6 +14609,18 @@ PrefabInstance:
       propertyPath: sfxSourcePrefab
       value: 
       objectReference: {fileID: 1899175653}
+    - target: {fileID: 3296522595939799446, guid: 38cd559b8ee619d40b25734050af3b51, type: 3}
+      propertyPath: seList.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3296522595939799446, guid: 38cd559b8ee619d40b25734050af3b51, type: 3}
+      propertyPath: seList.Array.data[2].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 92ac0b0c84257b1459f79a565f9b6e68, type: 3}
+    - target: {fileID: 3296522595939799446, guid: 38cd559b8ee619d40b25734050af3b51, type: 3}
+      propertyPath: seList.Array.data[2].name
+      value: TimeUp
+      objectReference: {fileID: 0}
     - target: {fileID: 5541795323461623506, guid: 38cd559b8ee619d40b25734050af3b51, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

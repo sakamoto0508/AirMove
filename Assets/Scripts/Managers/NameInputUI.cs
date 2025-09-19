@@ -55,10 +55,7 @@ public class NameInputUI : MonoBehaviour
     /// </summary>
     public void ShowNameInput(System.Action<string> onConfirmed)
     {
-        Debug.Log("ShowNameInput が呼ばれました");
-
         _onNameConfirmed = onConfirmed;
-
         if (nameInputPanel != null)
         {
             // 他のボタンは非表示にする
@@ -67,9 +64,7 @@ public class NameInputUI : MonoBehaviour
             _rankingButton.gameObject.SetActive(false);
             _panelText.gameObject.SetActive(false);
             nameInputPanel.SetActive(true);
-            Debug.Log("NameInputPanel を表示しました");
         }
-
         // 入力フィールドにフォーカスを当てる
         if (nameInputField != null)
         {
@@ -95,20 +90,16 @@ public class NameInputUI : MonoBehaviour
                 _rankingButton.gameObject.SetActive(true);
                 _panelText.gameObject.SetActive(true) ;
             }
-
-            Debug.Log("NameInputPanel を非表示にしました");
         }
     }
 
     private void OnConfirmClicked()
     {
-        Debug.Log("確定ボタンがクリックされました");
         ConfirmName();
     }
 
     private void OnCancelClicked()
     {
-        Debug.Log("キャンセルボタンがクリックされました");
         HideNameInput(true); // キャンセル時は true
     }
 
@@ -117,7 +108,6 @@ public class NameInputUI : MonoBehaviour
         // エンターキーが押されたときの処理
         if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
         {
-            Debug.Log("エンターキーが押されました");
             ConfirmName();
         }
     }
@@ -125,24 +115,17 @@ public class NameInputUI : MonoBehaviour
     private void ConfirmName()
     {
         string playerName = nameInputField != null ? nameInputField.text : "Player";
-
         if (string.IsNullOrEmpty(playerName.Trim()))
         {
             playerName = "Player";
         }
-
-        Debug.Log($"確定された名前: {playerName}");
-
         // プレイヤー名を保存
         if (PlayerNameManager.Instance != null)
         {
             PlayerNameManager.Instance.SetPlayerName(playerName);
-            Debug.Log($"PlayerNameManager に名前を保存しました: {playerName}");
         }
-
         // 確定時はボタンを戻さない
         HideNameInput(false);
-
         // コールバック実行
         _onNameConfirmed?.Invoke(playerName);
     }

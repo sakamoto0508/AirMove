@@ -16,6 +16,6 @@ public class TimerUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        _timerText.text = ("Timer:" + TimeManager.Instance._currentTime);
+        _timerText.text = ("Timer:" + TimeManager.Instance._currentTime.ToString("F1"));
     }
 }

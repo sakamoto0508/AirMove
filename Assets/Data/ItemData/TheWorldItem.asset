@@ -15,7 +15,7 @@ MonoBehaviour:
   _itemName: TheWorldItem
   _itemPrefab: {fileID: 4485229998111319829, guid: 1ab3db0bfee1cae4f9ae6d5015ba332a, type: 3}
   _itemEffectTime: 15
-  _spawnProbability: 50
+  _spawnProbability: 0
   _itemType: 1
   _magazineSizeUp: 1
   _animationSpeed: 0.1

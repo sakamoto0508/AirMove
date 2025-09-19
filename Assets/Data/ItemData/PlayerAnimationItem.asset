@@ -15,7 +15,7 @@ MonoBehaviour:
   _itemName: PlayerAnimationItem
   _itemPrefab: {fileID: 4485229998111319829, guid: 5c2cc9118c7c96845833ad78c39b8a04, type: 3}
   _itemEffectTime: 10
-  _spawnProbability: 50
+  _spawnProbability: 0
   _itemType: 0
   _magazineSizeUp: 1
   _animationSpeed: 0.2

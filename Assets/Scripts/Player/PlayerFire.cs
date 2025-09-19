@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
 public class PlayerFire : MonoBehaviour
 {
+    public Action OnMaxBulletsChanged;
     private float _fireRate;
     private float _fireRange;
     private float _reloadTime;
@@ -128,6 +130,7 @@ public class PlayerFire : MonoBehaviour
     private void UpdateMagazineSizeSum()
     {
         _magazineSizeSum = _magazineSize + _magazineSizeUp;
+        OnMaxBulletsChanged?.Invoke();
     }
 
     /// <summary>
@@ -175,5 +178,38 @@ public class PlayerFire : MonoBehaviour
     {
         _magazineSizeUp += magazinsize;
         UpdateMagazineSizeSum();
+    }
+
+    // UI用のゲッターメソッドを追加
+    /// <summary>
+    /// 現在の弾数を取得
+    /// </summary>
+    public int GetCurrentBullets()
+    {
+        return _bullets;
+    }
+
+    /// <summary>
+    /// 最大弾数を取得
+    /// </summary>
+    public int GetMaxBullets()
+    {
+        return _magazineSizeSum;
+    }
+
+    /// <summary>
+    /// 基本マガジンサイズを取得
+    /// </summary>
+    public int GetBaseMagazineSize()
+    {
+        return _magazineSize;
+    }
+
+    /// <summary>
+    /// マガジンサイズアップ値を取得
+    /// </summary>
+    public int GetMagazineSizeUp()
+    {
+        return _magazineSizeUp;
     }
 }

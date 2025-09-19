@@ -16,6 +16,7 @@ MonoBehaviour:
   _prefab: {fileID: 1383697202882872480, guid: 5116b552affeb5042bba467c5480da96, type: 3}
   _roamingRangeMax: {fileID: 6059698889629493248, guid: 71f9634448f0dac488489bc050101e09, type: 3}
   _roamingRangeMin: {fileID: 7220195344665019907, guid: a8e9757fbaa54004fba398c551c246d4, type: 3}
+  _explosion: {fileID: 8707674578810356681, guid: e4b2fd08003bbc64cb633818ccf5d85e, type: 3}
   _roamingRangeDistance: 0.5
   _moveSpeed: 100
   _detectionRange: 5

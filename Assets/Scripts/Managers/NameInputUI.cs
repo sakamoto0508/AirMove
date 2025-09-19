@@ -11,6 +11,7 @@ public class NameInputUI : MonoBehaviour
     [SerializeField] private Button _startButton;
     [SerializeField] private Button _tutorialButton;
     [SerializeField] private Button _rankingButton;
+    [SerializeField] private GameObject _panelText;
 
     private System.Action<string> _onNameConfirmed;
 
@@ -64,7 +65,7 @@ public class NameInputUI : MonoBehaviour
             _startButton.gameObject.SetActive(false);
             _tutorialButton.gameObject.SetActive(false);
             _rankingButton.gameObject.SetActive(false);
-
+            _panelText.gameObject.SetActive(false);
             nameInputPanel.SetActive(true);
             Debug.Log("NameInputPanel ‚ð•\Ž¦‚µ‚Ü‚µ‚½");
         }
@@ -92,6 +93,7 @@ public class NameInputUI : MonoBehaviour
                 _startButton.gameObject.SetActive(true);
                 _tutorialButton.gameObject.SetActive(true);
                 _rankingButton.gameObject.SetActive(true);
+                _panelText.gameObject.SetActive(true) ;
             }
 
             Debug.Log("NameInputPanel ‚ð”ñ•\Ž¦‚É‚µ‚Ü‚µ‚½");

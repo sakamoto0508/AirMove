@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0b210c6dd35ed884ebac5a02bbb4c24e, type: 3}
-  m_Name: ItemTest
+  m_Name: PlayerAnimationItem
   m_EditorClassIdentifier: 
-  _itemName: ItemTest
-  _itemPrefab: {fileID: 903846918053892681, guid: 4e0ecf15dddeb9e4d9acc91cb9cbf6bc, type: 3}
-  _itemEffectTime: 0
+  _itemName: PlayerAnimationItem
+  _itemPrefab: {fileID: 4485229998111319829, guid: 5c2cc9118c7c96845833ad78c39b8a04, type: 3}
+  _itemEffectTime: 10
   _spawnProbability: 50
   _itemType: 0
   _magazineSizeUp: 1
-  _animationSpeed: 0.1
+  _animationSpeed: 0.2
   _scoreUpMultiplier: 2

@@ -1,3 +1,4 @@
+// GameManager.cs
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -13,6 +14,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private string tutorialSceneName = "Tutorial";
     [SerializeField] private string rankingSceneName = "Ranking";
     [SerializeField] private float _waitSeconds = 3f;
+
     private void Awake()
     {
         if (Instance == null)
@@ -23,23 +25,61 @@ public class GameManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
+            return;
         }
+        // シーンロードイベントに購読
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     private void OnDestroy()
     {
+        // メモリリークを防ぐために購読を解除
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     private void Start()
     {
+        // 少し待ってから初期化処理を行う（AudioManagerの初期化を確実にする）
+        StartCoroutine(InitializeGameManager());
+    }
+
+    private IEnumerator InitializeGameManager()
+    {
+        // AudioManagerの初期化を待つ
+        yield return new WaitForEndOfFrame();
+
+        // 最初のシーンでのBGM処理を明示的に行う
+        HandleInitialSceneBGM();
+
+        // ゲームが開始されたシーンに基づいて初期状態を設定
         SetStateFromCurrentScene();
-        ChangeState(GameState.Title);
+    }
+
+    private void HandleInitialSceneBGM()
+    {
+        if (AudioManager.Instance == null) return;
+
+        string currentSceneName = SceneManager.GetActiveScene().name;
+
+        // 前のBGMを停止
+        AudioManager.Instance.StopBGM();
+
+        // 現在のシーンに応じてBGMを再生
+        if (currentSceneName == titleSceneName)
+        {
+            AudioManager.Instance.PlayBGM("TitleBGM");
+        }
+        else if (currentSceneName == gameSceneName)
+        {
+            AudioManager.Instance.PlayBGM("GameBGM");
+        }
     }
 
     public void ChangeState(GameState newState)
     {
+        // 状態が実際に変更される場合にのみハンドラーをトリガー
+        if (CurrentState == newState) return;
+
         CurrentState = newState;
         switch (newState)
         {
@@ -63,10 +103,7 @@ public class GameManager : MonoBehaviour
 
     private void HandleTitleState()
     {
-        if (AudioManager.Instance != null)
-        {
-            AudioManager.Instance.PlayBGM("TitleBGM");
-        }
+        // タイトル状態での処理
     }
 
     private void HandlePlayingState()
@@ -79,16 +116,10 @@ public class GameManager : MonoBehaviour
         }
         // タイマー開始
         TimeManager.Instance?.TimerStart();
-        // BGM再生
-        if (AudioManager.Instance != null)
-        {
-            AudioManager.Instance.PlayBGM("GameBGM");
-        }
     }
 
     private void HandlePlayingEndState()
     {
-
         // ゲームオーバーSE再生
         AudioManager.Instance?.PlaySE("TimeUp");
         //ハイスコア判定とランキング登録
@@ -98,7 +129,6 @@ public class GameManager : MonoBehaviour
 
     private void HandleTutorialState()
     {
-
     }
 
     private void HandleRankingState()
@@ -118,7 +148,7 @@ public class GameManager : MonoBehaviour
 
         int finalScore = ScoreManager.Instance.ScoreSum;
         string playerName = PlayerNameManager.Instance != null ?
-                           PlayerNameManager.Instance.GetPlayerName() : "Player";
+                            PlayerNameManager.Instance.GetPlayerName() : "Player";
         if (RankingManager.Instance.IsHighScore(finalScore))
         {
             AudioManager.Instance?.PlaySE("HighScore");
@@ -128,7 +158,38 @@ public class GameManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        SetStateFromScene(scene.name);
+        // AudioManagerが存在することを確認
+        if (AudioManager.Instance == null)
+        {
+            Debug.LogWarning("AudioManager.Instance が null です。");
+            return;
+        }
+
+        Debug.Log($"Scene loaded: {scene.name}"); // デバッグ用ログ
+
+        // 前のBGMを確実に停止
+        AudioManager.Instance.StopBGM();
+
+        // 少し待ってからBGMを再生（確実に停止させるため）
+        StartCoroutine(PlaySceneBGMDelayed(scene.name));
+    }
+
+    private IEnumerator PlaySceneBGMDelayed(string sceneName)
+    {
+        yield return new WaitForSeconds(0.1f); // 短い待機時間
+
+        // シーンに応じてBGMを再生
+        if (sceneName == titleSceneName)
+        {
+            AudioManager.Instance.SetBGMVolume(0.03f);
+            AudioManager.Instance?.PlayBGM("TitleBGM");
+        }
+        else if (sceneName == gameSceneName)
+        {
+            AudioManager.Instance.SetBGMVolume(0.03f);
+            AudioManager.Instance?.PlayBGM("GameBGM");
+        }
+        // 他のシーンではBGMを再生しない
     }
 
     private void SetStateFromCurrentScene()
@@ -168,6 +229,8 @@ public class GameManager : MonoBehaviour
 
     public void LoadSceneWithState(string sceneName, GameState newState)
     {
+        // 明示的にBGMを停止してからシーン変更
+        AudioManager.Instance?.StopBGM();
         ChangeState(newState);
         SceneManager.LoadScene(sceneName);
     }
@@ -203,14 +266,16 @@ public class GameManager : MonoBehaviour
 
     public void Retry()
     {
+        // BGMを停止してからリトライ
+        AudioManager.Instance?.StopBGM();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        ChangeState(GameState.Playing);
     }
 
     public void ReturnTitle()
     {
+        // BGMを停止してからタイトルに戻る
+        AudioManager.Instance?.StopBGM();
         SceneManager.LoadScene("Title");
-        ChangeState(GameState.Title);
     }
 
     private IEnumerator CoroutineTitle()

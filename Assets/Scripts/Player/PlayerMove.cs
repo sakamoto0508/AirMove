@@ -24,6 +24,7 @@ public class PlayerMove : MonoBehaviour
     private Rigidbody _rb;
     private Vector2 _currentInput;
     private Transform _playerCamera;
+    private Transform _respornPosition;
     private Vector3 _moveDirection;
     private RaycastHit _slopeHit;
 
@@ -64,6 +65,14 @@ public class PlayerMove : MonoBehaviour
         if (!_isSliding)
         {
             SpeedControl();
+        }
+    }
+
+    private void Update()
+    {
+        if (transform.position.y <= -2f)
+        {
+            ResetPosition();
         }
     }
 
@@ -310,6 +319,7 @@ public class PlayerMove : MonoBehaviour
         _airMultiplier = playerData.AirMultiplier;
         _slidingForce = playerData.SlidingForce;
         _playerCamera = playerData.MainCamera;
+        _respornPosition = playerData.RespornPosition;
     }
 
     /// <summary>
@@ -320,5 +330,10 @@ public class PlayerMove : MonoBehaviour
     private Vector3 GetSlopeMoveDirection(Vector3 direction)
     {
         return Vector3.ProjectOnPlane(direction, _slopeHit.normal).normalized;
+    }
+
+    private void ResetPosition()
+    {
+        transform.position = _respornPosition.position;
     }
 }

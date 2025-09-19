@@ -39,7 +39,7 @@ GameObject:
   - component: {fileID: -2072594313002249909}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -229,7 +229,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e84a4961b994e3440b0d0f0740c4112a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mainCamera: {fileID: 7601933862897964281, guid: 192b4a435c58eec409ee9b9e630fe0ec, type: 3}
+  _mainCamera: {fileID: 0}
   _walkSpeed: 7
   _sprintSpeed: 10
   _crouchSpeed: 5
@@ -241,8 +241,8 @@ MonoBehaviour:
   _groundLayer:
     serializedVersion: 2
     m_Bits: 8
-  _jumpForce: 7
-  _jumpSlopeForce: 8
+  _jumpForce: 14
+  _jumpSlopeForce: 32
   _jumpCooldown: 0.25
   _airMultiplier: 0.5
   _crouchHeight: 0.5
@@ -258,15 +258,15 @@ MonoBehaviour:
   _wallLayer:
     serializedVersion: 2
     m_Bits: 64
-  _wallRunForce: 30
-  _wallJumpUpForce: 5
-  _wallJumpSideForce: 20
+  _wallRunForce: 20
+  _wallJumpUpForce: 20
+  _wallJumpSideForce: 30
   _exitWallTime: 0.2
   _cameraFOV: 90
   _cameraTiltAngle: 10
-  _climbingSpeed: 7
+  _climbingSpeed: 15
   _wallClimbJumpUpForce: 10
-  _wallClimbJumpBackForce: 10
+  _wallClimbJumpBackForce: 15
   _minWallNormalAngleChange: 5
   _exitWallClimbTime: 0.2
   _climbJumps: 1
@@ -283,7 +283,7 @@ MonoBehaviour:
   _firePosition: {fileID: 0}
   _transitionDurationSetUpTime: 0.5
   _transitionDurationSetEndTime: 0.1
-  _feedInTime: 1
+  _feedInTime: 0.25
   _feedOutTime: 0.1
   _firePS: {fileID: 0}
 --- !u!114 &5987107330558413609
@@ -370,7 +370,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8268862242888354375}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b4bb57bcea63d3d4cbac79b288ca0efb, type: 3}
   m_Name: 

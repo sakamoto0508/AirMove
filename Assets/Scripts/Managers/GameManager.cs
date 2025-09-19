@@ -47,10 +47,8 @@ public class GameManager : MonoBehaviour
     {
         // AudioManagerの初期化を待つ
         yield return new WaitForEndOfFrame();
-
         // 最初のシーンでのBGM処理を明示的に行う
         HandleInitialSceneBGM();
-
         // ゲームが開始されたシーンに基づいて初期状態を設定
         SetStateFromCurrentScene();
     }
@@ -60,16 +58,18 @@ public class GameManager : MonoBehaviour
         if (AudioManager.Instance == null) return;
 
         string currentSceneName = SceneManager.GetActiveScene().name;
-
         // 前のBGMを停止
         AudioManager.Instance.StopBGM();
-
         // 現在のシーンに応じてBGMを再生
         if (currentSceneName == titleSceneName)
         {
             AudioManager.Instance.PlayBGM("TitleBGM");
         }
         else if (currentSceneName == gameSceneName)
+        {
+            AudioManager.Instance.PlayBGM("GameBGM");
+        }
+        else if(currentSceneName == tutorialSceneName)
         {
             AudioManager.Instance.PlayBGM("GameBGM");
         }
@@ -108,6 +108,7 @@ public class GameManager : MonoBehaviour
 
     private void HandlePlayingState()
     {
+        Cursor.lockState = CursorLockMode.Locked;
         // スコアリセット
         if (ScoreManager.Instance != null)
         {
@@ -129,6 +130,7 @@ public class GameManager : MonoBehaviour
 
     private void HandleTutorialState()
     {
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void HandleRankingState()
@@ -164,12 +166,8 @@ public class GameManager : MonoBehaviour
             Debug.LogWarning("AudioManager.Instance が null です。");
             return;
         }
-
-        Debug.Log($"Scene loaded: {scene.name}"); // デバッグ用ログ
-
         // 前のBGMを確実に停止
         AudioManager.Instance.StopBGM();
-
         // 少し待ってからBGMを再生（確実に停止させるため）
         StartCoroutine(PlaySceneBGMDelayed(scene.name));
     }

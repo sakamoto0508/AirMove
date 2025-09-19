@@ -5,6 +5,7 @@ public class PlayerData : MonoBehaviour
 {
     [Header("Reference")]
     [SerializeField] private Transform _mainCamera;
+    [SerializeField] private Transform _respornPosition;
 
     [Header("movement")]
     [SerializeField] private float _walkSpeed = 10f;
@@ -140,4 +141,5 @@ public class PlayerData : MonoBehaviour
     public float FeedOutTime => _feedOutTime;
     public Transform FirePosition => _firePosition;
     public ParticleSystem FirePS => _firePS;
+    public Transform RespornPosition => _respornPosition;
 }

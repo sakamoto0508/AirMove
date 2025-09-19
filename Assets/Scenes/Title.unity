@@ -14515,7 +14515,7 @@ PrefabInstance:
     - target: {fileID: 2385508665391545728, guid: 57d4a3545c11c484ea57cb727572fc0c, type: 3}
       propertyPath: _panelText
       value: 
-      objectReference: {fileID: 785883743}
+      objectReference: {fileID: 724388937}
     - target: {fileID: 2385508665391545728, guid: 57d4a3545c11c484ea57cb727572fc0c, type: 3}
       propertyPath: _startButton
       value: 

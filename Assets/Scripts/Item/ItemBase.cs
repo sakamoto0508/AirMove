@@ -11,13 +11,17 @@ public abstract class ItemBase : MonoBehaviour
     public float ItemEffectTime { get; private set; }
     private bool _hasBeenUsed = false;
     private Coroutine _effectCoroutine;
-    
+
     private void OnTriggerEnter(Collider other)
     {
         if (_hasBeenUsed) return;
         if (other.CompareTag("Player"))
         {
             ItemHitNoArgAction?.Invoke();
+            if (ItemEffectUI.Instance != null)
+            {
+                ItemEffectUI.Instance.ShowEffect(ItemName);
+            }
             if (ItemType == ItemData.itemType.Temporary)
             {
                 _effectCoroutine = StartCoroutine(TemporaryEffectCoroutine());

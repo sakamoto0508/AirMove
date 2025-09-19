@@ -2825,6 +2825,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 112130510458631733, guid: 57882caaa60baca45884de410edd5e4f, type: 3}
+      propertyPath: _initialTimer
+      value: 180
+      objectReference: {fileID: 0}
     - target: {fileID: 1618311824872545627, guid: 57882caaa60baca45884de410edd5e4f, type: 3}
       propertyPath: m_Name
       value: TimeManager

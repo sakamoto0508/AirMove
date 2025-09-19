@@ -7,6 +7,7 @@ public class EnemyData : ScriptableObject
     [SerializeField] private GameObject _prefab;
     [SerializeField] private Transform _roamingRangeMax;
     [SerializeField] private Transform _roamingRangeMin;
+    [SerializeField] private GameObject _explosion;
     /// <summary>
     /// w’è‚Ì‹——£‚ÌŒë·”ÍˆÍ
     /// </summary>
@@ -44,5 +45,5 @@ public class EnemyData : ScriptableObject
     public int MaxEnemyValue => _maxEnemyValue;
     public int Score => _score;
     public enemyType EnemyType => _enemyType;
-
+    public GameObject Explosion => _explosion;
 }

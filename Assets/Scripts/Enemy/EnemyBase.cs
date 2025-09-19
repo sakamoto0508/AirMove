@@ -12,6 +12,7 @@ public class EnemyBase : MonoBehaviour
     protected enemyState EnemyState = enemyState.Idle;
     protected Transform _roamingRangeMax;
     protected Transform _roamingRangeMin;
+    protected GameObject _explosion;
     protected float _roamingRangeDistance;
     protected float _speed;
     protected float _currentSpeed;
@@ -39,6 +40,7 @@ public class EnemyBase : MonoBehaviour
         _idleTime = data.IdleTime;
         _health = data.Health;
         _score = data.Score;
+        _explosion = data.Explosion;
     }
 
     protected virtual void Awake()
@@ -72,6 +74,12 @@ public class EnemyBase : MonoBehaviour
     /// <summary>死ぬ処理 </summary>
     public virtual void Die()
     {
+        if (_explosion != null)
+        {
+            // 位置と回転を敵の位置に合わせて生成
+            GameObject explosion = Instantiate(_explosion, transform.position, Quaternion.identity);
+            Destroy(explosion, 2f); // 2秒後に爆発エフェクトを消す
+        }
         ScoreManager.Instance.AddScore(this._score);
         EnemyState = enemyState.Die;
         EnemyDeathAction?.Invoke(this, EnemyTypeName, EnemyType);

@@ -24,5 +24,5 @@ MonoBehaviour:
   _idleTime: 0.5
   _health: 1
   _maxEnemyValue: 1
-  _score: 500
+  _score: 1000
   _enemyType: 1

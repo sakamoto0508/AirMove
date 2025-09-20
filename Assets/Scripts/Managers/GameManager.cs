@@ -105,11 +105,13 @@ public class GameManager : MonoBehaviour
     {
         // タイトル状態での処理
         Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
     }
 
     private void HandlePlayingState()
     {
         Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
         // スコアリセット
         if (ScoreManager.Instance != null)
         {
@@ -132,6 +134,7 @@ public class GameManager : MonoBehaviour
     private void HandleTutorialState()
     {
         Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void HandleRankingState()
@@ -275,6 +278,14 @@ public class GameManager : MonoBehaviour
         // BGMを停止してからタイトルに戻る
         AudioManager.Instance?.StopBGM();
         SceneManager.LoadScene("Title");
+    }
+
+    public void CompleteTutorial()
+    {
+        if (CurrentState == GameState.Tutorial)
+        {
+            StartCoroutine(CoroutineTitle());
+        }
     }
 
     private IEnumerator CoroutineTitle()

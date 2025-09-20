@@ -5,6 +5,7 @@ using UnityEngine.PlayerLoop;
 public class TimeManager : MonoBehaviour
 {
     public static TimeManager Instance;
+    public Action TimeUpAction;
     public float _currentTime { get; private set; }
     [SerializeField] private float _initialTimer = 180f;
     private bool _timerRunning = false;
@@ -38,6 +39,7 @@ public class TimeManager : MonoBehaviour
             if (_currentTime < 0)
             {
                 _currentTime = 0;
+                TimeUpAction?.Invoke();
                 TimeUp();
             }
         }

@@ -99,8 +99,18 @@ public class PlayerController : MonoBehaviour
 
     private void OnInputMove(InputAction.CallbackContext context)
     {
+        if (GameManager.Instance.CurrentState == GameManager.GameState.PlayEnd)
+        {
+            _currentMoveInput = Vector2.zero;
+            _playerMove?.Stop();
+            _playerWallRunning?.MoveStop();
+            _playerDashing?.MoveDirectionStop();
+            return;
+        }            
+
         if (_playerClimbJumping.ExitingWallClimb)
             return;
+
         if (context.performed)
         {
             Vector2 input = context.ReadValue<Vector2>();
@@ -121,6 +131,9 @@ public class PlayerController : MonoBehaviour
 
     private void OnInputJump(InputAction.CallbackContext context)
     {
+        if (GameManager.Instance.CurrentState == GameManager.GameState.PlayEnd)
+            return;
+
         if (_wallFront)
         {
             _playerClimbJumping?.ClimbJumping(_wallCheck.GetFrontWallHit());
@@ -178,12 +191,18 @@ public class PlayerController : MonoBehaviour
 
     private void OnInputAttack(InputAction.CallbackContext context)
     {
+        if (GameManager.Instance.CurrentState == GameManager.GameState.PlayEnd)
+            return;
+
         _playerFire?.Fire(_playerData);
     }
 
     private void OnInputPeek(InputAction.CallbackContext context)
     {
-        if(context.started)
+        if (GameManager.Instance.CurrentState == GameManager.GameState.PlayEnd)
+            return;
+
+        if (context.started)
         {
             _playerAiming?.StartAim();
         }

@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private string gameSceneName = "Game";
     [SerializeField] private string tutorialSceneName = "Tutorial";
     [SerializeField] private string rankingSceneName = "Ranking";
-    [SerializeField] private float _waitSeconds = 3f;
+    [SerializeField] private float _waitSeconds = 1f;
 
     private void Awake()
     {
@@ -191,7 +191,11 @@ public class GameManager : MonoBehaviour
             AudioManager.Instance.SetBGMVolume(0.03f);
             AudioManager.Instance?.PlayBGM("GameBGM");
         }
-        // 他のシーンではBGMを再生しない
+        else if (sceneName == tutorialSceneName)
+        {
+            AudioManager.Instance.SetBGMVolume(0.03f);
+            AudioManager.Instance?.PlayBGM("GameBGM");
+        }
     }
 
     private void SetStateFromCurrentScene()
@@ -266,17 +270,12 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void Retry()
-    {
-        // BGMを停止してからリトライ
-        AudioManager.Instance?.StopBGM();
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    }
 
     public void ReturnTitle()
     {
         // BGMを停止してからタイトルに戻る
         AudioManager.Instance?.StopBGM();
+        ChangeState(GameState.Title);
         SceneManager.LoadScene("Title");
     }
 

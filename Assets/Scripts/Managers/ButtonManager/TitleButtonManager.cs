@@ -195,15 +195,4 @@ public class TitleButtonManager : MonoBehaviour
         }
     }
 
-    public void OnRetryClicked()
-    {
-        if (GameManager.Instance != null)
-        {
-            GameManager.Instance.Retry();
-        }
-        else
-        {
-            Debug.LogError("GameManager.Instance is null!");
-        }
-    }
 }

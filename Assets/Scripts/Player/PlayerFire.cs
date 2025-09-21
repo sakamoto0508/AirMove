@@ -109,6 +109,10 @@ public class PlayerFire : MonoBehaviour
         {
             enemy.TakeDamage();
         }
+        else if ((_hit.collider.TryGetComponent(out TutorialGoal goal)))
+        {
+            goal.Goal();
+        }
     }
 
     private void StartReload()

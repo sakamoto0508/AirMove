@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using NUnit.Framework;
 using UnityEngine;
 
@@ -93,13 +94,7 @@ public class EnemySpawnManager : MonoBehaviour
     /// </summary>
     private int CountEnemiesByType(string type)
     {
-        int count = 0;
-        foreach (var e in _spawnedEnemies)
-        {
-            if (e != null && e.EnemyTypeName == type)
-                count++;
-        }
-        return count;
+        return _spawnedEnemies.Count(e => e != null && e.EnemyTypeName == type);
     }
 
     /// <summary>
